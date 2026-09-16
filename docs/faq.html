@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FAQ · doppelganger.md</title>
-  <meta name="description" content="DOPPELGANGER.md is the AGENTS.md of a person or company. One open Markdown file that teaches any AI to write in your voice.">
+  <meta name="description" content="One open Markdown file that teaches any AI your voice.">
   <meta name="color-scheme" content="dark">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -13,56 +13,35 @@
   <header class="site-header">
     <div class="shell">
       <a class="brand" href="index.html">doppelganger.md</a>
-      <nav aria-label="Site"><ul><li><a class="nav-link" href="index.html">What</a></li><li><a class="nav-link" href="structure.html">Structure</a></li><li><a class="nav-link" href="load.html">Load</a></li><li><a class="nav-link" href="example.html">Example</a></li><li><a class="nav-link" href="faq.html" aria-current="page">FAQ</a></li><li><a class="nav-link" href="spec.html">Spec</a></li></ul></nav>
+      <nav aria-label="Site"><ul><li><a class="nav-link" href="index.html">Home</a></li><li><a class="nav-link" href="structure.html">Structure</a></li><li><a class="nav-link" href="load.html">Load</a></li><li><a class="nav-link" href="example.html">Example</a></li><li><a class="nav-link" href="faq.html" aria-current="page">FAQ</a></li><li><a class="nav-link" href="spec.html">Spec</a></li></ul></nav>
     </div>
   </header>
   <main id="content" class="shell prose">
 <h1>FAQ</h1>
 
-<section class="card">
 <h2>How is this different from AGENTS.md?</h2>
-<p><code>AGENTS.md</code> is a README for coding agents. It holds build commands, test commands, and repo conventions. <code>DOPPELGANGER.md</code> is a voice file. It holds samples, tone rules, and bans for writing. Keep both. Point <code>AGENTS.md</code> at the voice file when the agent writes user-facing copy.</p>
-</section>
+<p><code>AGENTS.md</code> tells a coding agent how to work in a repo. <code>DOPPELGANGER.md</code> tells any model how you write. Keep both. Point <code>AGENTS.md</code> at the voice file when the agent writes user-facing copy.</p>
 
-<section class="card">
 <h2>How is this different from BRAND.md?</h2>
-<p><code>BRAND.md</code> is an open brand-identity file. It covers strategy, voice, and visual primitives such as color and type. Brand Context Protocol is a larger, discoverable brand tree. <code>DOPPELGANGER.md</code> is thinner. Voice only. No logo rules, no palette, no layout system.</p>
-</section>
+<p><code>BRAND.md</code> and Brand Context Protocol cover strategy, voice, and visual identity. <code>DOPPELGANGER.md</code> is voice only. No logo rules, no palette, no layout.</p>
 
-<section class="card">
-<h2>How is this different from COPY.md?</h2>
-<p><code>COPY.md</code> is a related practice: voice notes plus a banned-phrase list. <code>DOPPELGANGER.md</code> is the named spec. It has a marker, MUST and SHOULD sections, a safety rule against invented facts, and a load guide that does not depend on one vendor.</p>
-</section>
+<h2>Why is there no hosted loader?</h2>
+<p>A hosted loader becomes an account, an API, and a lock-in. The convention is the file. Paste it, attach it, or <code>@</code> it.</p>
 
-<section class="card">
-<h2>Why is there no hosted loader or generator?</h2>
-<p>A hosted loader would become an account, an API, and a lock-in. The convention is the file. Paste it, attach it, or <code>@</code> it. That works in every tool on this site and in tools that do not exist yet.</p>
-</section>
-
-<section class="card">
 <h2>Can the file hold secrets?</h2>
-<p>No. The spec forbids API keys, passwords, session tokens, and unpublished personal data. It also forbids invented facts, metrics, and clients. If a claim is not in the file and not in the prompt, the model must not fill the gap.</p>
-</section>
+<p>No. The spec forbids keys, passwords, tokens, and unpublished personal data. It also forbids invented facts, metrics, and clients.</p>
 
-<section class="card">
 <h2>Person or company?</h2>
-<p>Meta <code>kind</code> is <code>person</code> or <code>organization</code>. The sections are the same. An organization file speaks as the company, not as a staff roster.</p>
-</section>
+<p>Meta <code>kind</code> is <code>person</code> or <code>organization</code>. The sections are the same. An organization file speaks as the company.</p>
 
-<section class="card">
 <h2>Which language?</h2>
-<p>Spec 0.1 is English only. The Meta <code>language</code> field is a BCP 47 tag. Use <code>en</code> for 0.1.</p>
-</section>
+<p>Spec 0.1 is English only. Meta <code>language</code> is a BCP 47 tag. Use <code>en</code>.</p>
 
-<section class="card">
 <h2>What is the license?</h2>
-<p>The specification, the example, and the pages on this site are dedicated to the public domain under CC0 1.0. Your own <code>DOPPELGANGER.md</code> can use another license. Meta must name it.</p>
-</section>
+<p>The spec, the example, and this site are public domain under CC0 1.0. Your own file can use another license. Name it in Meta.</p>
 
-<section class="card">
 <h2>Where is the canonical site?</h2>
-<p>The canonical name is <code>doppelganger.md</code>. Until DNS points here, serve the <code>docs/</code> folder on GitHub Pages or preview it locally with <code>node scripts/site.mjs preview</code>.</p>
-</section>
+<p><code>doppelganger.md</code>. Until DNS points there, serve <code>docs/</code> on GitHub Pages or run <code>node scripts/site.mjs preview</code>.</p>
 
   </main>
   <footer class="site-footer">

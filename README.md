@@ -1,14 +1,14 @@
 # DOPPELGANGER.md
 
-DOPPELGANGER.md is the AGENTS.md of a person or company. It is one open Markdown file that teaches any AI to write in your voice, not generic AI slop.
+One open Markdown file that teaches any AI your voice.
 
-Paste it, attach it, or `@DOPPELGANGER.md`. There is no hosted loader and no account.
+Paste it, attach it, or `@DOPPELGANGER.md`. No account. No hosted loader.
 
 ## Start here
 
 - [Specification](SPEC.md) (`doppelganger-spec: 0.1`)
 - [Example voice file](examples/DOPPELGANGER.md) (fictional person)
-- Site pages in `docs/` after `node scripts/site.mjs` (What, Structure, Load, Example, FAQ)
+- Site pages in `docs/` after `node scripts/site.mjs` (Home, Structure, Load, Example, FAQ, Spec)
 - Canonical name: [doppelganger.md](https://doppelganger.md) (DNS may come later)
 - Local preview: `node scripts/site.mjs preview` then open http://127.0.0.1:4173/
 - License: [CC0 1.0](LICENSE)
@@ -29,4 +29,4 @@ Voice only. Not coding instructions, not a visual brand kit, not secrets.
 node scripts/site.mjs verify
 ```
 
-The command builds `docs/` and checks the ship set: CC0, spec marker, example sections, required pages, English `lang`, and no Supervised or personal-name branding on the site.
+The command builds `docs/` and checks the ship set: CC0, spec marker, example sections, required pages, English `lang`, the home lede, no `AGENTS.md` on the home or load page, and no Supervised or personal-name branding on the site.

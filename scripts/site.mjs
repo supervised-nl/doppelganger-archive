@@ -60,7 +60,7 @@ const SECTIONS = [
 ]
 
 const PAGES = [
-  { id: 'index', href: 'index.html', title: 'What and why', nav: 'What' },
+  { id: 'index', href: 'index.html', title: 'Home', nav: 'Home' },
   { id: 'structure', href: 'structure.html', title: 'Structure', nav: 'Structure' },
   { id: 'load', href: 'load.html', title: 'How to load', nav: 'Load' },
   { id: 'example', href: 'example.html', title: 'Example', nav: 'Example' },
@@ -70,6 +70,26 @@ const PAGES = [
 
 const BANNED_BRAND = [/supervised/i, /jeroen/i]
 const SPEC_MARKER = 'doppelganger-spec: 0.1'
+
+const REQUIRED_TEXT = {
+  'docs/index.html': {
+    has: [
+      '<p class="lede">One open Markdown file that teaches any AI your voice.</p>',
+      'color-scheme',
+    ],
+    lacks: ['AGENTS.md'],
+  },
+  'docs/load.html': {
+    has: ['ChatGPT', 'Claude', 'Gemini', 'Cursor', 'Paste', '1,500', '5,000'],
+    lacks: ['AGENTS.md'],
+  },
+  'docs/example.html': { has: ['Mara Ellison'] },
+  'docs/structure.html': { has: ['Voice fingerprint'] },
+  'docs/faq.html': { has: ['AGENTS.md', 'BRAND.md', 'hosted loader'] },
+  'docs/spec.html': { has: ['&lt;!-- doppelganger-spec: 0.1 --&gt;'] },
+  'docs/styles.css': { has: ['color-scheme: dark'] },
+}
+
 const PORT = 4173
 
 function read(rel) {
@@ -320,34 +340,17 @@ export function verify() {
     }
   }
 
-  const home = read('docs/index.html')
-  if (!home.includes('the AGENTS.md of a person or company')) {
-    fail(failures, 'docs/index.html is missing the positioning sentence')
+  for (const [rel, rule] of Object.entries(REQUIRED_TEXT)) {
+    const text = read(rel)
+    for (const needle of rule.has || []) {
+      if (!text.includes(needle)) fail(failures, `${rel} is missing "${needle}"`)
+    }
+    for (const needle of rule.lacks || []) {
+      if (text.includes(needle)) fail(failures, `${rel} must not contain "${needle}"`)
+    }
   }
-  if (!home.includes('color-scheme') || !home.includes('dark')) {
-    fail(failures, 'docs/index.html is missing dark color-scheme')
-  }
-  const css = read('docs/styles.css')
-  if (!css.includes('color-scheme: dark')) {
-    fail(failures, 'docs/styles.css is not dark by default')
-  }
-  const load = read('docs/load.html')
-  for (const name of ['ChatGPT', 'Claude', 'Gemini', 'Cursor', 'Paste']) {
-    if (!load.includes(name)) fail(failures, `docs/load.html is missing ${name}`)
-  }
-  if (!load.includes('1,500') || !load.includes('5,000')) {
-    fail(failures, 'docs/load.html is missing custom-instruction character caps')
-  }
-  const examplePage = read('docs/example.html')
-  if (!examplePage.includes('Mara Ellison')) {
-    fail(failures, 'docs/example.html is missing the example person')
-  }
-  if (!examplePage.includes(escapeHtml(example))) {
+  if (!read('docs/example.html').includes(escapeHtml(example))) {
     fail(failures, 'docs/example.html did not inline examples/DOPPELGANGER.md')
-  }
-  const specPage = read('docs/spec.html')
-  if (!specPage.includes('&lt;!-- doppelganger-spec: 0.1 --&gt;')) {
-    fail(failures, 'docs/spec.html dropped the HTML comment marker example')
   }
   if (!fs.existsSync(path.join(root, 'docs/SPEC.md'))) {
     fail(failures, 'docs/SPEC.md was not copied')
@@ -363,17 +366,6 @@ export function verify() {
   }
   if (read('docs/DOPPELGANGER.md') !== example) {
     fail(failures, 'docs/DOPPELGANGER.md is not a byte copy of examples/DOPPELGANGER.md')
-  }
-  const faq = read('docs/faq.html')
-  if (!faq.includes('AGENTS.md') || !faq.includes('BRAND.md')) {
-    fail(failures, 'docs/faq.html is missing the AGENTS.md or BRAND.md comparison')
-  }
-  if (!faq.includes('hosted loader')) {
-    fail(failures, 'docs/faq.html is missing the hosted-loader answer')
-  }
-  const structure = read('docs/structure.html')
-  if (!structure.includes('Voice fingerprint')) {
-    fail(failures, 'docs/structure.html is missing the sections table')
   }
 
   if (failures.length) {
