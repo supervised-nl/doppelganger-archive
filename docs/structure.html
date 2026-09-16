@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Structure · doppelganger.md</title>
+  <meta name="description" content="DOPPELGANGER.md is the AGENTS.md of a person or company. One open Markdown file that teaches any AI to write in your voice.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header>
+    <p class="mark"><a href="index.html">doppelganger.md</a></p>
+    <nav aria-label="Site"><ul><li><a href="index.html">What</a></li><li><a href="structure.html" aria-current="page">Structure</a></li><li><a href="load.html">Load</a></li><li><a href="example.html">Example</a></li><li><a href="faq.html">FAQ</a></li><li><a href="spec.html">Spec</a></li></ul></nav>
+  </header>
+  <main id="content">
+<h1>Structure</h1>
+<p>A conformant <code>DOPPELGANGER.md</code> file uses these section titles. The levels follow RFC 2119. The <a href="spec.html">specification</a> is the source of truth. This table is a map, not a second spec.</p>
+<table>
+<thead><tr><th>Level</th><th>Section</th><th>In the file</th></tr></thead>
+<tbody><tr><td>MUST</td><td>Meta</td><td>name, kind (person or organization), language, version, updated, license</td></tr><tr><td>MUST</td><td>Identity</td><td>Who is speaking, and what they do not do</td></tr><tr><td>MUST</td><td>Voice fingerprint</td><td>3 to 7 writing samples</td></tr><tr><td>MUST</td><td>Tone rules</td><td>Concrete instructions, not adjectives</td></tr><tr><td>MUST</td><td>Hard bans</td><td>Words, phrases, and moves the model must not use</td></tr><tr><td>MUST</td><td>Safety</td><td>No secrets. No invented facts, metrics, or clients</td></tr><tr><td>SHOULD</td><td>Register shifts</td><td>How email, social, website, and proposal differ</td></tr><tr><td>SHOULD</td><td>Before and after</td><td>Generic AI copy rewritten in this voice</td></tr><tr><td>SHOULD</td><td>Facts and claims</td><td>Facts the model may treat as true</td></tr><tr><td>MAY</td><td>How to use</td><td>Short pointer to the load guide</td></tr></tbody>
+</table>
+<p>Put MUST sections in that order. Add SHOULD sections after Safety when you have them. A short How to use pointer is enough for MAY. Do not add visual identity, coding conventions, or secrets.</p>
+<p>Mark the file with <code>doppelganger-spec: 0.1</code> in YAML frontmatter or in an HTML comment. That marker is the spec version. The Meta <code>version</code> field is semver for the voice content.</p>
+<p>Start from the <a href="example.html">example</a>, or write the sections from this table and check them against the spec.</p>
+
+  </main>
+  <footer>
+    <p>An open voice-file convention. Spec 0.1. Dedicated to the public domain under CC0 1.0.</p>
+  </footer>
+</body>
+</html>
