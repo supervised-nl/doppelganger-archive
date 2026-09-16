@@ -75,7 +75,11 @@ const REQUIRED_TEXT = {
   'docs/index.html': {
     has: [
       '<p class="lede">One open Markdown file that teaches any AI your voice.</p>',
-      'color-scheme',
+      '<h2>How to load</h2>',
+      '<html lang="en" class="dark">',
+      '<meta name="color-scheme" content="dark light">',
+      'localStorage',
+      'theme-toggle',
     ],
     lacks: ['AGENTS.md'],
   },
@@ -88,7 +92,13 @@ const REQUIRED_TEXT = {
   'docs/faq.html': { has: ['AGENTS.md', 'BRAND.md', 'hosted loader'] },
   'docs/spec.html': { has: ['&lt;!-- doppelganger-spec: 0.1 --&gt;'] },
   'docs/styles.css': {
-    has: ['color-scheme: light', '--primary: oklch(0.508 0.118 165.612)', '--font-sans: "DM Sans",'],
+    has: [
+      'html {\n  color-scheme: light;',
+      'html.dark {\n  color-scheme: dark;\n}',
+      '--primary: oklch(0.508 0.118 165.612)',
+      '--primary: oklch(0.432 0.095 166.913)',
+      '--font-sans: "DM Sans",',
+    ],
     lacks: ['240 10%', 'hsl(var('],
   },
 }

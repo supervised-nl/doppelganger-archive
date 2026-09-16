@@ -13,17 +13,17 @@ Audience: a writer who wants any AI to sound like them. Job: understand the file
 
 Primary action: open How to load. Proof: the Mara Ellison example file inlined on example.html.
 
-Constraints: shadcn preset bImeCHq materials. Light :root. Emerald primary. DM Sans. Lucide. Radius 0.625rem. Subtle translucent menu. Mobile-first 390 then 1280. No AGENTS.md on home or load. No Supervised or Jeroen. No generator. No nested cards. No zinc HSL 240 tokens.
+Constraints: shadcn preset bImeCHq materials. Dark default via html.dark. Light :root via persisted header switch. Emerald primary. DM Sans. Lucide. Radius 0.625rem. Subtle translucent menu. Mobile-first 390 then 1280. No AGENTS.md on home or load. No Supervised or Jeroen. No generator. No nested cards. No zinc HSL 240 tokens.
 
 ## Direction contract
 
 THESIS: The filename is the product. The first viewport is a catalog call slip, not a docs wiki. Refuse sticky zinc cards, Why essays, and AGENTS.md comparisons.
 
-OWN-WORLD: Light neutral paper from bImeCHq. Emerald only on the one action you can press. DM Sans at huge display size and short body. Lucide strokes. Default 0.625rem radius. Header is a thin translucent strip. Spacing, not cards, makes groups.
+OWN-WORLD: Dark bImeCHq ground by default, light paper one switch away. Emerald only on the one action you can press. DM Sans at huge display size and short body. Lucide strokes. Default 0.625rem radius. Header is a thin translucent strip with a 44px theme toggle. Spacing, not cards, makes groups.
 
-STORY: Visitor reads the filename, one sentence, and two actions. They know to paste, attach, or @ the file. They tap How to load.
+STORY: Visitor reads the filename, one sentence, a short why, and two actions. They know to paste, attach, or @ the file. They tap How to load.
 
-FIRST VIEWPORT at 390: skip link, wordmark, Menu (44px). Then H1 DOPPELGANGER.md at clamp huge. One lede sentence. Two buttons, primary How to load, outline Example. Below the fold: three numbered Use it steps. At 1280 the same axis, more air, horizontal subtle nav.
+FIRST VIEWPORT at 390: skip link, wordmark, sun theme toggle (44px), Menu (44px). Then H1 DOPPELGANGER.md at clamp huge. One lede sentence. One short why. Two buttons, primary How to load, outline Example. Below the fold: three numbered How to load steps. At 1280 the same axis, more air, horizontal subtle nav, theme toggle still visible.
 
 FORM: library catalog call slip, assignment index 6 of seed a3aaf8a3, translated onto brief-pinned bImeCHq materials. Raise from consumer-app challenger: touch targets and action-only emerald. Raise from Massin: scale is volume, so the H1 is huge. Raise from Versailles: one reading axis. Raise from drum-machine: numbered steps on load.
 

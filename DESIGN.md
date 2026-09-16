@@ -94,26 +94,34 @@ components:
 
 **Creative North Star: "The catalog call slip"**
 
-The site is a slip that names one file and tells you how to load it. Huge type, short lines, almost no prose. Light paper from shadcn preset `bImeCHq` (vega, emerald on neutral, DM Sans, lucide, default radius, subtle translucent menu). Emerald is only for the action you can press.
+The site is a slip that names one file and tells you how to load it. Huge type, short lines, almost no prose. Materials are shadcn preset `bImeCHq` (vega, emerald on neutral, DM Sans, lucide, default radius, subtle translucent menu). Dark is the default: `<html class="dark">` selects the preset's `.dark` block, so a visit with no JavaScript is still dark. The light `:root` block is one switch away in the header. Emerald is only for the action you can press, in either theme.
 
 This world replaces the rejected zinc dark docs wiki. No sticky glass, no nested cards, no Why essays, no AGENTS.md on home or load.
 
 **Key Characteristics:**
 
-- Light `:root`. Dark tokens exist for completeness and stay unused.
-- One reading axis. H1, one sentence, two buttons.
+- Dark `.dark` by default, light `:root` via the header switch. Two states only, stored as `theme` = `dark` or `light` in `localStorage`.
+- One reading axis. H1, one sentence, one short why, two buttons.
 - Spacing, not cards.
-- Mobile-first at 390px. Horizontal nav from 1280px.
+- Mobile-first at 390px. Horizontal nav from 1280px. The theme switch is visible at both.
 
 ## Colors
 
-Restrained neutrals plus one emerald accent. Source of truth is `site/preset-bImeCHq.css`, copied into `site/styles.css`.
+Restrained neutrals plus one emerald accent. Source of truth is `site/preset-bImeCHq.css`, copied into `site/styles.css`. Every component reads the same token names; the theme picks the block.
 
 ### Primary
 
-- **Emerald action** (`oklch(0.508 0.118 165.612)`): primary buttons only. Not headings, not rules, not decorative bars.
+- **Emerald action** (`oklch(0.508 0.118 165.612)` light, `oklch(0.432 0.095 166.913)` dark): primary buttons only. Not headings, not rules, not decorative bars.
 
-### Neutral
+### Neutral, dark default (`.dark`)
+
+- **Ground** (`oklch(0.145 0 0)`): page ground.
+- **Chalk** (`oklch(0.985 0 0)`): body and headings.
+- **Quiet chalk** (`oklch(0.708 0 0)`): footer, meta, idle nav.
+- **Hairline** (`oklch(1 0 0 / 10%)`): header rule, table rows, outline buttons, the toggle and Menu chrome.
+- **Wash** (`oklch(0.269 0 0)`): code chips, pre backgrounds, hover on the toggle and Menu.
+
+### Neutral, light (`:root`, via the switch)
 
 - **Paper** (`oklch(1 0 0)`): page ground.
 - **Ink** (`oklch(0.145 0 0)`): body and headings.
@@ -133,7 +141,7 @@ Restrained neutrals plus one emerald accent. Source of truth is `site/preset-bIm
 
 ### Hierarchy
 
-- **Display** (550, `clamp(2.25rem, 9vw, 5rem)`, line-height 1): page H1, especially `DOPPELGANGER.md`.
+- **Display** (550, `clamp(2.25rem, 9vw, 5rem)`, line-height 1): page H1, especially `DOPPELGANGER.md`. From 1280 it tightens to `clamp(2.25rem, 6vw, 4.25rem)` so the filename measure stays short.
 - **Headline** (550, 1.5rem): section H2.
 - **Title** (550, 1.125rem): H3 and the open mobile menu links.
 - **Lede** (400, clamp 1.25–1.5rem): the one sentence under the H1.
@@ -149,7 +157,7 @@ Single column. `.page` is `min(42rem, 100% - 2.5rem)`. Direct children except `h
 
 Padding is 3rem 0 5rem at 390, 6rem 0 8rem from 1280.
 
-Header is a 3.5rem translucent strip. At 390 the Menu control is a 44px `details` with lucide menu/x. From 1280 the Menu hides and muted text links sit in a row.
+Header is a 3.5rem translucent strip. Brand left, tools right. The tools cluster is a 44px theme toggle (lucide sun in dark, moon in light) and, at 390, a 44px Menu `details` with lucide menu/x on the same row. From 1280 the Menu hides and muted text links sit in a row ahead of the toggle.
 
 Load tools are numbered lists under H2s, stacked. Not a card grid.
 
@@ -184,6 +192,10 @@ None on the marketing pages. If one appears, use `--input` and `--ring` from the
 
 Wordmark left. Subtle translucent bar. Idle links use quiet ink. Current page uses ink and, from 1280, an underline. Two DOM navs exist so CSS can hide one per breakpoint without JavaScript. `display: none` removes the hidden one from the accessibility tree.
 
+### Theme toggle
+
+A `button.theme-toggle` with the Menu chrome: hairline border, 0.625rem radius, 44px square. It shows the icon for the theme you would switch to and its `aria-label` says so ("Switch to light theme" in dark). A head script removes `dark` before first paint when `localStorage.theme` is `light`; any other value keeps the markup default. No extra JS file.
+
 ### Example file
 
 `pre.file` wraps and does not scroll sideways. Monospace ligatures are off so `<!--` stays characters.
@@ -196,11 +208,13 @@ Wordmark left. Subtle translucent bar. Idle links use quiet ink. Current page us
 - Do design 390 first, then 1280.
 - Do keep emerald on the primary action only.
 - Do cut a sentence rather than add a section.
+- Do keep the theme a two-state machine: the `dark` class on `html`, `theme` in `localStorage` as `dark` or `light`.
 
 ### Don't:
 
 - Don't mention `AGENTS.md` on home or load. FAQ and the spec may.
 - Don't restore zinc HSL `240 10%` tokens or `hsl(var(`.
+- Don't add a third theme state or scatter theme booleans outside the `html` class.
 - Don't nest cards or add a Why essay.
 - Don't put a kicker or eyebrow above the H1.
 - Don't add a generator, loader, account, or Supervised/Jeroen branding.

@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Structure · doppelganger.md</title>
   <meta name="description" content="One open Markdown file that teaches any AI your voice.">
-  <meta name="color-scheme" content="light">
+  <meta name="color-scheme" content="dark light">
+  <script>
+    try {
+      if (localStorage.getItem('theme') === 'light') document.documentElement.classList.remove('dark')
+    } catch (e) {}
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;display=swap">
@@ -17,14 +22,20 @@
     <div class="shell">
       <a class="brand" href="index.html">doppelganger.md</a>
       <nav class="nav-wide" aria-label="Site"><ul><li><a class="nav-link" href="index.html">Home</a></li><li><a class="nav-link" href="structure.html" aria-current="page">Structure</a></li><li><a class="nav-link" href="load.html">Load</a></li><li><a class="nav-link" href="example.html">Example</a></li><li><a class="nav-link" href="faq.html">FAQ</a></li><li><a class="nav-link" href="spec.html">Spec</a></li></ul></nav>
-      <details class="nav-menu">
-        <summary>
-          <span>Menu</span>
-          <svg class="icon-menu" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
-          <svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-        </summary>
-        <nav aria-label="Site"><ul><li><a class="nav-link" href="index.html">Home</a></li><li><a class="nav-link" href="structure.html" aria-current="page">Structure</a></li><li><a class="nav-link" href="load.html">Load</a></li><li><a class="nav-link" href="example.html">Example</a></li><li><a class="nav-link" href="faq.html">FAQ</a></li><li><a class="nav-link" href="spec.html">Spec</a></li></ul></nav>
-      </details>
+      <div class="tools">
+        <button class="theme-toggle" type="button" aria-label="Switch to light theme">
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        </button>
+        <details class="nav-menu">
+          <summary>
+            <span>Menu</span>
+            <svg class="icon-menu" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+            <svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </summary>
+          <nav aria-label="Site"><ul><li><a class="nav-link" href="index.html">Home</a></li><li><a class="nav-link" href="structure.html" aria-current="page">Structure</a></li><li><a class="nav-link" href="load.html">Load</a></li><li><a class="nav-link" href="example.html">Example</a></li><li><a class="nav-link" href="faq.html">FAQ</a></li><li><a class="nav-link" href="spec.html">Spec</a></li></ul></nav>
+        </details>
+      </div>
     </div>
   </header>
   <main id="content" class="page">
@@ -45,5 +56,25 @@
       <p>An open voice-file convention. Spec 0.1. Dedicated to the public domain under CC0 1.0.</p>
     </div>
   </footer>
+  <script>
+    (() => {
+      const root = document.documentElement
+      const toggle = document.querySelector('.theme-toggle')
+      if (!toggle) return
+      const sync = () => {
+        const dark = root.classList.contains('dark')
+        toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme')
+        toggle.setAttribute('aria-pressed', dark ? 'true' : 'false')
+      }
+      toggle.addEventListener('click', () => {
+        const dark = root.classList.toggle('dark')
+        try {
+          localStorage.setItem('theme', dark ? 'dark' : 'light')
+        } catch (e) {}
+        sync()
+      })
+      sync()
+    })()
+  </script>
 </body>
 </html>

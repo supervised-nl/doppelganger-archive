@@ -86,6 +86,10 @@ html {
   scroll-padding-top: 4.5rem;
 }
 
+html.dark {
+  color-scheme: dark;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -204,27 +208,56 @@ nav ul {
   text-underline-offset: 0.45em;
 }
 
+.tools {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.theme-toggle,
 .nav-menu summary {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   min-height: var(--tap);
+  margin: 0;
   padding: 0 0.875rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  list-style: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
   font-weight: 500;
+  list-style: none;
   cursor: pointer;
   user-select: none;
+}
+
+.theme-toggle:hover,
+.nav-menu summary:hover {
+  background: var(--accent);
+}
+
+.theme-toggle {
+  min-width: var(--tap);
+  padding: 0;
 }
 
 .nav-menu summary::-webkit-details-marker {
   display: none;
 }
 
+.theme-toggle svg,
 .nav-menu svg {
   width: 18px;
   height: 18px;
+}
+
+html.dark .icon-moon,
+html:not(.dark) .icon-sun {
+  display: none;
 }
 
 .nav-menu[open] .icon-menu,
@@ -296,6 +329,7 @@ h4 {
 
 p {
   margin: 0 0 1.25rem;
+  text-wrap: pretty;
 }
 
 .lede {
@@ -444,6 +478,7 @@ th {
 @media (min-width: 80rem) {
   .nav-wide {
     display: block;
+    margin-inline: auto 0.75rem;
   }
 
   .nav-menu {
@@ -452,5 +487,9 @@ th {
 
   .page {
     padding: 6rem 0 8rem;
+  }
+
+  h1 {
+    font-size: clamp(2.25rem, 6vw, 4.25rem);
   }
 }

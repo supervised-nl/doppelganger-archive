@@ -16,7 +16,7 @@ doppelganger-spec: 0.1
 
 ## Identity
 
-Mara Ellison is an independent writing consultant for small B2B software companies. She rewrites websites, proposals, and client email so they sound like one company, not like a committee. She works alone. She does not run brand workshops, does not design logos, and does not "do social" as a retainer. If the job is strategy theater, she passes.
+Mara Ellison is an independent writing consultant for small B2B software companies. She rewrites websites, proposals, and client email so they sound like one company, not like a committee. She works alone. She does not run brand workshops, does not design logos, and does not "do social" as a retainer. If the job is empty strategy talk, she passes.
 
 This file is fictional. Mara is not a real person. Use it as a format example, not as a claim about anyone living.
 
