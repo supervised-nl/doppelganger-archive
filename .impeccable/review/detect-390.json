@@ -1,0 +1,13 @@
+[
+  {
+    "antipattern": "theater-slop-phrase",
+    "name": "Theater framing copy",
+    "description": "Dismissing something as \"theater\" is a recurring generated-copy tic. Say plainly what the thing does or does not do.",
+    "severity": "advisory",
+    "category": "slop",
+    "file": "http://127.0.0.1:4173/example.html",
+    "line": 0,
+    "snippet": "\"strategy theater\"",
+    "advisory": true
+  }
+]

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-16T11:58:00.000Z",
+  "title": "Design System: doppelganger.md",
+  "extensions": {
+    "colorMeta": {
+      "background": { "role": "neutral", "displayName": "Paper", "canonical": "oklch(1 0 0)", "tonalRamp": ["oklch(0.145 0 0)", "oklch(0.269 0 0)", "oklch(0.371 0 0)", "oklch(0.439 0 0)", "oklch(0.556 0 0)", "oklch(0.708 0 0)", "oklch(0.922 0 0)", "oklch(1 0 0)"] },
+      "foreground": { "role": "neutral", "displayName": "Ink", "canonical": "oklch(0.145 0 0)", "tonalRamp": ["oklch(0.145 0 0)", "oklch(0.205 0 0)", "oklch(0.269 0 0)", "oklch(0.371 0 0)", "oklch(0.439 0 0)", "oklch(0.556 0 0)", "oklch(0.708 0 0)", "oklch(0.97 0 0)"] },
+      "primary": { "role": "primary", "displayName": "Emerald action", "canonical": "oklch(0.508 0.118 165.612)", "tonalRamp": ["oklch(0.262 0.051 172.552)", "oklch(0.432 0.095 166.913)", "oklch(0.508 0.118 165.612)", "oklch(0.596 0.145 163.225)", "oklch(0.696 0.17 162.48)", "oklch(0.845 0.143 164.978)", "oklch(0.979 0.021 166.113)", "oklch(0.99 0.01 166)"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The filename H1." },
+      "body": { "displayName": "Body", "purpose": "Short sentences. Measure 40rem." },
+      "code": { "displayName": "Mono", "purpose": "The inlined example file and inline code." }
+    },
+    "shadows": [],
+    "motion": [],
+    "breakpoints": [
+      { "name": "phone", "value": "390px" },
+      { "name": "desktop", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one emerald action.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">How to load</a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; min-height: 2.75rem; padding: 0 1.25rem; border-radius: 0.625rem; background: oklch(0.508 0.118 165.612); color: oklch(0.979 0.021 166.113); font-weight: 500; text-decoration: none; } .ds-btn-primary:hover { background: color-mix(in oklch, oklch(0.508 0.118 165.612) 88%, black); } .ds-btn-primary:focus-visible { outline: 2px solid oklch(0.708 0 0); outline-offset: 2px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action on paper.",
+      "html": "<a class=\"ds-btn-outline\" href=\"#\">Example</a>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; min-height: 2.75rem; padding: 0 1.25rem; border-radius: 0.625rem; border: 1px solid oklch(0.922 0 0); background: transparent; color: oklch(0.145 0 0); font-weight: 500; text-decoration: none; } .ds-btn-outline:hover { background: oklch(0.97 0 0); } .ds-btn-outline:focus-visible { outline: 2px solid oklch(0.708 0 0); outline-offset: 2px; }"
+    },
+    {
+      "name": "Nav link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Muted until current or hover.",
+      "html": "<a class=\"ds-nav-link\" href=\"#\">Load</a>",
+      "css": ".ds-nav-link { display: flex; align-items: center; min-height: 2.75rem; color: oklch(0.556 0 0); text-decoration: none; } .ds-nav-link:hover, .ds-nav-link[aria-current=\"page\"] { color: oklch(0.145 0 0); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The catalog call slip",
+    "overview": "The site is a slip that names one file and tells you how to load it. Huge type, short lines, almost no prose. Light paper from shadcn preset bImeCHq. Emerald is only for the action you can press.",
+    "keyCharacteristics": [
+      "Light :root. Dark tokens exist for completeness and stay unused.",
+      "One reading axis. H1, one sentence, two buttons.",
+      "Spacing, not cards.",
+      "Mobile-first at 390px. Horizontal nav from 1280px."
+    ],
+    "rules": [
+      { "name": "The Action-Only Emerald Rule", "body": "If it is not pressable, it is not emerald.", "section": "colors" },
+      { "name": "The Filename-Is-The-Display Rule", "body": "The H1 is the product name. Do not add a kicker above it.", "section": "typography" },
+      { "name": "The Hairline-Or-Space Rule", "body": "Pick a border or a gap. Do not stack both to fake a card.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep the home lede as One open Markdown file that teaches any AI your voice.",
+      "Do design 390 first, then 1280.",
+      "Do keep emerald on the primary action only.",
+      "Do cut a sentence rather than add a section."
+    ],
+    "donts": [
+      "Don't mention AGENTS.md on home or load. FAQ and the spec may.",
+      "Don't restore zinc HSL 240 10% tokens or hsl(var(.",
+      "Don't nest cards or add a Why essay.",
+      "Don't put a kicker or eyebrow above the H1.",
+      "Don't add a generator, loader, account, or Supervised/Jeroen branding."
+    ]
+  }
+}

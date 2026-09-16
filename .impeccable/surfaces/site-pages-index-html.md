@@ -1,0 +1,30 @@
+---
+version: 1
+slug: "site-pages-index-html"
+primary_target: "site/pages/index.html"
+related_targets: ["site/pages/load.html","site/pages/example.html","site/template.html","site/styles.css"]
+---
+
+# Home and site chrome
+
+Mode: Persuade on home. Read on spec and structure. How-to on load.
+
+Audience: a writer who wants any AI to sound like them. Job: understand the file and load it in seconds.
+
+Primary action: open How to load. Proof: the Mara Ellison example file inlined on example.html.
+
+Constraints: shadcn preset bImeCHq materials. Light :root. Emerald primary. DM Sans. Lucide. Radius 0.625rem. Subtle translucent menu. Mobile-first 390 then 1280. No AGENTS.md on home or load. No Supervised or Jeroen. No generator. No nested cards. No zinc HSL 240 tokens.
+
+## Direction contract
+
+THESIS: The filename is the product. The first viewport is a catalog call slip, not a docs wiki. Refuse sticky zinc cards, Why essays, and AGENTS.md comparisons.
+
+OWN-WORLD: Light neutral paper from bImeCHq. Emerald only on the one action you can press. DM Sans at huge display size and short body. Lucide strokes. Default 0.625rem radius. Header is a thin translucent strip. Spacing, not cards, makes groups.
+
+STORY: Visitor reads the filename, one sentence, and two actions. They know to paste, attach, or @ the file. They tap How to load.
+
+FIRST VIEWPORT at 390: skip link, wordmark, Menu (44px). Then H1 DOPPELGANGER.md at clamp huge. One lede sentence. Two buttons, primary How to load, outline Example. Below the fold: three numbered Use it steps. At 1280 the same axis, more air, horizontal subtle nav.
+
+FORM: library catalog call slip, assignment index 6 of seed a3aaf8a3, translated onto brief-pinned bImeCHq materials. Raise from consumer-app challenger: touch targets and action-only emerald. Raise from Massin: scale is volume, so the H1 is huge. Raise from Versailles: one reading axis. Raise from drum-machine: numbered steps on load.
+
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
