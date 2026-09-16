@@ -54,7 +54,7 @@ Or place it in an HTML comment:
 <!-- doppelganger-spec: 0.1 -->
 ```
 
-A file MAY include both. A consumer MUST accept either form.
+A file MAY include both. A consumer MUST accept either form. If the file uses YAML frontmatter, the opening `---` MUST be the first bytes of the file. An HTML comment MAY follow the frontmatter block.
 
 The marker names the specification version. It is not the content version. Content version lives in [Meta](#meta).
 

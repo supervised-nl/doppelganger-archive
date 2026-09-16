@@ -42,7 +42,7 @@ doppelganger-spec: 0.1
 <p>Or place it in an HTML comment:</p>
 <pre><code>&lt;!-- doppelganger-spec: 0.1 --&gt;
 </code></pre>
-<p>A file MAY include both. A consumer MUST accept either form.</p>
+<p>A file MAY include both. A consumer MUST accept either form. If the file uses YAML frontmatter, the opening <code>---</code> MUST be the first bytes of the file. An HTML comment MAY follow the frontmatter block.</p>
 <p>The marker names the specification version. It is not the content version. Content version lives in <a href="#meta">Meta</a>.</p>
 <h2 id="sections">Sections</h2>
 <p>A conformant file is a sequence of Markdown sections. Section titles below are the canonical titles. A file MUST use these titles for the MUST sections so a human or a script can find them.</p>

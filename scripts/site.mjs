@@ -257,6 +257,7 @@ export function build() {
   write('docs/styles.css', read('site/styles.css'))
   write('docs/SPEC.md', read('SPEC.md'))
   write('docs/LICENSE', read('LICENSE'))
+  write('docs/DOPPELGANGER.md', read('examples/DOPPELGANGER.md'))
   write('docs/.nojekyll', '')
 }
 
@@ -267,6 +268,8 @@ function fail(failures, message) {
 export function verify() {
   build()
   const failures = []
+  if (!PAGES.length) fail(failures, 'PAGES registry is empty')
+  if (!SECTIONS.length) fail(failures, 'SECTIONS registry is empty')
   const license = read('LICENSE')
   if (!license.includes('CC0 1.0')) fail(failures, 'LICENSE is missing CC0 1.0')
 
@@ -279,6 +282,9 @@ export function verify() {
   }
 
   const example = read('examples/DOPPELGANGER.md')
+  if (!example.startsWith('---\n')) {
+    fail(failures, 'examples/DOPPELGANGER.md YAML frontmatter must start at byte 0')
+  }
   if (!example.includes(SPEC_MARKER)) {
     fail(failures, `examples/DOPPELGANGER.md is missing ${SPEC_MARKER}`)
   }
@@ -339,8 +345,17 @@ export function verify() {
   if (!fs.existsSync(path.join(root, 'docs/SPEC.md'))) {
     fail(failures, 'docs/SPEC.md was not copied')
   }
+  if (read('docs/SPEC.md') !== spec) {
+    fail(failures, 'docs/SPEC.md is not a byte copy of SPEC.md')
+  }
   if (!fs.existsSync(path.join(root, 'docs/LICENSE'))) {
     fail(failures, 'docs/LICENSE was not copied')
+  }
+  if (read('docs/LICENSE') !== license) {
+    fail(failures, 'docs/LICENSE is not a byte copy of LICENSE')
+  }
+  if (read('docs/DOPPELGANGER.md') !== example) {
+    fail(failures, 'docs/DOPPELGANGER.md is not a byte copy of examples/DOPPELGANGER.md')
   }
   const faq = read('docs/faq.html')
   if (!faq.includes('AGENTS.md') || !faq.includes('BRAND.md')) {
