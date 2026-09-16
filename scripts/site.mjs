@@ -252,9 +252,9 @@ function navHtml(current) {
 function pageHtml(page, content) {
   const template = read('site/template.html')
   return template
-    .replaceAll('{{TITLE}}', escapeHtml(page.title))
-    .replaceAll('{{NAV}}', navHtml(page.id))
-    .replaceAll('{{CONTENT}}', content)
+    .replaceAll('{{TITLE}}', () => escapeHtml(page.title))
+    .replaceAll('{{NAV}}', () => navHtml(page.id))
+    .replaceAll('{{CONTENT}}', () => content)
 }
 
 function pageContent(page) {
