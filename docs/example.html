@@ -5,15 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Example · doppelganger.md</title>
   <meta name="description" content="DOPPELGANGER.md is the AGENTS.md of a person or company. One open Markdown file that teaches any AI to write in your voice.">
+  <meta name="color-scheme" content="dark">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <a class="skip" href="#content">Skip to content</a>
-  <header>
-    <p class="mark"><a href="index.html">doppelganger.md</a></p>
-    <nav aria-label="Site"><ul><li><a href="index.html">What</a></li><li><a href="structure.html">Structure</a></li><li><a href="load.html">Load</a></li><li><a href="example.html" aria-current="page">Example</a></li><li><a href="faq.html">FAQ</a></li><li><a href="spec.html">Spec</a></li></ul></nav>
+  <header class="site-header">
+    <div class="shell">
+      <a class="brand" href="index.html">doppelganger.md</a>
+      <nav aria-label="Site"><ul><li><a class="nav-link" href="index.html">What</a></li><li><a class="nav-link" href="structure.html">Structure</a></li><li><a class="nav-link" href="load.html">Load</a></li><li><a class="nav-link" href="example.html" aria-current="page">Example</a></li><li><a class="nav-link" href="faq.html">FAQ</a></li><li><a class="nav-link" href="spec.html">Spec</a></li></ul></nav>
+    </div>
   </header>
-  <main id="content">
+  <main id="content" class="shell prose">
 <h1>Example</h1>
 <p>One fictional person, written to spec 0.1. Mara Ellison is not a real consultant. Use the file as a format sample. Do not present it as a biography.</p>
 <p>The source is <code>examples/DOPPELGANGER.md</code>. This page inlines that file at build time so the two cannot drift.</p>
@@ -123,11 +126,17 @@ After: &quot;If the scope is wrong, reply with the line that is wrong. I will se
 
 Paste this file, attach it, or `@DOPPELGANGER.md`. The load guide is at https://doppelganger.md/load.html.
 </code></pre>
-<p><a href="load.html">Load a file like this</a> in ChatGPT, Claude, Gemini, Cursor, or any chat that accepts paste or an attachment.</p>
+<p>Load a file like this in ChatGPT, Claude, Gemini, Cursor, or any chat that accepts paste or an attachment.</p>
+<p class="actions">
+  <a class="btn" href="load.html">How to load</a>
+  <a class="btn btn-outline" href="spec.html">Read the spec</a>
+</p>
 
   </main>
-  <footer>
-    <p>An open voice-file convention. Spec 0.1. Dedicated to the public domain under CC0 1.0.</p>
+  <footer class="site-footer">
+    <div class="shell">
+      <p>An open voice-file convention. Spec 0.1. Dedicated to the public domain under CC0 1.0.</p>
+    </div>
   </footer>
 </body>
 </html>

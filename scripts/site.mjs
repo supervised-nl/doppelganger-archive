@@ -221,7 +221,7 @@ function slug(text) {
 function navHtml(current) {
   const items = PAGES.map((page) => {
     const currentAttr = page.id === current ? ' aria-current="page"' : ''
-    return `<li><a href="${page.href}"${currentAttr}>${page.nav}</a></li>`
+    return `<li><a class="nav-link" href="${page.href}"${currentAttr}>${page.nav}</a></li>`
   })
   return `<ul>${items.join('')}</ul>`
 }
@@ -323,6 +323,13 @@ export function verify() {
   const home = read('docs/index.html')
   if (!home.includes('the AGENTS.md of a person or company')) {
     fail(failures, 'docs/index.html is missing the positioning sentence')
+  }
+  if (!home.includes('color-scheme') || !home.includes('dark')) {
+    fail(failures, 'docs/index.html is missing dark color-scheme')
+  }
+  const css = read('docs/styles.css')
+  if (!css.includes('color-scheme: dark')) {
+    fail(failures, 'docs/styles.css is not dark by default')
   }
   const load = read('docs/load.html')
   for (const name of ['ChatGPT', 'Claude', 'Gemini', 'Cursor', 'Paste']) {

@@ -5,19 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>How to load · doppelganger.md</title>
   <meta name="description" content="DOPPELGANGER.md is the AGENTS.md of a person or company. One open Markdown file that teaches any AI to write in your voice.">
+  <meta name="color-scheme" content="dark">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <a class="skip" href="#content">Skip to content</a>
-  <header>
-    <p class="mark"><a href="index.html">doppelganger.md</a></p>
-    <nav aria-label="Site"><ul><li><a href="index.html">What</a></li><li><a href="structure.html">Structure</a></li><li><a href="load.html" aria-current="page">Load</a></li><li><a href="example.html">Example</a></li><li><a href="faq.html">FAQ</a></li><li><a href="spec.html">Spec</a></li></ul></nav>
+  <header class="site-header">
+    <div class="shell">
+      <a class="brand" href="index.html">doppelganger.md</a>
+      <nav aria-label="Site"><ul><li><a class="nav-link" href="index.html">What</a></li><li><a class="nav-link" href="structure.html">Structure</a></li><li><a class="nav-link" href="load.html" aria-current="page">Load</a></li><li><a class="nav-link" href="example.html">Example</a></li><li><a class="nav-link" href="faq.html">FAQ</a></li><li><a class="nav-link" href="spec.html">Spec</a></li></ul></nav>
+    </div>
   </header>
-  <main id="content">
+  <main id="content" class="shell prose">
 <h1>How to load</h1>
 <p>The portable story is paste, attach, or <code>@</code> the file. There is no hosted loader. If a box has a character cap, paste a short excerpt and attach the full file where the tool allows it.</p>
 <p>A short excerpt that still works is Meta, Tone rules, Hard bans, and Safety. Prefer the full file when you can.</p>
 
+<section class="card">
 <h2>ChatGPT</h2>
 <ol>
   <li>Create a Project for the writing work.</li>
@@ -25,14 +29,18 @@
   <li>In project instructions, add: "Write user-facing copy in the voice of the attached DOPPELGANGER.md. Follow Hard bans and Safety. Do not invent facts."</li>
 </ol>
 <p>Custom instructions apply to every chat. Free and Go accounts cap custom instructions at 1,500 characters. Plus, Pro, Enterprise, Business, and Education accounts cap them at 5,000 characters. If you use custom instructions, paste the short excerpt, not the whole file. A Project file is the better default.</p>
+</section>
 
+<section class="card">
 <h2>Claude</h2>
 <ol>
   <li>Open a Project and upload <code>DOPPELGANGER.md</code> to project knowledge.</li>
   <li>In project instructions, tell Claude to write user-facing copy from that file and to obey Hard bans and Safety.</li>
 </ol>
 <p>For repeat use across projects, add a Skill whose <code>SKILL.md</code> says to load <code>DOPPELGANGER.md</code> before writing copy. In Claude Code, attach the file with <code>@DOPPELGANGER.md</code>.</p>
+</section>
 
+<section class="card">
 <h2>Gemini</h2>
 <ol>
   <li>Create a Gem, or open a chat where you write as this voice.</li>
@@ -40,7 +48,9 @@
   <li>Tell Gemini to follow the file, including Hard bans and Safety.</li>
 </ol>
 <p>In Gemini CLI or in Cursor, attach the file with <code>@DOPPELGANGER.md</code>.</p>
+</section>
 
+<section class="card">
 <h2>Cursor</h2>
 <ol>
   <li>Keep <code>DOPPELGANGER.md</code> in the repo or in the workspace.</li>
@@ -48,7 +58,9 @@
   <li>Optional: add one line to <code>AGENTS.md</code>: "Before writing user-facing copy, read DOPPELGANGER.md."</li>
 </ol>
 <p>Claude Code uses the same <code>@DOPPELGANGER.md</code> attach. Do not fold the whole voice file into <code>AGENTS.md</code>. Coding instructions and writing voice stay in separate files.</p>
+</section>
 
+<section class="card">
 <h2>Paste anywhere</h2>
 <ol>
   <li>Open <code>DOPPELGANGER.md</code>.</li>
@@ -57,10 +69,13 @@
   <li>Add one line: "Write as this voice. Follow Hard bans and Safety."</li>
 </ol>
 <p>If the composer converts a long paste into an attachment, leave it attached. That is still a load.</p>
+</section>
 
   </main>
-  <footer>
-    <p>An open voice-file convention. Spec 0.1. Dedicated to the public domain under CC0 1.0.</p>
+  <footer class="site-footer">
+    <div class="shell">
+      <p>An open voice-file convention. Spec 0.1. Dedicated to the public domain under CC0 1.0.</p>
+    </div>
   </footer>
 </body>
 </html>
