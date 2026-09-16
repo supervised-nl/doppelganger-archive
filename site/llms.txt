@@ -21,3 +21,13 @@ https://doppelganger.md/faq.html — FAQ
 https://doppelganger.md/spec.html — specification
 https://doppelganger.md/SPEC.md — spec Markdown
 https://doppelganger.md/DOPPELGANGER.md — example Markdown
+
+## Install for agents
+
+Do these steps in order. Do not guess a package name or a hosted loader.
+
+1. Fetch https://doppelganger.md/DOPPELGANGER.md and write the response body to DOPPELGANGER.md in the project root, or to the path the user names. On the static site that file is DOPPELGANGER.md next to the HTML pages.
+2. Optional: fetch https://doppelganger.md/SPEC.md when authoring a new voice file.
+3. Instruct the model with this starter, unchanged:
+
+{{STARTER_PROMPT}}

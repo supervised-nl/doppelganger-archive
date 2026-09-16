@@ -108,19 +108,27 @@ const PAGES = [
 
 const BANNED_BRAND = [/supervised/i, /jeroen/i]
 const SPEC_MARKER = 'doppelganger-spec: 0.1'
+const STARTER_PROMPT =
+  'Attach or paste DOPPELGANGER.md, then write as that voice. Follow Hard bans and Safety. Do not invent facts.'
 
 const REQUIRED_TEXT = {
   'docs/index.html': {
     has: [
       '<p class="lede">One open Markdown file that teaches any AI your voice.</p>',
       '<h2>How to load</h2>',
+      '<h2>For agents</h2>',
+      'Download example',
+      'download="DOPPELGANGER.md"',
+      'Copy starter prompt',
+      STARTER_PROMPT,
+      'aria-live',
       '<html lang="en" class="dark">',
       '<meta name="color-scheme" content="dark light">',
       'localStorage',
       'theme-toggle',
       'aria-pressed',
     ],
-    lacks: ['AGENTS.md'],
+    lacks: ['AGENTS.md', 'npx'],
   },
   'docs/load.html': {
     has: ['ChatGPT', 'Claude', 'Gemini', 'Cursor', 'Paste', '1,500', '5,000'],
@@ -376,9 +384,16 @@ function pageHtml(page, content) {
     .replaceAll('{{CONTENT}}', () => content)
 }
 
+function llmsTxt() {
+  return read('site/llms.txt').replaceAll('{{STARTER_PROMPT}}', () => STARTER_PROMPT)
+}
+
 function pageContent(page) {
   if (page.id === 'spec') return renderMarkdown(read('SPEC.md'))
   let body = read(`site/pages/${page.id}.html`)
+  if (page.id === 'index') {
+    body = body.replaceAll('{{STARTER_PROMPT}}', () => escapeHtml(STARTER_PROMPT))
+  }
   if (page.id === 'structure') body = body.replace('{{SECTIONS_TABLE}}', sectionsTable())
   if (page.id === 'example') {
     const example = read('examples/DOPPELGANGER.md')
@@ -398,7 +413,7 @@ export function build() {
   }
   write('docs/styles.css', read('site/styles.css'))
   write('docs/favicon.svg', read('site/favicon.svg'))
-  write('docs/llms.txt', read('site/llms.txt'))
+  write('docs/llms.txt', llmsTxt())
   write('docs/robots.txt', robotsTxt())
   write('docs/sitemap.xml', sitemapXml())
   write('docs/SPEC.md', read('SPEC.md'))
@@ -530,7 +545,7 @@ export function verify() {
   const discovery = {
     'docs/robots.txt': robotsTxt(),
     'docs/sitemap.xml': sitemapXml(),
-    'docs/llms.txt': read('site/llms.txt'),
+    'docs/llms.txt': llmsTxt(),
     'docs/favicon.svg': read('site/favicon.svg'),
   }
   for (const [rel, expected] of Object.entries(discovery)) {
@@ -556,6 +571,23 @@ export function verify() {
   if (!llms.includes('CC0')) fail(failures, 'docs/llms.txt must state CC0')
   if (!llms.includes('no account') && !llms.includes('No account')) {
     fail(failures, 'docs/llms.txt must say there is no account')
+  }
+  if (!llms.includes('## Install for agents')) {
+    fail(failures, 'docs/llms.txt is missing ## Install for agents')
+  }
+  if (!llms.includes(`${SITE_ORIGIN}/DOPPELGANGER.md`)) {
+    fail(failures, 'docs/llms.txt must fetch the example at doppelganger.md/DOPPELGANGER.md')
+  }
+  if (!llms.includes(STARTER_PROMPT)) {
+    fail(failures, 'docs/llms.txt must include the starter prompt')
+  }
+  if (llms.includes('npx')) fail(failures, 'docs/llms.txt must not mention npx')
+  const home = read('docs/index.html')
+  if (!home.includes(STARTER_PROMPT)) {
+    fail(failures, 'docs/index.html must include the starter prompt')
+  }
+  if (!home.includes('href="DOPPELGANGER.md"') || !home.includes('download="DOPPELGANGER.md"')) {
+    fail(failures, 'docs/index.html must offer a real download of DOPPELGANGER.md')
   }
   const faqHtml = read('docs/faq.html')
   if (!faqHtml.includes('"@type": "FAQPage"')) fail(failures, 'docs/faq.html is missing FAQPage JSON-LD')
@@ -605,7 +637,12 @@ function preview() {
         res.end('Not found')
         return
       }
-      res.writeHead(200, { 'Content-Type': types[path.extname(file)] || 'application/octet-stream' })
+      const type = types[path.extname(file)] || 'application/octet-stream'
+      const headers = { 'Content-Type': type }
+      if (path.basename(file) === 'DOPPELGANGER.md') {
+        headers['Content-Disposition'] = 'attachment; filename="DOPPELGANGER.md"'
+      }
+      res.writeHead(200, headers)
       res.end(data)
     })
   })

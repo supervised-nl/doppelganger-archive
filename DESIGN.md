@@ -176,7 +176,7 @@ Radius is the preset default, 0.625rem. Buttons and the Menu summary use it. Tab
 ### Buttons
 
 - **Shape:** 0.625rem, min-height 2.75rem (44px).
-- **Primary:** emerald fill, light emerald-tinted text. Hover mixes 12% black into primary.
+- **Primary:** emerald fill, light emerald-tinted text. Hover mixes 12% black into primary. Home uses two primaries: Download example and Copy starter prompt.
 - **Outline:** transparent fill, hairline border, ink text. Hover uses the muted wash.
 - **Focus:** 2px `var(--ring)` offset on every control.
 
@@ -206,7 +206,7 @@ A `button.theme-toggle` with the Menu chrome: hairline border, 0.625rem radius, 
 
 - Do keep the home lede as `One open Markdown file that teaches any AI your voice.`
 - Do design 390 first, then 1280.
-- Do keep emerald on the primary action only.
+- Do keep emerald on the actions you can press.
 - Do cut a sentence rather than add a section.
 - Do keep the theme a two-state machine: the `dark` class on `html`, `theme` in `localStorage` as `dark` or `light`.
 - Do honor `prefers-reduced-motion: reduce`.
