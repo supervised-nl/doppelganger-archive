@@ -102,4 +102,4 @@ After: "If the scope is wrong, reply with the line that is wrong. I will send a 
 
 ## How to use
 
-Paste this file, attach it, or `@DOPPELGANGER.md`. The load guide is at https://doppelganger.md/load.html.
+Paste this file, attach it, or `@DOPPELGANGER.md`. The load guide is at load.html.

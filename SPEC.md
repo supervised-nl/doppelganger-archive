@@ -156,7 +156,7 @@ Keep this list short. A voice file is not a knowledge base.
 
 A file MAY end with a short "How to use" section.
 
-That section SHOULD point at the load guide on the site rather than restating tool UI. One or two sentences is enough. Example: "Paste this file, attach it, or `@DOPPELGANGER.md`. The load guide is at https://doppelganger.md/load.html."
+That section SHOULD point at the load guide on the site rather than restating tool UI. One or two sentences is enough. Example: "Paste this file, attach it, or `@DOPPELGANGER.md`. The load guide is at [load.html](load.html)."
 
 ## What this file is not
 

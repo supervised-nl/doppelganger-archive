@@ -59,13 +59,51 @@ const SECTIONS = [
   },
 ]
 
+const SITE_ORIGIN = 'https://doppelganger.md'
+
 const PAGES = [
-  { id: 'index', href: 'index.html', title: 'Home', nav: 'Home' },
-  { id: 'structure', href: 'structure.html', title: 'Structure', nav: 'Structure' },
-  { id: 'load', href: 'load.html', title: 'How to load', nav: 'Load' },
-  { id: 'example', href: 'example.html', title: 'Example', nav: 'Example' },
-  { id: 'faq', href: 'faq.html', title: 'FAQ', nav: 'FAQ' },
-  { id: 'spec', href: 'spec.html', title: 'Specification', nav: 'Spec' },
+  {
+    id: 'index',
+    href: 'index.html',
+    title: 'Home',
+    nav: 'Home',
+    description: 'One open Markdown file that teaches any AI your voice.',
+  },
+  {
+    id: 'structure',
+    href: 'structure.html',
+    title: 'Structure',
+    nav: 'Structure',
+    description: 'MUST, SHOULD, and MAY sections of a DOPPELGANGER.md voice file.',
+  },
+  {
+    id: 'load',
+    href: 'load.html',
+    title: 'How to load',
+    nav: 'Load',
+    description: 'Paste, attach, or @ a DOPPELGANGER.md in ChatGPT, Claude, Gemini, or Cursor.',
+  },
+  {
+    id: 'example',
+    href: 'example.html',
+    title: 'Example',
+    nav: 'Example',
+    description: 'A fictional Mara Ellison DOPPELGANGER.md. Format sample, not a biography.',
+  },
+  {
+    id: 'faq',
+    href: 'faq.html',
+    title: 'FAQ',
+    nav: 'FAQ',
+    description: 'Short answers on AGENTS.md, BRAND.md, license, secrets, and why there is no loader.',
+  },
+  {
+    id: 'spec',
+    href: 'spec.html',
+    title: 'Specification',
+    nav: 'Spec',
+    description: 'Spec 0.1 for DOPPELGANGER.md: English Markdown that teaches an AI your writing voice.',
+  },
 ]
 
 const BANNED_BRAND = [/supervised/i, /jeroen/i]
@@ -80,6 +118,7 @@ const REQUIRED_TEXT = {
       '<meta name="color-scheme" content="dark light">',
       'localStorage',
       'theme-toggle',
+      'aria-pressed',
     ],
     lacks: ['AGENTS.md'],
   },
@@ -184,7 +223,7 @@ function renderMarkdown(src) {
       html.push('<table>')
       html.push(
         '<thead><tr>' +
-          header.map((cell) => `<th>${inlineMarkdown(cell)}</th>`).join('') +
+          header.map((cell) => `<th scope="col">${inlineMarkdown(cell)}</th>`).join('') +
           '</tr></thead>',
       )
       html.push('<tbody>')
@@ -238,7 +277,7 @@ function sectionsTable() {
       `<tr><td>${escapeHtml(section.level)}</td><td>${escapeHtml(section.title)}</td><td>${escapeHtml(section.role)}</td></tr>`,
   ).join('')
   return `<table>
-<thead><tr><th>Level</th><th>Section</th><th>In the file</th></tr></thead>
+<thead><tr><th scope="col">Level</th><th scope="col">Section</th><th scope="col">In the file</th></tr></thead>
 <tbody>${rows}</tbody>
 </table>`
 }
@@ -259,10 +298,80 @@ function navHtml(current) {
   return `<ul>${items.join('')}</ul>`
 }
 
+function canonicalUrl(page) {
+  return `${SITE_ORIGIN}/${page.href}`
+}
+
+function htmlToText(html) {
+  return html
+    .replace(/<code>([\s\S]*?)<\/code>/g, '$1')
+    .replace(/<[^>]+>/g, '')
+    .replaceAll('&quot;', '"')
+    .replaceAll('&#39;', "'")
+    .replaceAll('&amp;', '&')
+    .replaceAll('&lt;', '<')
+    .replaceAll('&gt;', '>')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function faqPairs() {
+  const src = read('site/pages/faq.html')
+  const pairs = []
+  const re = /<h2>([\s\S]*?)<\/h2>\s*<p>([\s\S]*?)<\/p>/g
+  let match
+  while ((match = re.exec(src))) {
+    pairs.push({ q: htmlToText(match[1]), a: htmlToText(match[2]) })
+  }
+  return pairs
+}
+
+function jsonLdBlock(page) {
+  let data
+  if (page.id === 'index') {
+    data = {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'doppelganger.md',
+      url: `${SITE_ORIGIN}/`,
+      description: page.description,
+    }
+  } else if (page.id === 'faq') {
+    const pairs = faqPairs()
+    data = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: pairs.map((pair) => ({
+        '@type': 'Question',
+        name: pair.q,
+        acceptedAnswer: { '@type': 'Answer', text: pair.a },
+      })),
+    }
+  } else {
+    return ''
+  }
+  return `  <script type="application/ld+json">\n${JSON.stringify(data, null, 2)}\n  </script>\n`
+}
+
+function robotsTxt() {
+  return `User-agent: *\nAllow: /\n\nSitemap: ${SITE_ORIGIN}/sitemap.xml\n`
+}
+
+function sitemapXml() {
+  const urls = PAGES.map(
+    (page) =>
+      `  <url>\n    <loc>${canonicalUrl(page)}</loc>\n  </url>`,
+  ).join('\n')
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`
+}
+
 function pageHtml(page, content) {
   const template = read('site/template.html')
   return template
     .replaceAll('{{TITLE}}', () => escapeHtml(page.title))
+    .replaceAll('{{DESCRIPTION}}', () => escapeHtml(page.description))
+    .replaceAll('{{CANONICAL}}', () => canonicalUrl(page))
+    .replaceAll('{{JSON_LD}}', () => jsonLdBlock(page))
     .replaceAll('{{NAV}}', () => navHtml(page.id))
     .replaceAll('{{CONTENT}}', () => content)
 }
@@ -288,6 +397,10 @@ export function build() {
     write(`docs/${page.href}`, pageHtml(page, pageContent(page)))
   }
   write('docs/styles.css', read('site/styles.css'))
+  write('docs/favicon.svg', read('site/favicon.svg'))
+  write('docs/llms.txt', read('site/llms.txt'))
+  write('docs/robots.txt', robotsTxt())
+  write('docs/sitemap.xml', sitemapXml())
   write('docs/SPEC.md', read('SPEC.md'))
   write('docs/LICENSE', read('LICENSE'))
   write('docs/DOPPELGANGER.md', read('examples/DOPPELGANGER.md'))
@@ -337,7 +450,14 @@ export function verify() {
   if (samples.length < 3 || samples.length > 7) {
     fail(failures, `examples/DOPPELGANGER.md needs 3 to 7 voice samples, found ${samples.length}`)
   }
+  if (example.includes('https://doppelganger.md/load.html')) {
+    fail(failures, 'examples/DOPPELGANGER.md must use a relative load.html link')
+  }
+  if (spec.includes('https://doppelganger.md/load.html')) {
+    fail(failures, 'SPEC.md must use a relative load.html link')
+  }
 
+  const descriptions = []
   for (const page of PAGES) {
     const rel = `docs/${page.href}`
     if (!fs.existsSync(path.join(root, rel))) {
@@ -348,8 +468,34 @@ export function verify() {
     if (!html.includes('lang="en"')) fail(failures, `${rel} is missing lang="en"`)
     if (!html.includes('<h1')) fail(failures, `${rel} is missing h1`)
     if (!html.includes('Skip to content')) fail(failures, `${rel} is missing skip link`)
+    const desc = html.match(/<meta name="description" content="([^"]*)">/)
+    if (!desc) fail(failures, `${rel} is missing meta description`)
+    else descriptions.push({ rel, text: desc[1] })
+    if (!html.includes(`rel="canonical" href="${canonicalUrl(page)}"`)) {
+      fail(failures, `${rel} is missing canonical ${canonicalUrl(page)}`)
+    }
+    if (!html.includes('property="og:type" content="website"')) {
+      fail(failures, `${rel} is missing og:type=website`)
+    }
+    if (!html.includes('name="twitter:card" content="summary"')) {
+      fail(failures, `${rel} is missing twitter:card=summary`)
+    }
+    if (/github\.io/i.test(html)) fail(failures, `${rel} must not cite a GitHub Pages URL`)
+    if (/AggregateRating/i.test(html)) fail(failures, `${rel} must not include AggregateRating`)
     for (const brand of BANNED_BRAND) {
       if (brand.test(html)) fail(failures, `${rel} contains banned brand text ${brand}`)
+    }
+  }
+
+  const seenDesc = new Map()
+  for (const item of descriptions) {
+    if (seenDesc.has(item.text)) {
+      fail(
+        failures,
+        `shared meta description on ${seenDesc.get(item.text)} and ${item.rel}: "${item.text}"`,
+      )
+    } else {
+      seenDesc.set(item.text, item.rel)
     }
   }
 
@@ -381,6 +527,51 @@ export function verify() {
     fail(failures, 'docs/DOPPELGANGER.md is not a byte copy of examples/DOPPELGANGER.md')
   }
 
+  const discovery = {
+    'docs/robots.txt': robotsTxt(),
+    'docs/sitemap.xml': sitemapXml(),
+    'docs/llms.txt': read('site/llms.txt'),
+    'docs/favicon.svg': read('site/favicon.svg'),
+  }
+  for (const [rel, expected] of Object.entries(discovery)) {
+    if (!fs.existsSync(path.join(root, rel))) {
+      fail(failures, `${rel} is missing`)
+      continue
+    }
+    if (read(rel) !== expected) fail(failures, `${rel} is stale`)
+    if (/github\.io/i.test(expected)) fail(failures, `${rel} must not cite a GitHub Pages URL`)
+  }
+  const robots = read('docs/robots.txt')
+  if (!robots.includes('Allow: /')) fail(failures, 'docs/robots.txt must Allow /')
+  if (!robots.includes(`Sitemap: ${SITE_ORIGIN}/sitemap.xml`)) {
+    fail(failures, 'docs/robots.txt must point Sitemap at doppelganger.md')
+  }
+  const sitemap = read('docs/sitemap.xml')
+  for (const page of PAGES) {
+    if (!sitemap.includes(`<loc>${canonicalUrl(page)}</loc>`)) {
+      fail(failures, `docs/sitemap.xml is missing ${canonicalUrl(page)}`)
+    }
+  }
+  const llms = read('docs/llms.txt')
+  if (!llms.includes('CC0')) fail(failures, 'docs/llms.txt must state CC0')
+  if (!llms.includes('no account') && !llms.includes('No account')) {
+    fail(failures, 'docs/llms.txt must say there is no account')
+  }
+  const faqHtml = read('docs/faq.html')
+  if (!faqHtml.includes('"@type": "FAQPage"')) fail(failures, 'docs/faq.html is missing FAQPage JSON-LD')
+  if (!read('docs/index.html').includes('"@type": "WebSite"')) {
+    fail(failures, 'docs/index.html is missing WebSite JSON-LD')
+  }
+  if (!read('docs/styles.css').includes('prefers-reduced-motion: reduce')) {
+    fail(failures, 'docs/styles.css is missing prefers-reduced-motion')
+  }
+  if (!read('docs/structure.html').includes('scope="col"')) {
+    fail(failures, 'docs/structure.html tables must use scope="col"')
+  }
+  if (!read('docs/spec.html').includes('scope="col"')) {
+    fail(failures, 'docs/spec.html tables must use scope="col"')
+  }
+
   if (failures.length) {
     const text = failures.map((item) => `FAIL ${item}`).join('\n')
     throw new Error(text)
@@ -395,6 +586,8 @@ function preview() {
     '.css': 'text/css; charset=utf-8',
     '.md': 'text/markdown; charset=utf-8',
     '.svg': 'image/svg+xml',
+    '.txt': 'text/plain; charset=utf-8',
+    '.xml': 'application/xml; charset=utf-8',
   }
   const server = http.createServer((req, res) => {
     const url = new URL(req.url || '/', 'http://127.0.0.1')

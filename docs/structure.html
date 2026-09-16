@@ -4,12 +4,49 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Structure · doppelganger.md</title>
-  <meta name="description" content="One open Markdown file that teaches any AI your voice.">
+  <meta name="description" content="MUST, SHOULD, and MAY sections of a DOPPELGANGER.md voice file.">
+  <link rel="canonical" href="https://doppelganger.md/structure.html">
+  <meta property="og:title" content="Structure · doppelganger.md">
+  <meta property="og:description" content="MUST, SHOULD, and MAY sections of a DOPPELGANGER.md voice file.">
+  <meta property="og:url" content="https://doppelganger.md/structure.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
   <meta name="color-scheme" content="dark light">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
   <script>
-    try {
-      if (localStorage.getItem('theme') === 'light') document.documentElement.classList.remove('dark')
-    } catch (e) {}
+    (() => {
+      const root = document.documentElement
+      try {
+        if (localStorage.getItem('theme') === 'light') root.classList.remove('dark')
+      } catch (e) {}
+      const bind = () => {
+        const toggle = document.querySelector('.theme-toggle')
+        if (!toggle || toggle.dataset.bound === '1') return Boolean(toggle)
+        toggle.dataset.bound = '1'
+        const sync = () => {
+          const dark = root.classList.contains('dark')
+          toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme')
+          toggle.setAttribute('aria-pressed', dark ? 'true' : 'false')
+        }
+        sync()
+        toggle.addEventListener('click', () => {
+          const dark = root.classList.toggle('dark')
+          try {
+            localStorage.setItem('theme', dark ? 'dark' : 'light')
+          } catch (e) {}
+          sync()
+        })
+        return true
+      }
+      window.__dgBindTheme = bind
+      if (!bind()) {
+        const obs = new MutationObserver(() => {
+          if (bind()) obs.disconnect()
+        })
+        obs.observe(root, { childList: true, subtree: true })
+      }
+    })()
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,10 +60,11 @@
       <a class="brand" href="index.html">doppelganger.md</a>
       <nav class="nav-wide" aria-label="Site"><ul><li><a class="nav-link" href="index.html">Home</a></li><li><a class="nav-link" href="structure.html" aria-current="page">Structure</a></li><li><a class="nav-link" href="load.html">Load</a></li><li><a class="nav-link" href="example.html">Example</a></li><li><a class="nav-link" href="faq.html">FAQ</a></li><li><a class="nav-link" href="spec.html">Spec</a></li></ul></nav>
       <div class="tools">
-        <button class="theme-toggle" type="button" aria-label="Switch to light theme">
+        <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="true">
           <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
           <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
         </button>
+        <script>window.__dgBindTheme && window.__dgBindTheme()</script>
         <details class="nav-menu">
           <summary>
             <span>Menu</span>
@@ -42,7 +80,7 @@
 <h1>Structure</h1>
 <p>A conformant file uses these section titles, in this order. Levels follow RFC 2119. The <a href="spec.html">spec</a> is the source of truth.</p>
 <div class="table-wrap"><table>
-<thead><tr><th>Level</th><th>Section</th><th>In the file</th></tr></thead>
+<thead><tr><th scope="col">Level</th><th scope="col">Section</th><th scope="col">In the file</th></tr></thead>
 <tbody><tr><td>MUST</td><td>Meta</td><td>name, kind (person or organization), language, version, updated, license</td></tr><tr><td>MUST</td><td>Identity</td><td>Who is speaking, and what they do not do</td></tr><tr><td>MUST</td><td>Voice fingerprint</td><td>3 to 7 writing samples</td></tr><tr><td>MUST</td><td>Tone rules</td><td>Concrete instructions, not adjectives</td></tr><tr><td>MUST</td><td>Hard bans</td><td>Words, phrases, and moves the model must not use</td></tr><tr><td>MUST</td><td>Safety</td><td>No secrets. No invented facts, metrics, or clients</td></tr><tr><td>SHOULD</td><td>Register shifts</td><td>How email, social, website, and proposal differ</td></tr><tr><td>SHOULD</td><td>Before and after</td><td>Generic AI copy rewritten in this voice</td></tr><tr><td>SHOULD</td><td>Facts and claims</td><td>Facts the model may treat as true</td></tr><tr><td>MAY</td><td>How to use</td><td>Short pointer to the load guide</td></tr></tbody>
 </table></div>
 <p class="actions">
@@ -56,25 +94,5 @@
       <p>An open voice-file convention. Spec 0.1. Dedicated to the public domain under CC0 1.0.</p>
     </div>
   </footer>
-  <script>
-    (() => {
-      const root = document.documentElement
-      const toggle = document.querySelector('.theme-toggle')
-      if (!toggle) return
-      const sync = () => {
-        const dark = root.classList.contains('dark')
-        toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme')
-        toggle.setAttribute('aria-pressed', dark ? 'true' : 'false')
-      }
-      toggle.addEventListener('click', () => {
-        const dark = root.classList.toggle('dark')
-        try {
-          localStorage.setItem('theme', dark ? 'dark' : 'light')
-        } catch (e) {}
-        sync()
-      })
-      sync()
-    })()
-  </script>
 </body>
 </html>

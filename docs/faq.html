@@ -4,12 +4,121 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FAQ · doppelganger.md</title>
-  <meta name="description" content="One open Markdown file that teaches any AI your voice.">
+  <meta name="description" content="Short answers on AGENTS.md, BRAND.md, license, secrets, and why there is no loader.">
+  <link rel="canonical" href="https://doppelganger.md/faq.html">
+  <meta property="og:title" content="FAQ · doppelganger.md">
+  <meta property="og:description" content="Short answers on AGENTS.md, BRAND.md, license, secrets, and why there is no loader.">
+  <meta property="og:url" content="https://doppelganger.md/faq.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
   <meta name="color-scheme" content="dark light">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is this different from AGENTS.md?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AGENTS.md tells a coding agent how to work in a repo. DOPPELGANGER.md tells any model how you write. Keep both. Point AGENTS.md at the voice file when the agent writes user-facing copy."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is this different from BRAND.md?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BRAND.md and Brand Context Protocol cover strategy, voice, and visual identity. DOPPELGANGER.md is voice only. No logo rules, no palette, no layout."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is there no hosted loader?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A hosted loader becomes an account, an API, and a lock-in. The convention is the file. Paste it, attach it, or @ it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can the file hold secrets?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The spec forbids keys, passwords, tokens, and unpublished personal data. It also forbids invented facts, metrics, and clients."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Person or company?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Meta kind is person or organization. The sections are the same. An organization file speaks as the company."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which language?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Spec 0.1 is English only. Meta language is a BCP 47 tag. Use en."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the license?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The spec, the example, and this site are public domain under CC0 1.0. Your own file can use another license. Name it in Meta."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where is the canonical site?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "doppelganger.md. Until DNS points there, serve docs/ on GitHub Pages or run node scripts/site.mjs preview."
+      }
+    }
+  ]
+}
+  </script>
+
   <script>
-    try {
-      if (localStorage.getItem('theme') === 'light') document.documentElement.classList.remove('dark')
-    } catch (e) {}
+    (() => {
+      const root = document.documentElement
+      try {
+        if (localStorage.getItem('theme') === 'light') root.classList.remove('dark')
+      } catch (e) {}
+      const bind = () => {
+        const toggle = document.querySelector('.theme-toggle')
+        if (!toggle || toggle.dataset.bound === '1') return Boolean(toggle)
+        toggle.dataset.bound = '1'
+        const sync = () => {
+          const dark = root.classList.contains('dark')
+          toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme')
+          toggle.setAttribute('aria-pressed', dark ? 'true' : 'false')
+        }
+        sync()
+        toggle.addEventListener('click', () => {
+          const dark = root.classList.toggle('dark')
+          try {
+            localStorage.setItem('theme', dark ? 'dark' : 'light')
+          } catch (e) {}
+          sync()
+        })
+        return true
+      }
+      window.__dgBindTheme = bind
+      if (!bind()) {
+        const obs = new MutationObserver(() => {
+          if (bind()) obs.disconnect()
+        })
+        obs.observe(root, { childList: true, subtree: true })
+      }
+    })()
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,10 +132,11 @@
       <a class="brand" href="index.html">doppelganger.md</a>
       <nav class="nav-wide" aria-label="Site"><ul><li><a class="nav-link" href="index.html">Home</a></li><li><a class="nav-link" href="structure.html">Structure</a></li><li><a class="nav-link" href="load.html">Load</a></li><li><a class="nav-link" href="example.html">Example</a></li><li><a class="nav-link" href="faq.html" aria-current="page">FAQ</a></li><li><a class="nav-link" href="spec.html">Spec</a></li></ul></nav>
       <div class="tools">
-        <button class="theme-toggle" type="button" aria-label="Switch to light theme">
+        <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="true">
           <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
           <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
         </button>
+        <script>window.__dgBindTheme && window.__dgBindTheme()</script>
         <details class="nav-menu">
           <summary>
             <span>Menu</span>
@@ -71,25 +181,5 @@
       <p>An open voice-file convention. Spec 0.1. Dedicated to the public domain under CC0 1.0.</p>
     </div>
   </footer>
-  <script>
-    (() => {
-      const root = document.documentElement
-      const toggle = document.querySelector('.theme-toggle')
-      if (!toggle) return
-      const sync = () => {
-        const dark = root.classList.contains('dark')
-        toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme')
-        toggle.setAttribute('aria-pressed', dark ? 'true' : 'false')
-      }
-      toggle.addEventListener('click', () => {
-        const dark = root.classList.toggle('dark')
-        try {
-          localStorage.setItem('theme', dark ? 'dark' : 'light')
-        } catch (e) {}
-        sync()
-      })
-      sync()
-    })()
-  </script>
 </body>
 </html>

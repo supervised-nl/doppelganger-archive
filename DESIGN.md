@@ -194,7 +194,7 @@ Wordmark left. Subtle translucent bar. Idle links use quiet ink. Current page us
 
 ### Theme toggle
 
-A `button.theme-toggle` with the Menu chrome: hairline border, 0.625rem radius, 44px square. It shows the icon for the theme you would switch to and its `aria-label` says so ("Switch to light theme" in dark). A head script removes `dark` before first paint when `localStorage.theme` is `light`; any other value keeps the markup default. No extra JS file.
+A `button.theme-toggle` with the Menu chrome: hairline border, 0.625rem radius, 44px square. It shows the icon for the theme you would switch to and its `aria-label` says so ("Switch to light theme" in dark). Markup ships `aria-pressed="true"` with the dark default. A head script removes `dark` before first paint when `localStorage.theme` is `light`, then sets the matching `aria-pressed` / `aria-label` on the toggle before paint. Any other stored value keeps the markup default. No extra JS file.
 
 ### Example file
 
@@ -209,6 +209,8 @@ A `button.theme-toggle` with the Menu chrome: hairline border, 0.625rem radius, 
 - Do keep emerald on the primary action only.
 - Do cut a sentence rather than add a section.
 - Do keep the theme a two-state machine: the `dark` class on `html`, `theme` in `localStorage` as `dark` or `light`.
+- Do honor `prefers-reduced-motion: reduce`.
+- Do keep canonical, Open Graph, and sitemap locs on `https://doppelganger.md`. No GitHub Pages URL.
 
 ### Don't:
 
@@ -218,3 +220,4 @@ A `button.theme-toggle` with the Menu chrome: hairline border, 0.625rem radius, 
 - Don't nest cards or add a Why essay.
 - Don't put a kicker or eyebrow above the H1.
 - Don't add a generator, loader, account, or Supervised/Jeroen branding.
+- Don't add ratings, reviews, or fake E-E-A-T schema.
