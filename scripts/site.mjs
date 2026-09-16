@@ -87,7 +87,10 @@ const REQUIRED_TEXT = {
   'docs/structure.html': { has: ['Voice fingerprint'] },
   'docs/faq.html': { has: ['AGENTS.md', 'BRAND.md', 'hosted loader'] },
   'docs/spec.html': { has: ['&lt;!-- doppelganger-spec: 0.1 --&gt;'] },
-  'docs/styles.css': { has: ['color-scheme: dark'] },
+  'docs/styles.css': {
+    has: ['color-scheme: light', '--primary: oklch(0.508 0.118 165.612)', '--font-sans: "DM Sans",'],
+    lacks: ['240 10%', 'hsl(var('],
+  },
 }
 
 const PORT = 4173

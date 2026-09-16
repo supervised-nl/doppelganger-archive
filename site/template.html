@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{TITLE}} · doppelganger.md</title>
   <meta name="description" content="One open Markdown file that teaches any AI your voice.">
-  <meta name="color-scheme" content="dark">
+  <meta name="color-scheme" content="light">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;display=swap">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,10 +16,18 @@
   <header class="site-header">
     <div class="shell">
       <a class="brand" href="index.html">doppelganger.md</a>
-      <nav aria-label="Site">{{NAV}}</nav>
+      <nav class="nav-wide" aria-label="Site">{{NAV}}</nav>
+      <details class="nav-menu">
+        <summary>
+          <span>Menu</span>
+          <svg class="icon-menu" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+          <svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </summary>
+        <nav aria-label="Site">{{NAV}}</nav>
+      </details>
     </div>
   </header>
-  <main id="content" class="shell prose">
+  <main id="content" class="page">
 {{CONTENT}}
   </main>
   <footer class="site-footer">
