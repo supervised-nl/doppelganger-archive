@@ -4,6 +4,8 @@ DOPPELGÄNGER.md is one English Markdown file that teaches any AI a person's or 
 
 It is voice only. Not repo instructions. Not a brand kit. Not a hosted loader. No account.
 
+Aliases people search: tone of voice, ToV, brand voice, voice map, voicemap, voice.md, write-like-me. Same file: DOPPELGANGER.md.
+
 Spec 0.1 is English only. Marker: doppelganger-spec: 0.1
 License of the spec, the example, and this site: CC0 1.0. A person's own voice file may use another license, named in Meta.
 

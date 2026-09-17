@@ -98,7 +98,7 @@ const PAGES = [
     href: 'faq.html',
     title: 'FAQ',
     nav: 'FAQ',
-    description: 'Short answers on AGENTS.md, BRAND.md, license, secrets, and why there is no loader.',
+    description: 'Short answers on tone of voice, brand voice, voicemap, AGENTS.md, and why there is no loader.',
   },
   {
     id: 'spec',
@@ -123,6 +123,7 @@ const REQUIRED_TEXT = {
   'docs/index.html': {
     has: [
       '<p class="lede">One open Markdown file that teaches any AI your voice.</p>',
+      'Also called a tone of voice, brand voice, or voice map file.',
       '<h2>How to load</h2>',
       '<h2>For agents</h2>',
       'Download example',
@@ -145,7 +146,17 @@ const REQUIRED_TEXT = {
   'docs/example.html': { has: ['Mara Ellison'] },
   'docs/structure.html': { has: ['Voice fingerprint', 'How do I make the file accurate?'] },
   'docs/faq.html': {
-    has: ['AGENTS.md', 'BRAND.md', 'hosted loader', 'How do I make the file accurate?', 'does not expire'],
+    has: [
+      'AGENTS.md',
+      'BRAND.md',
+      'hosted loader',
+      'How do I make the file accurate?',
+      'does not expire',
+      'tone of voice',
+      'voice map',
+      'write like me',
+    ],
+    lacks: ['Until DNS'],
   },
   'docs/spec.html': {
     has: ['&lt;!-- doppelganger-spec: 0.1 --&gt;', 'The file does not expire.', 'calendar quota'],
@@ -640,6 +651,12 @@ export function verify() {
     fail(failures, 'docs/llms.txt must include the starter prompt')
   }
   if (llms.includes('npx')) fail(failures, 'docs/llms.txt must not mention npx')
+  if (!llms.includes('Aliases people search:')) {
+    fail(failures, 'docs/llms.txt must list the aliases people search')
+  }
+  if (!llms.includes('write-like-me')) {
+    fail(failures, 'docs/llms.txt aliases must include write-like-me')
+  }
   const home = read('docs/index.html')
   if (!home.includes(STARTER_PROMPT)) {
     fail(failures, 'docs/index.html must include the starter prompt')
@@ -663,6 +680,12 @@ export function verify() {
   if (!faqHtml.includes('"@type": "FAQPage"')) fail(failures, 'docs/faq.html is missing FAQPage JSON-LD')
   if (!faqHtml.includes('"name": "How do I make the file accurate?"')) {
     fail(failures, 'docs/faq.html FAQPage JSON-LD is missing the accuracy question')
+  }
+  if (!faqHtml.includes('"name": "Is this a tone of voice (ToV) file?"')) {
+    fail(failures, 'docs/faq.html FAQPage JSON-LD is missing the tone of voice question')
+  }
+  if (faqHtml.includes('scripts/site.mjs preview')) {
+    fail(failures, 'docs/faq.html must not point readers at the preview server')
   }
   if (/AggregateRating/i.test(faqHtml)) fail(failures, 'docs/faq.html must not include AggregateRating')
   if (!read('docs/index.html').includes('"@type": "WebSite"')) {
