@@ -60,7 +60,8 @@ const SECTIONS = [
 ]
 
 const SITE_ORIGIN = 'https://doppelganger.md'
-const DISPLAY_NAME = 'DOPPELGANGER.md'
+const FILE_NAME = 'DOPPELGANGER.md'
+const DISPLAY_NAME = 'DOPPELGÄNGER.md'
 const OG_IMAGE = `${SITE_ORIGIN}/og.png`
 
 const PAGES = [
@@ -76,21 +77,21 @@ const PAGES = [
     href: 'structure.html',
     title: 'Structure',
     nav: 'Structure',
-    description: 'MUST, SHOULD, and MAY sections of a DOPPELGANGER.md voice file.',
+    description: `MUST, SHOULD, and MAY sections of a ${DISPLAY_NAME} voice file.`,
   },
   {
     id: 'load',
     href: 'load.html',
     title: 'How to load',
     nav: 'Load',
-    description: 'Paste, attach, or @ a DOPPELGANGER.md in ChatGPT, Claude, Gemini, or Cursor.',
+    description: `Paste, attach, or @ a ${FILE_NAME} in ChatGPT, Claude, Gemini, or Cursor.`,
   },
   {
     id: 'example',
     href: 'example.html',
     title: 'Example',
     nav: 'Example',
-    description: 'A fictional Mara Ellison DOPPELGANGER.md. Format sample, not a biography.',
+    description: `A fictional Mara Ellison ${FILE_NAME}. Format sample, not a biography.`,
   },
   {
     id: 'faq',
@@ -104,14 +105,19 @@ const PAGES = [
     href: 'spec.html',
     title: 'Specification',
     nav: 'Spec',
-    description: 'Spec 0.1 for DOPPELGANGER.md: English Markdown that teaches an AI your writing voice.',
+    description: `Spec 0.1 for ${DISPLAY_NAME}: English Markdown that teaches an AI your writing voice.`,
   },
 ]
 
 const BANNED_BRAND = [/supervised/i, /jeroen/i]
 const SPEC_MARKER = 'doppelganger-spec: 0.1'
 const STARTER_PROMPT =
-  'Attach or paste DOPPELGANGER.md, then write as that voice. Follow Hard bans and Safety. Do not invent facts.'
+  `Attach or paste ${FILE_NAME}, then write as that voice. Follow Hard bans and Safety. Do not invent facts.`
+
+const RETIRED_PRESET = {
+  name: 'bImeCHq',
+  primaries: ['0.508 0.118 165.612', '0.432 0.095 166.913'],
+}
 
 const REQUIRED_TEXT = {
   'docs/index.html': {
@@ -120,7 +126,7 @@ const REQUIRED_TEXT = {
       '<h2>How to load</h2>',
       '<h2>For agents</h2>',
       'Download example',
-      'download="DOPPELGANGER.md"',
+      `download="${FILE_NAME}"`,
       'Copy starter prompt',
       STARTER_PROMPT,
       'aria-live',
@@ -148,11 +154,11 @@ const REQUIRED_TEXT = {
     has: [
       'html {\n  color-scheme: light;',
       'html.dark {\n  color-scheme: dark;\n}',
-      '--primary: oklch(0.508 0.118 165.612)',
-      '--primary: oklch(0.432 0.095 166.913)',
+      '--primary: oklch(0.527 0.154 150.069)',
+      '--primary: oklch(0.448 0.119 151.328)',
       '--font-sans: "DM Sans",',
     ],
-    lacks: ['240 10%', 'hsl(var('],
+    lacks: ['240 10%', 'hsl(var(', ...RETIRED_PRESET.primaries, RETIRED_PRESET.name],
   },
 }
 
@@ -304,6 +310,8 @@ function sectionsTable() {
 
 function slug(text) {
   return text
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
     .toLowerCase()
     .replace(/`/g, '')
     .replace(/[^a-z0-9]+/g, '-')
@@ -394,6 +402,7 @@ function pageHtml(page, content) {
   return template
     .replaceAll('{{TITLE}}', () => escapeHtml(page.title))
     .replaceAll('{{DESCRIPTION}}', () => escapeHtml(page.description))
+    .replaceAll('{{DISPLAY_NAME}}', () => escapeHtml(DISPLAY_NAME))
     .replaceAll('{{CANONICAL}}', () => canonicalUrl(page))
     .replaceAll('{{OG_IMAGE}}', () => OG_IMAGE)
     .replaceAll('{{JSON_LD}}', () => jsonLdBlock(page))
@@ -413,7 +422,7 @@ function pageContent(page) {
   }
   if (page.id === 'structure') body = body.replace('{{SECTIONS_TABLE}}', sectionsTable())
   if (page.id === 'example') {
-    const example = read('examples/DOPPELGANGER.md')
+    const example = read(`examples/${FILE_NAME}`)
     body = body.replace(
       '{{EXAMPLE_FILE}}',
       `<pre class="file"><code>${escapeHtml(example)}</code></pre>`,
@@ -437,7 +446,7 @@ export function build() {
   write('docs/sitemap.xml', sitemapXml())
   write('docs/SPEC.md', read('SPEC.md'))
   write('docs/LICENSE', read('LICENSE'))
-  write('docs/DOPPELGANGER.md', read('examples/DOPPELGANGER.md'))
+  write(`docs/${FILE_NAME}`, read(`examples/${FILE_NAME}`))
   write('docs/.nojekyll', '')
 }
 
@@ -450,6 +459,8 @@ export function verify() {
   const failures = []
   if (!PAGES.length) fail(failures, 'PAGES registry is empty')
   if (!SECTIONS.length) fail(failures, 'SECTIONS registry is empty')
+  if (FILE_NAME !== 'DOPPELGANGER.md') fail(failures, "FILE_NAME must be 'DOPPELGANGER.md'")
+  if (!DISPLAY_NAME.includes('Ä')) fail(failures, 'DISPLAY_NAME must include Ä')
   const license = read('LICENSE')
   if (!license.includes('CC0 1.0')) fail(failures, 'LICENSE is missing CC0 1.0')
 
@@ -461,12 +472,12 @@ export function verify() {
     }
   }
 
-  const example = read('examples/DOPPELGANGER.md')
+  const example = read(`examples/${FILE_NAME}`)
   if (!example.startsWith('---\n')) {
-    fail(failures, 'examples/DOPPELGANGER.md YAML frontmatter must start at byte 0')
+    fail(failures, `examples/${FILE_NAME} YAML frontmatter must start at byte 0`)
   }
   if (!example.includes(SPEC_MARKER)) {
-    fail(failures, `examples/DOPPELGANGER.md is missing ${SPEC_MARKER}`)
+    fail(failures, `examples/${FILE_NAME} is missing ${SPEC_MARKER}`)
   }
   for (const title of [
     '## Meta',
@@ -477,15 +488,15 @@ export function verify() {
     '## Safety',
   ]) {
     if (!example.includes(title)) {
-      fail(failures, `examples/DOPPELGANGER.md is missing ${title}`)
+      fail(failures, `examples/${FILE_NAME} is missing ${title}`)
     }
   }
   const samples = example.match(/^### /gm) || []
   if (samples.length < 3 || samples.length > 7) {
-    fail(failures, `examples/DOPPELGANGER.md needs 3 to 7 voice samples, found ${samples.length}`)
+    fail(failures, `examples/${FILE_NAME} needs 3 to 7 voice samples, found ${samples.length}`)
   }
   if (example.includes('https://doppelganger.md/load.html')) {
-    fail(failures, 'examples/DOPPELGANGER.md must use a relative load.html link')
+    fail(failures, `examples/${FILE_NAME} must use a relative load.html link`)
   }
   if (spec.includes('https://doppelganger.md/load.html')) {
     fail(failures, 'SPEC.md must use a relative load.html link')
@@ -567,7 +578,7 @@ export function verify() {
     }
   }
   if (!read('docs/example.html').includes(escapeHtml(example))) {
-    fail(failures, 'docs/example.html did not inline examples/DOPPELGANGER.md')
+    fail(failures, `docs/example.html did not inline examples/${FILE_NAME}`)
   }
   if (!fs.existsSync(path.join(root, 'docs/SPEC.md'))) {
     fail(failures, 'docs/SPEC.md was not copied')
@@ -581,8 +592,8 @@ export function verify() {
   if (read('docs/LICENSE') !== license) {
     fail(failures, 'docs/LICENSE is not a byte copy of LICENSE')
   }
-  if (read('docs/DOPPELGANGER.md') !== example) {
-    fail(failures, 'docs/DOPPELGANGER.md is not a byte copy of examples/DOPPELGANGER.md')
+  if (read(`docs/${FILE_NAME}`) !== example) {
+    fail(failures, `docs/${FILE_NAME} is not a byte copy of examples/${FILE_NAME}`)
   }
 
   const discovery = {
@@ -622,8 +633,8 @@ export function verify() {
   if (!llms.includes('## Install for agents')) {
     fail(failures, 'docs/llms.txt is missing ## Install for agents')
   }
-  if (!llms.includes(`${SITE_ORIGIN}/DOPPELGANGER.md`)) {
-    fail(failures, 'docs/llms.txt must fetch the example at doppelganger.md/DOPPELGANGER.md')
+  if (!llms.includes(`${SITE_ORIGIN}/${FILE_NAME}`)) {
+    fail(failures, `docs/llms.txt must fetch the example at doppelganger.md/${FILE_NAME}`)
   }
   if (!llms.includes(STARTER_PROMPT)) {
     fail(failures, 'docs/llms.txt must include the starter prompt')
@@ -633,10 +644,22 @@ export function verify() {
   if (!home.includes(STARTER_PROMPT)) {
     fail(failures, 'docs/index.html must include the starter prompt')
   }
-  if (!home.includes('href="DOPPELGANGER.md"') || !home.includes('download="DOPPELGANGER.md"')) {
-    fail(failures, 'docs/index.html must offer a real download of DOPPELGANGER.md')
+  if (!home.includes(`href="${FILE_NAME}"`) || !home.includes(`download="${FILE_NAME}"`)) {
+    fail(failures, `docs/index.html must offer a real download of ${FILE_NAME}`)
+  }
+  if (!home.includes(`<h1>${DISPLAY_NAME}</h1>`)) {
+    fail(failures, `docs/index.html must include <h1>${DISPLAY_NAME}</h1>`)
+  }
+  if (!home.includes(`property="og:title" content="Home · ${DISPLAY_NAME}"`)) {
+    fail(failures, `docs/index.html og:title must be Home · ${DISPLAY_NAME}`)
   }
   const faqHtml = read('docs/faq.html')
+  if (!faqHtml.includes(`${DISPLAY_NAME} tells any model how you write`)) {
+    fail(failures, `docs/faq.html answers must name ${DISPLAY_NAME}`)
+  }
+  if (!faqHtml.includes(`${DISPLAY_NAME} is voice only`)) {
+    fail(failures, `docs/faq.html answers must name ${DISPLAY_NAME} as voice only`)
+  }
   if (!faqHtml.includes('"@type": "FAQPage"')) fail(failures, 'docs/faq.html is missing FAQPage JSON-LD')
   if (!faqHtml.includes('"name": "How do I make the file accurate?"')) {
     fail(failures, 'docs/faq.html FAQPage JSON-LD is missing the accuracy question')
@@ -656,6 +679,9 @@ export function verify() {
   }
   if (!read('docs/spec.html').includes('scope="col"')) {
     fail(failures, 'docs/spec.html tables must use scope="col"')
+  }
+  if (!read('docs/spec.html').includes('id="doppelganger-md-specification"')) {
+    fail(failures, 'docs/spec.html H1 id must stay doppelganger-md-specification')
   }
 
   if (!fs.existsSync(path.join(root, 'wrangler.jsonc'))) {
@@ -679,29 +705,41 @@ export function verify() {
   }
 
   const readme = read('README.md')
-  if (!readme.includes('## Deploy')) {
-    fail(failures, 'README.md is missing ## Deploy')
+  if (!readme.startsWith(`# ${DISPLAY_NAME}`)) {
+    fail(failures, `README.md must start with # ${DISPLAY_NAME}`)
   }
-  if (!readme.includes('Cloudflare Workers')) {
-    fail(failures, 'README.md must name Cloudflare Workers')
+  if (!readme.includes('SPEC.md')) {
+    fail(failures, 'README.md must link SPEC.md')
   }
-  if (!readme.includes('wrangler.jsonc')) {
-    fail(failures, 'README.md must name wrangler.jsonc')
-  }
-  if (!readme.includes('npx wrangler deploy') && !readme.includes('wrangler deploy')) {
-    fail(failures, 'README.md must document wrangler deploy')
-  }
-  if (!readme.includes('node scripts/site.mjs')) {
-    fail(failures, 'README.md must build with node scripts/site.mjs')
-  }
-  if (!readme.includes('doppelganger.md')) {
-    fail(failures, 'README.md must name custom domain doppelganger.md')
+  if (!readme.includes(`examples/${FILE_NAME}`)) {
+    fail(failures, `README.md must link examples/${FILE_NAME}`)
   }
   if (!readme.includes('https://doppelganger.md')) {
-    fail(failures, 'README.md must keep canonicals on https://doppelganger.md')
+    fail(failures, 'README.md must link https://doppelganger.md')
   }
-  if (!readme.includes('github.io')) {
-    fail(failures, 'README.md must warn not to rewrite hosts to github.io')
+  if (!readme.includes('Download example')) {
+    fail(failures, 'README.md must name Download example')
+  }
+  if (!readme.includes('Copy starter prompt')) {
+    fail(failures, 'README.md must name Copy starter prompt')
+  }
+  if (!readme.includes('MUST') || !readme.includes('SHOULD') || !readme.includes('MAY')) {
+    fail(failures, 'README.md must name MUST, SHOULD, and MAY')
+  }
+  if (!readme.includes('node scripts/site.mjs verify')) {
+    fail(failures, 'README.md must document node scripts/site.mjs verify')
+  }
+  if (!readme.includes('CC0')) {
+    fail(failures, 'README.md must name CC0')
+  }
+  if (!readme.includes('docs/') || !readme.includes('anywhere')) {
+    fail(failures, 'README.md must say the static site in docs/ can be hosted anywhere')
+  }
+  if (readme.includes('## Deploy')) {
+    fail(failures, 'README.md must not include ## Deploy')
+  }
+  if (/Cloudflare|wrangler|github\.io|CNAME|custom_domain|GitHub Pages|nameserver|DNS may come later|until ops/i.test(readme)) {
+    fail(failures, 'README.md must not include Cloudflare, wrangler, DNS, or GitHub Pages ops')
   }
   const agents = read('AGENTS.md')
   if (!agents.includes('## Deploy')) {
@@ -724,12 +762,6 @@ export function verify() {
   }
   if (!agents.includes('github.io')) {
     fail(failures, 'AGENTS.md must warn not to retarget to github.io')
-  }
-  if (!readme.includes('Download example')) {
-    fail(failures, 'README.md must name Download example')
-  }
-  if (!readme.includes('Copy starter prompt')) {
-    fail(failures, 'README.md must name Copy starter prompt')
   }
   if (fs.existsSync(path.join(root, 'docs/CNAME'))) {
     fail(failures, 'docs/CNAME must not be committed')
@@ -781,8 +813,8 @@ function preview() {
       }
       const type = types[path.extname(file)] || 'application/octet-stream'
       const headers = { 'Content-Type': type }
-      if (path.basename(file) === 'DOPPELGANGER.md') {
-        headers['Content-Disposition'] = 'attachment; filename="DOPPELGANGER.md"'
+      if (path.basename(file) === FILE_NAME) {
+        headers['Content-Disposition'] = `attachment; filename="${FILE_NAME}"`
       }
       res.writeHead(200, headers)
       res.end(data)

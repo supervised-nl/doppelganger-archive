@@ -1,6 +1,6 @@
 <!-- doppelganger-spec: 0.1 -->
 
-# DOPPELGANGER.md specification
+# DOPPELGÄNGER.md specification
 
 This document is the 0.1 specification for `DOPPELGANGER.md`. A `DOPPELGANGER.md` file is a single English Markdown file that teaches an AI to write in the voice of one person or one organization.
 
