@@ -431,9 +431,6 @@ export function build() {
   write('docs/favicon.svg', read('site/favicon.svg'))
   write('docs/og.svg', read('site/og.svg'))
   copyFile('site/og.png', 'docs/og.png')
-  copyFile('site/apple-touch-icon.png', 'docs/apple-touch-icon.png')
-  write('docs/mark.svg', read('site/mark.svg'))
-  write('docs/mark-mono.svg', read('site/mark-mono.svg'))
   write('docs/llms.txt', llmsTxt())
   write('docs/robots.txt', robotsTxt())
   write('docs/sitemap.xml', sitemapXml())
@@ -504,7 +501,6 @@ export function verify() {
     if (!html.includes('lang="en"')) fail(failures, `${rel} is missing lang="en"`)
     if (!html.includes('<h1')) fail(failures, `${rel} is missing h1`)
     if (!html.includes('Skip to content')) fail(failures, `${rel} is missing skip link`)
-    if (!html.includes('class="mark"')) fail(failures, `${rel} is missing the D mark`)
     const desc = html.match(/<meta name="description" content="([^"]*)">/)
     if (!desc) fail(failures, `${rel} is missing meta description`)
     else descriptions.push({ rel, text: desc[1] })
@@ -576,8 +572,6 @@ export function verify() {
     'docs/llms.txt': llmsTxt(),
     'docs/favicon.svg': read('site/favicon.svg'),
     'docs/og.svg': read('site/og.svg'),
-    'docs/mark.svg': read('site/mark.svg'),
-    'docs/mark-mono.svg': read('site/mark-mono.svg'),
   }
   for (const [rel, expected] of Object.entries(discovery)) {
     if (!fs.existsSync(path.join(root, rel))) {
@@ -676,20 +670,6 @@ export function verify() {
   }
   if (!fs.readFileSync(ogOut).subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) {
     fail(failures, 'docs/og.png must be a PNG')
-  }
-  const touchSrc = path.join(root, 'site/apple-touch-icon.png')
-  const touchOut = path.join(root, 'docs/apple-touch-icon.png')
-  if (!fs.existsSync(touchSrc)) fail(failures, 'site/apple-touch-icon.png is missing')
-  if (!fs.existsSync(touchOut)) fail(failures, 'docs/apple-touch-icon.png is missing')
-  if (!fs.readFileSync(touchSrc).equals(fs.readFileSync(touchOut))) {
-    fail(failures, 'docs/apple-touch-icon.png is not a byte copy of site/apple-touch-icon.png')
-  }
-  const favicon = read('docs/favicon.svg')
-  if (favicon.includes('width="12" height="16"')) {
-    fail(failures, 'docs/favicon.svg still has the dual-doc mark')
-  }
-  if (!favicon.includes('clipPath')) {
-    fail(failures, 'docs/favicon.svg must be a mirror-split D')
   }
 
   if (failures.length) {

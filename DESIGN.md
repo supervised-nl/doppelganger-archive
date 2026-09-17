@@ -111,7 +111,7 @@ Restrained neutrals plus one emerald accent. Source of truth is `site/preset-bIm
 
 ### Primary
 
-- **Emerald action** (`oklch(0.508 0.118 165.612)` light, `oklch(0.432 0.095 166.913)` dark): primary buttons, and the outline twin of the D mark. Not headings, not rules, not decorative bars.
+- **Emerald action** (`oklch(0.508 0.118 165.612)` light, `oklch(0.432 0.095 166.913)` dark): primary buttons only. Not headings, not rules, not decorative bars.
 
 ### Neutral, dark default (`.dark`)
 
@@ -129,7 +129,7 @@ Restrained neutrals plus one emerald accent. Source of truth is `site/preset-bIm
 - **Hairline** (`oklch(0.922 0 0)`): header rule, table rows, outline buttons.
 - **Wash** (`oklch(0.97 0 0)`): code chips and pre backgrounds.
 
-**The Action-Only Emerald Rule.** If it is not pressable, it is not emerald. The D mark outline twin is the one identity exception.
+**The Action-Only Emerald Rule.** If it is not pressable, it is not emerald.
 
 ## Typography
 
@@ -190,11 +190,7 @@ None on the marketing pages. If one appears, use `--input` and `--ring` from the
 
 ### Navigation
 
-Wordmark left: a 20px custom D mark (solid stem, outline twin) plus plain DM Sans `doppelganger.md`. Subtle translucent bar. Idle links use quiet ink. Current page uses ink and, from 1280, an underline. Two DOM navs exist so CSS can hide one per breakpoint without JavaScript. `display: none` removes the hidden one from the accessibility tree.
-
-### Mark
-
-Hand-authored SVG capital D, mirror-split at the vertical axis: filled stem on the left, stroke twin on the right. Optical corrections: heavier stem, bowl overshoot, open counter. Favicon is the D only, snapped for 16×16, with a rounded square ground. Header uses `currentColor` fill and `--primary` stroke. `site/mark-mono.svg` is both halves in `currentColor`. Not two documents, not a face, not a yin-yang.
+Wordmark left. Subtle translucent bar. Idle links use quiet ink. Current page uses ink and, from 1280, an underline. Two DOM navs exist so CSS can hide one per breakpoint without JavaScript. `display: none` removes the hidden one from the accessibility tree.
 
 ### Theme toggle
 

@@ -1,21 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" role="img" aria-label="doppelganger.md">
-  <style>
-    .bg { fill: oklch(0.145 0 0); }
-    .solid { fill: oklch(0.985 0 0); }
-    .twin { fill: none; stroke: oklch(0.432 0.095 166.913); stroke-width: 1.85; stroke-linejoin: round; }
-    @media (prefers-color-scheme: light) {
-      .bg { fill: oklch(1 0 0); }
-      .solid { fill: oklch(0.145 0 0); }
-      .twin { stroke: oklch(0.508 0.118 165.612); }
-    }
-  </style>
-  <rect class="bg" width="16" height="16" rx="3.5"/>
-  <defs>
-    <clipPath id="f-left"><rect width="8.15" height="16"/></clipPath>
-    <clipPath id="f-right"><rect x="7.85" width="8.15" height="16"/></clipPath>
-    <path id="f-d" fill-rule="evenodd" d="M3.05 1.9H5.7C9.5 1.8 13 4.05 13 8C13 11.95 9.5 14.2 5.7 14.1H3.05V1.9ZM5.75 4.7V11.3C8.4 11.35 10.05 10.15 10.05 8C10.05 5.85 8.4 4.65 5.75 4.7Z"/>
-    <path id="f-outer" d="M3.05 1.9H5.7C9.5 1.8 13 4.05 13 8C13 11.95 9.5 14.2 5.7 14.1H3.05V1.9Z"/>
-  </defs>
-  <use href="#f-d" class="solid" clip-path="url(#f-left)"/>
-  <use href="#f-outer" class="twin" clip-path="url(#f-right)"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="8" fill="#1c1c1c"/>
+  <rect x="6" y="8" width="12" height="16" rx="2" fill="none" stroke="#f6f6f6" stroke-width="1.5"/>
+  <rect x="14" y="8" width="12" height="16" rx="2" fill="none" stroke="#2f7a61" stroke-width="1.5"/>
 </svg>
