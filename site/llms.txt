@@ -1,4 +1,4 @@
-# doppelganger.md
+# DOPPELGANGER.md
 
 DOPPELGANGER.md is one English Markdown file that teaches any AI a person's or organization's writing voice.
 

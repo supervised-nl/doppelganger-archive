@@ -10,7 +10,7 @@ Paste it, attach it, or `@DOPPELGANGER.md`. No account. No hosted loader.
 - [Example voice file](examples/DOPPELGANGER.md) (fictional person)
 - Home Instant Start: **Download example** and **Copy starter prompt**. No account. No hosted loader.
 - Site pages in `docs/` after `node scripts/site.mjs` (Home, Structure, Load, Example, FAQ, Spec)
-- Canonical name: [doppelganger.md](https://doppelganger.md) (DNS may come later)
+- Canonical site: [https://doppelganger.md](https://doppelganger.md) (DNS may come later)
 - Local preview: `node scripts/site.mjs preview` then open http://127.0.0.1:4173/
 - License: [CC0 1.0](LICENSE)
 

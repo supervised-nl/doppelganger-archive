@@ -2,7 +2,7 @@
   <rect width="1200" height="630" fill="#1c1c1c"/>
   <rect x="108" y="175" width="200" height="280" rx="18" fill="none" stroke="#f6f6f6" stroke-width="8"/>
   <rect x="188" y="145" width="200" height="280" rx="18" fill="none" stroke="#2f7a61" stroke-width="8"/>
-  <text x="460" y="268" fill="#f6f6f6" font-family="DM Sans, Liberation Sans, Arial, sans-serif" font-size="64" font-weight="600">doppelganger.md</text>
+  <text x="460" y="268" fill="#f6f6f6" font-family="DM Sans, Liberation Sans, Arial, sans-serif" font-size="64" font-weight="600">DOPPELGANGER.md</text>
   <text x="460" y="318" fill="#c4c4c4" font-family="DM Sans, Liberation Sans, Arial, sans-serif" font-size="28">One open Markdown file that teaches any AI your voice.</text>
   <text x="460" y="372" fill="#2f7a61" font-family="DM Sans, Liberation Sans, Arial, sans-serif" font-size="22">CC0 � no account � no loader</text>
 </svg>

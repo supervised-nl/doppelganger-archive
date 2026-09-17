@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-09-16T11:58:00.000Z",
-  "title": "Design System: doppelganger.md",
+  "title": "Design System: DOPPELGANGER.md",
   "extensions": {
     "colorMeta": {
       "background": { "role": "neutral", "displayName": "Paper", "canonical": "oklch(1 0 0)", "tonalRamp": ["oklch(0.145 0 0)", "oklch(0.269 0 0)", "oklch(0.371 0 0)", "oklch(0.439 0 0)", "oklch(0.556 0 0)", "oklch(0.708 0 0)", "oklch(0.922 0 0)", "oklch(1 0 0)"] },

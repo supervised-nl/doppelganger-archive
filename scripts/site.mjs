@@ -60,6 +60,7 @@ const SECTIONS = [
 ]
 
 const SITE_ORIGIN = 'https://doppelganger.md'
+const DISPLAY_NAME = 'DOPPELGANGER.md'
 const OG_IMAGE = `${SITE_ORIGIN}/og.png`
 
 const PAGES = [
@@ -355,7 +356,7 @@ function jsonLdBlock(page) {
     data = {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
-      name: 'doppelganger.md',
+      name: DISPLAY_NAME,
       url: `${SITE_ORIGIN}/`,
       description: page.description,
     }
@@ -501,6 +502,12 @@ export function verify() {
     if (!html.includes('lang="en"')) fail(failures, `${rel} is missing lang="en"`)
     if (!html.includes('<h1')) fail(failures, `${rel} is missing h1`)
     if (!html.includes('Skip to content')) fail(failures, `${rel} is missing skip link`)
+    if (!html.includes(`<a class="brand" href="index.html">${DISPLAY_NAME}</a>`)) {
+      fail(failures, `${rel} is missing brand ${DISPLAY_NAME}`)
+    }
+    if (!html.includes(` · ${DISPLAY_NAME}`)) {
+      fail(failures, `${rel} title must include · ${DISPLAY_NAME}`)
+    }
     const desc = html.match(/<meta name="description" content="([^"]*)">/)
     if (!desc) fail(failures, `${rel} is missing meta description`)
     else descriptions.push({ rel, text: desc[1] })
@@ -523,6 +530,18 @@ export function verify() {
     if (/AggregateRating/i.test(html)) fail(failures, `${rel} must not include AggregateRating`)
     for (const brand of BANNED_BRAND) {
       if (brand.test(html)) fail(failures, `${rel} contains banned brand text ${brand}`)
+    }
+  }
+
+  for (const name of fs.readdirSync(path.join(root, 'docs'))) {
+    if (!name.endsWith('.html')) continue
+    const rel = `docs/${name}`
+    const remainder = read(rel).replaceAll(SITE_ORIGIN, '')
+    if (remainder.includes('doppelganger.md')) {
+      fail(
+        failures,
+        `${rel} contains lowercase doppelganger.md outside ${SITE_ORIGIN} URLs`,
+      )
     }
   }
 
@@ -593,6 +612,9 @@ export function verify() {
     }
   }
   const llms = read('docs/llms.txt')
+  if (!llms.startsWith(`# ${DISPLAY_NAME}`)) {
+    fail(failures, `docs/llms.txt must start with # ${DISPLAY_NAME}`)
+  }
   if (!llms.includes('CC0')) fail(failures, 'docs/llms.txt must state CC0')
   if (!llms.includes('no account') && !llms.includes('No account')) {
     fail(failures, 'docs/llms.txt must say there is no account')
@@ -622,6 +644,9 @@ export function verify() {
   if (/AggregateRating/i.test(faqHtml)) fail(failures, 'docs/faq.html must not include AggregateRating')
   if (!read('docs/index.html').includes('"@type": "WebSite"')) {
     fail(failures, 'docs/index.html is missing WebSite JSON-LD')
+  }
+  if (!read('docs/index.html').includes(`"name": "${DISPLAY_NAME}"`)) {
+    fail(failures, `docs/index.html JSON-LD must include "name": "${DISPLAY_NAME}"`)
   }
   if (!read('docs/styles.css').includes('prefers-reduced-motion: reduce')) {
     fail(failures, 'docs/styles.css is missing prefers-reduced-motion')

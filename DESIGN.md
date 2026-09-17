@@ -1,5 +1,5 @@
 ---
-name: doppelganger.md
+name: DOPPELGANGER.md
 description: One open Markdown file that teaches any AI your voice.
 colors:
   background: "oklch(1 0 0)"
@@ -88,7 +88,7 @@ components:
     textColor: "{colors.foreground}"
 ---
 
-# Design System: doppelganger.md
+# Design System: DOPPELGANGER.md
 
 ## Overview
 
@@ -190,7 +190,7 @@ None on the marketing pages. If one appears, use `--input` and `--ring` from the
 
 ### Navigation
 
-Wordmark left. Subtle translucent bar. Idle links use quiet ink. Current page uses ink and, from 1280, an underline. Two DOM navs exist so CSS can hide one per breakpoint without JavaScript. `display: none` removes the hidden one from the accessibility tree.
+The wordmark is `DOPPELGANGER.md`. Subtle translucent bar. Idle links use quiet ink. Current page uses ink and, from 1280, an underline. Two DOM navs exist so CSS can hide one per breakpoint without JavaScript. `display: none` removes the hidden one from the accessibility tree.
 
 ### Theme toggle
 

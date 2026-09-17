@@ -30,7 +30,7 @@ Inferred from the 2026-09-16 redesign brief. Home copy must never compare the fi
 
 ## Operating Context
 
-Writers keep `DOPPELGANGER.md` on disk or in a repo. They load it in the tools they already use. The spec (`doppelganger-spec: 0.1`) is the source of truth. The site is a landing plus load guide plus one fictional example. Canonical name is doppelganger.md. DNS may come later. Until then, `docs/` is the GitHub Pages payload.
+Writers keep `DOPPELGANGER.md` on disk or in a repo. They load it in the tools they already use. The spec (`doppelganger-spec: 0.1`) is the source of truth. The site is a landing plus load guide plus one fictional example. Canonical host is `https://doppelganger.md`. DNS may come later. Until then, `docs/` is the GitHub Pages payload.
 
 ## Capabilities and Constraints
 
@@ -46,7 +46,7 @@ Writers keep `DOPPELGANGER.md` on disk or in a repo. They load it in the tools t
 
 ## Brand Commitments
 
-- Name: DOPPELGANGER.md / doppelganger.md
+- File name: DOPPELGANGER.md. Host: doppelganger.md.
 - Voice: short, plain English. Cut copy to the bone. No essays. Home carries one short why paragraph under the lede, not a Why section.
 - Home lead: one open Markdown file that teaches any AI your voice. Never `AGENTS.md` on the home lead.
 - Theme: dark by default from the preset's `.dark` block. A header switch to light persists as `theme` in `localStorage`.
