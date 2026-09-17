@@ -60,6 +60,7 @@ const SECTIONS = [
 ]
 
 const SITE_ORIGIN = 'https://doppelganger.md'
+const OG_IMAGE = `${SITE_ORIGIN}/og.png`
 
 const PAGES = [
   {
@@ -131,7 +132,7 @@ const REQUIRED_TEXT = {
     lacks: ['AGENTS.md', 'npx'],
   },
   'docs/load.html': {
-    has: ['ChatGPT', 'Claude', 'Gemini', 'Cursor', 'Paste', '1,500', '5,000'],
+    has: ['ChatGPT', 'Sources', 'Add files', 'Claude', 'Gemini', 'Cursor', 'Paste', '1,500', '5,000'],
     lacks: ['AGENTS.md'],
   },
   'docs/example.html': { has: ['Mara Ellison'] },
@@ -164,6 +165,12 @@ function write(rel, text) {
   const abs = path.join(root, rel)
   fs.mkdirSync(path.dirname(abs), { recursive: true })
   fs.writeFileSync(abs, text)
+}
+
+function copyFile(fromRel, toRel) {
+  const toAbs = path.join(root, toRel)
+  fs.mkdirSync(path.dirname(toAbs), { recursive: true })
+  fs.copyFileSync(path.join(root, fromRel), toAbs)
 }
 
 function escapeHtml(text) {
@@ -387,6 +394,7 @@ function pageHtml(page, content) {
     .replaceAll('{{TITLE}}', () => escapeHtml(page.title))
     .replaceAll('{{DESCRIPTION}}', () => escapeHtml(page.description))
     .replaceAll('{{CANONICAL}}', () => canonicalUrl(page))
+    .replaceAll('{{OG_IMAGE}}', () => OG_IMAGE)
     .replaceAll('{{JSON_LD}}', () => jsonLdBlock(page))
     .replaceAll('{{NAV}}', () => navHtml(page.id))
     .replaceAll('{{CONTENT}}', () => content)
@@ -421,6 +429,8 @@ export function build() {
   }
   write('docs/styles.css', read('site/styles.css'))
   write('docs/favicon.svg', read('site/favicon.svg'))
+  write('docs/og.svg', read('site/og.svg'))
+  copyFile('site/og.png', 'docs/og.png')
   write('docs/llms.txt', llmsTxt())
   write('docs/robots.txt', robotsTxt())
   write('docs/sitemap.xml', sitemapXml())
@@ -500,8 +510,14 @@ export function verify() {
     if (!html.includes('property="og:type" content="website"')) {
       fail(failures, `${rel} is missing og:type=website`)
     }
-    if (!html.includes('name="twitter:card" content="summary"')) {
-      fail(failures, `${rel} is missing twitter:card=summary`)
+    if (!html.includes(`property="og:image" content="${OG_IMAGE}"`)) {
+      fail(failures, `${rel} is missing og:image ${OG_IMAGE}`)
+    }
+    if (!html.includes(`name="twitter:image" content="${OG_IMAGE}"`)) {
+      fail(failures, `${rel} is missing twitter:image ${OG_IMAGE}`)
+    }
+    if (!html.includes('name="twitter:card" content="summary_large_image"')) {
+      fail(failures, `${rel} is missing twitter:card=summary_large_image`)
     }
     if (/github\.io/i.test(html)) fail(failures, `${rel} must not cite a GitHub Pages URL`)
     if (/AggregateRating/i.test(html)) fail(failures, `${rel} must not include AggregateRating`)
@@ -555,6 +571,7 @@ export function verify() {
     'docs/sitemap.xml': sitemapXml(),
     'docs/llms.txt': llmsTxt(),
     'docs/favicon.svg': read('site/favicon.svg'),
+    'docs/og.svg': read('site/og.svg'),
   }
   for (const [rel, expected] of Object.entries(discovery)) {
     if (!fs.existsSync(path.join(root, rel))) {
@@ -635,8 +652,24 @@ export function verify() {
   if (!agents.includes('github.io')) {
     fail(failures, 'AGENTS.md must warn not to retarget to github.io')
   }
+  if (!readme.includes('Download example')) {
+    fail(failures, 'README.md must name Download example')
+  }
+  if (!readme.includes('Copy starter prompt')) {
+    fail(failures, 'README.md must name Copy starter prompt')
+  }
   if (fs.existsSync(path.join(root, 'docs/CNAME'))) {
     fail(failures, 'docs/CNAME must not be committed until DNS GO')
+  }
+  const ogSrc = path.join(root, 'site/og.png')
+  const ogOut = path.join(root, 'docs/og.png')
+  if (!fs.existsSync(ogSrc)) fail(failures, 'site/og.png is missing')
+  if (!fs.existsSync(ogOut)) fail(failures, 'docs/og.png is missing')
+  if (!fs.readFileSync(ogSrc).equals(fs.readFileSync(ogOut))) {
+    fail(failures, 'docs/og.png is not a byte copy of site/og.png')
+  }
+  if (!fs.readFileSync(ogOut).subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) {
+    fail(failures, 'docs/og.png must be a PNG')
   }
 
   if (failures.length) {
@@ -653,6 +686,7 @@ function preview() {
     '.css': 'text/css; charset=utf-8',
     '.md': 'text/markdown; charset=utf-8',
     '.svg': 'image/svg+xml',
+    '.png': 'image/png',
     '.txt': 'text/plain; charset=utf-8',
     '.xml': 'application/xml; charset=utf-8',
   }
