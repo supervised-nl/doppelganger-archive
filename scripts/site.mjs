@@ -148,11 +148,17 @@ const REQUIRED_TEXT = {
     has: [
       'html {\n  color-scheme: light;',
       'html.dark {\n  color-scheme: dark;\n}',
-      '--primary: oklch(0.508 0.118 165.612)',
-      '--primary: oklch(0.432 0.095 166.913)',
+      '--primary: oklch(0.527 0.154 150.069)',
+      '--primary: oklch(0.448 0.119 151.328)',
       '--font-sans: "DM Sans",',
     ],
-    lacks: ['240 10%', 'hsl(var('],
+    lacks: [
+      '240 10%',
+      'hsl(var(',
+      ['0.508', '0.118', '165.612'].join(' '),
+      ['0.432', '0.095', '166.913'].join(' '),
+      ['bIme', 'CHq'].join(''),
+    ],
   },
 }
 

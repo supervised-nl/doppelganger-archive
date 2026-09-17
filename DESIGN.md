@@ -4,8 +4,8 @@ description: One open Markdown file that teaches any AI your voice.
 colors:
   background: "oklch(1 0 0)"
   foreground: "oklch(0.145 0 0)"
-  primary: "oklch(0.508 0.118 165.612)"
-  primary-foreground: "oklch(0.979 0.021 166.113)"
+  primary: "oklch(0.527 0.154 150.069)"
+  primary-foreground: "oklch(0.982 0.018 155.826)"
   muted: "oklch(0.97 0 0)"
   muted-foreground: "oklch(0.556 0 0)"
   accent: "oklch(0.97 0 0)"
@@ -71,7 +71,7 @@ components:
     padding: "0 1.25rem"
     height: "2.75rem"
   button-primary-hover:
-    backgroundColor: "color-mix(in oklch, oklch(0.508 0.118 165.612) 88%, black)"
+    backgroundColor: "color-mix(in oklch, oklch(0.527 0.154 150.069) 88%, black)"
     textColor: "{colors.primary-foreground}"
     rounded: "{rounded.md}"
     height: "2.75rem"
@@ -94,7 +94,7 @@ components:
 
 **Creative North Star: "The catalog call slip"**
 
-The site is a slip that names one file and tells you how to load it. Huge type, short lines, almost no prose. Materials are shadcn preset `bImeCHq` (vega, emerald on neutral, DM Sans, lucide, default radius, subtle translucent menu). Dark is the default: `<html class="dark">` selects the preset's `.dark` block, so a visit with no JavaScript is still dark. The light `:root` block is one switch away in the header. Emerald is only for the action you can press, in either theme.
+The site is a slip that names one file and tells you how to load it. Huge type, short lines, almost no prose. Materials are shadcn preset `b2YPlg` (nova, green on neutral, DM Sans, lucide, default radius, subtle translucent menu). Dark is the default: `<html class="dark">` selects the preset's `.dark` block, so a visit with no JavaScript is still dark. The light `:root` block is one switch away in the header. Green is only for the action you can press, in either theme.
 
 This world replaces the rejected zinc dark docs wiki. No sticky glass, no nested cards, no Why essays, no AGENTS.md on home or load.
 
@@ -107,11 +107,11 @@ This world replaces the rejected zinc dark docs wiki. No sticky glass, no nested
 
 ## Colors
 
-Restrained neutrals plus one emerald accent. Source of truth is `site/preset-bImeCHq.css`, copied into `site/styles.css`. Every component reads the same token names; the theme picks the block.
+Restrained neutrals plus one green accent. Source of truth is `site/preset-b2YPlg.css`, copied into `site/styles.css`. Every component reads the same token names; the theme picks the block.
 
 ### Primary
 
-- **Emerald action** (`oklch(0.508 0.118 165.612)` light, `oklch(0.432 0.095 166.913)` dark): primary buttons only. Not headings, not rules, not decorative bars.
+- **Green action** (`oklch(0.527 0.154 150.069)` light, `oklch(0.448 0.119 151.328)` dark): primary buttons only. Not headings, not rules, not decorative bars.
 
 ### Neutral, dark default (`.dark`)
 
@@ -129,7 +129,7 @@ Restrained neutrals plus one emerald accent. Source of truth is `site/preset-bIm
 - **Hairline** (`oklch(0.922 0 0)`): header rule, table rows, outline buttons.
 - **Wash** (`oklch(0.97 0 0)`): code chips and pre backgrounds.
 
-**The Action-Only Emerald Rule.** If it is not pressable, it is not emerald.
+**The Action-Only Green Rule.** If it is not pressable, it is not green.
 
 ## Typography
 
@@ -176,7 +176,7 @@ Radius is the preset default, 0.625rem. Buttons and the Menu summary use it. Tab
 ### Buttons
 
 - **Shape:** 0.625rem, min-height 2.75rem (44px).
-- **Primary:** emerald fill, light emerald-tinted text. Hover mixes 12% black into primary. Home uses two primaries: Download example and Copy starter prompt.
+- **Primary:** green fill, light green-tinted text. Hover mixes 12% black into primary. Home uses two primaries: Download example and Copy starter prompt.
 - **Outline:** transparent fill, hairline border, ink text. Hover uses the muted wash.
 - **Focus:** 2px `var(--ring)` offset on every control.
 
@@ -206,7 +206,7 @@ A `button.theme-toggle` with the Menu chrome: hairline border, 0.625rem radius, 
 
 - Do keep the home lede as `One open Markdown file that teaches any AI your voice.`
 - Do design 390 first, then 1280.
-- Do keep emerald on the actions you can press.
+- Do keep green on the actions you can press.
 - Do cut a sentence rather than add a section.
 - Do keep the theme a two-state machine: the `dark` class on `html`, `theme` in `localStorage` as `dark` or `light`.
 - Do honor `prefers-reduced-motion: reduce`.

@@ -41,7 +41,7 @@ Writers keep `DOPPELGANGER.md` on disk or in a repo. They load it in the tools t
 - Site and docs must not mention Supervised or Jeroen.
 - Keep the fictional Mara Ellison example.
 - Site pages: home, structure, load, example, FAQ, spec.
-- Visual system is shadcn preset `bImeCHq` (vega, emerald on neutral, DM Sans, lucide, default radius, subtle translucent menu). Not zinc.
+- Visual system is shadcn preset `b2YPlg` (nova, green on neutral, DM Sans, lucide, default radius, subtle translucent menu). Not zinc.
 - Mobile-first: 390px, then 1280px.
 
 ## Brand Commitments
