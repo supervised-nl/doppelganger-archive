@@ -113,6 +113,11 @@ const SPEC_MARKER = 'doppelganger-spec: 0.1'
 const STARTER_PROMPT =
   'Attach or paste DOPPELGANGER.md, then write as that voice. Follow Hard bans and Safety. Do not invent facts.'
 
+const RETIRED_PRESET = {
+  name: 'bImeCHq',
+  primaries: ['0.508 0.118 165.612', '0.432 0.095 166.913'],
+}
+
 const REQUIRED_TEXT = {
   'docs/index.html': {
     has: [
@@ -152,13 +157,7 @@ const REQUIRED_TEXT = {
       '--primary: oklch(0.448 0.119 151.328)',
       '--font-sans: "DM Sans",',
     ],
-    lacks: [
-      '240 10%',
-      'hsl(var(',
-      ['0.508', '0.118', '165.612'].join(' '),
-      ['0.432', '0.095', '166.913'].join(' '),
-      ['bIme', 'CHq'].join(''),
-    ],
+    lacks: ['240 10%', 'hsl(var(', ...RETIRED_PRESET.primaries, RETIRED_PRESET.name],
   },
 }
 
