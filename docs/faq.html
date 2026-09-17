@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FAQ · DOPPELGÄNGER.md</title>
-  <meta name="description" content="Short answers on AGENTS.md, BRAND.md, license, secrets, and why there is no loader.">
+  <meta name="description" content="Short answers on tone of voice, brand voice, voicemap, AGENTS.md, and why there is no loader.">
   <link rel="canonical" href="https://doppelganger.md/faq.html">
   <meta property="og:title" content="FAQ · DOPPELGÄNGER.md">
-  <meta property="og:description" content="Short answers on AGENTS.md, BRAND.md, license, secrets, and why there is no loader.">
+  <meta property="og:description" content="Short answers on tone of voice, brand voice, voicemap, AGENTS.md, and why there is no loader.">
   <meta property="og:url" content="https://doppelganger.md/faq.html">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://doppelganger.md/og.png">
@@ -38,7 +38,39 @@
       "name": "How is this different from BRAND.md?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "BRAND.md and Brand Context Protocol cover strategy, voice, and visual identity. DOPPELGÄNGER.md is voice only. No logo rules, no palette, no layout."
+        "text": "BRAND.md and Brand Context Protocol cover strategy, voice, and visual identity. If you want a brand voice for writing only, use this file. DOPPELGÄNGER.md is voice only. No logo rules, no palette, no layout."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this a tone of voice (ToV) file?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. DOPPELGÄNGER.md is the open Markdown voice file for tone of voice. Load it with paste, attach, or @DOPPELGANGER.md."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this a voice map, voicemap, or voice.md?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Same job. Prefer the filename DOPPELGANGER.md and this spec so tools know where to look."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Custom instructions, or write like me?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Put the file in the chat. Paste it, attach it, or @ it. No hosted loader. See Load."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Looking for merkstijl or schrijfstijl?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This is the English open voice-file convention."
       }
     },
     {
@@ -94,7 +126,7 @@
       "name": "Where is the canonical site?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "https://doppelganger.md. Until DNS points there, run node scripts/site.mjs preview."
+        "text": "https://doppelganger.md is live."
       }
     }
   ]
@@ -170,7 +202,19 @@
 <p><code>AGENTS.md</code> tells a coding agent how to work in a repo. DOPPELGÄNGER.md tells any model how you write. Keep both. Point <code>AGENTS.md</code> at the voice file when the agent writes user-facing copy.</p>
 
 <h2>How is this different from BRAND.md?</h2>
-<p><code>BRAND.md</code> and Brand Context Protocol cover strategy, voice, and visual identity. DOPPELGÄNGER.md is voice only. No logo rules, no palette, no layout.</p>
+<p><code>BRAND.md</code> and Brand Context Protocol cover strategy, voice, and visual identity. If you want a brand voice for writing only, use this file. DOPPELGÄNGER.md is voice only. No logo rules, no palette, no layout.</p>
+
+<h2>Is this a tone of voice (ToV) file?</h2>
+<p>Yes. DOPPELGÄNGER.md is the open Markdown voice file for tone of voice. Load it with paste, attach, or <code>@DOPPELGANGER.md</code>.</p>
+
+<h2>Is this a voice map, voicemap, or voice.md?</h2>
+<p>Same job. Prefer the filename <code>DOPPELGANGER.md</code> and this spec so tools know where to look.</p>
+
+<h2>Custom instructions, or write like me?</h2>
+<p>Put the file in the chat. Paste it, attach it, or <code>@</code> it. No hosted loader. See <a href="load.html">Load</a>.</p>
+
+<h2>Looking for merkstijl or schrijfstijl?</h2>
+<p>This is the English open voice-file convention.</p>
 
 <h2>Why is there no hosted loader?</h2>
 <p>A hosted loader becomes an account, an API, and a lock-in. The convention is the file. Paste it, attach it, or <code>@</code> it.</p>
@@ -197,7 +241,7 @@
 <p>The spec, the example, and this site are public domain under CC0 1.0. Your own file can use another license. Name it in Meta.</p>
 
 <h2>Where is the canonical site?</h2>
-<p><code>https://doppelganger.md</code>. Until DNS points there, run <code>node scripts/site.mjs preview</code>.</p>
+<p><code>https://doppelganger.md</code> is live.</p>
 
   </main>
   <footer class="site-footer">
