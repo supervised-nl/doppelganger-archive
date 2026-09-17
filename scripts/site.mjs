@@ -679,29 +679,38 @@ export function verify() {
   }
 
   const readme = read('README.md')
-  if (!readme.includes('## Deploy')) {
-    fail(failures, 'README.md is missing ## Deploy')
+  if (!readme.includes('SPEC.md')) {
+    fail(failures, 'README.md must link SPEC.md')
   }
-  if (!readme.includes('Cloudflare Workers')) {
-    fail(failures, 'README.md must name Cloudflare Workers')
-  }
-  if (!readme.includes('wrangler.jsonc')) {
-    fail(failures, 'README.md must name wrangler.jsonc')
-  }
-  if (!readme.includes('npx wrangler deploy') && !readme.includes('wrangler deploy')) {
-    fail(failures, 'README.md must document wrangler deploy')
-  }
-  if (!readme.includes('node scripts/site.mjs')) {
-    fail(failures, 'README.md must build with node scripts/site.mjs')
-  }
-  if (!readme.includes('doppelganger.md')) {
-    fail(failures, 'README.md must name custom domain doppelganger.md')
+  if (!readme.includes('examples/DOPPELGANGER.md')) {
+    fail(failures, 'README.md must link examples/DOPPELGANGER.md')
   }
   if (!readme.includes('https://doppelganger.md')) {
-    fail(failures, 'README.md must keep canonicals on https://doppelganger.md')
+    fail(failures, 'README.md must link https://doppelganger.md')
   }
-  if (!readme.includes('github.io')) {
-    fail(failures, 'README.md must warn not to rewrite hosts to github.io')
+  if (!readme.includes('Download example')) {
+    fail(failures, 'README.md must name Download example')
+  }
+  if (!readme.includes('Copy starter prompt')) {
+    fail(failures, 'README.md must name Copy starter prompt')
+  }
+  if (!readme.includes('MUST') || !readme.includes('SHOULD') || !readme.includes('MAY')) {
+    fail(failures, 'README.md must name MUST, SHOULD, and MAY')
+  }
+  if (!readme.includes('node scripts/site.mjs verify')) {
+    fail(failures, 'README.md must document node scripts/site.mjs verify')
+  }
+  if (!readme.includes('CC0')) {
+    fail(failures, 'README.md must name CC0')
+  }
+  if (!readme.includes('docs/') || !readme.includes('anywhere')) {
+    fail(failures, 'README.md must say the static site in docs/ can be hosted anywhere')
+  }
+  if (readme.includes('## Deploy')) {
+    fail(failures, 'README.md must not include ## Deploy')
+  }
+  if (/Cloudflare|wrangler|github\.io|CNAME|custom_domain|GitHub Pages|nameserver|DNS may come later|until ops/i.test(readme)) {
+    fail(failures, 'README.md must not include Cloudflare, wrangler, DNS, or GitHub Pages ops')
   }
   const agents = read('AGENTS.md')
   if (!agents.includes('## Deploy')) {
@@ -724,12 +733,6 @@ export function verify() {
   }
   if (!agents.includes('github.io')) {
     fail(failures, 'AGENTS.md must warn not to retarget to github.io')
-  }
-  if (!readme.includes('Download example')) {
-    fail(failures, 'README.md must name Download example')
-  }
-  if (!readme.includes('Copy starter prompt')) {
-    fail(failures, 'README.md must name Copy starter prompt')
   }
   if (fs.existsSync(path.join(root, 'docs/CNAME'))) {
     fail(failures, 'docs/CNAME must not be committed')
