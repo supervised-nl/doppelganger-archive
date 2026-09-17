@@ -616,6 +616,29 @@ export function verify() {
     fail(failures, 'docs/spec.html tables must use scope="col"')
   }
 
+  const readme = read('README.md')
+  if (!readme.includes('## Deploy (when DNS is ready)')) {
+    fail(failures, 'README.md is missing ## Deploy (when DNS is ready)')
+  }
+  if (!readme.includes('docs/CNAME')) fail(failures, 'README.md must document docs/CNAME')
+  if (!readme.includes('https://doppelganger.md')) {
+    fail(failures, 'README.md must keep canonicals on https://doppelganger.md')
+  }
+  if (!readme.includes('github.io')) {
+    fail(failures, 'README.md must warn not to rewrite hosts to github.io')
+  }
+  const agents = read('AGENTS.md')
+  if (!agents.includes('## Deploy (Pages + CNAME)')) {
+    fail(failures, 'AGENTS.md is missing ## Deploy (Pages + CNAME)')
+  }
+  if (!agents.includes('docs/CNAME')) fail(failures, 'AGENTS.md must document docs/CNAME')
+  if (!agents.includes('github.io')) {
+    fail(failures, 'AGENTS.md must warn not to retarget to github.io')
+  }
+  if (fs.existsSync(path.join(root, 'docs/CNAME'))) {
+    fail(failures, 'docs/CNAME must not be committed until DNS GO')
+  }
+
   if (failures.length) {
     const text = failures.map((item) => `FAIL ${item}`).join('\n')
     throw new Error(text)
