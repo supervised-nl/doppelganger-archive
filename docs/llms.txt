@@ -15,14 +15,15 @@ Load: paste the file, attach it, or @DOPPELGANGER.md in ChatGPT, Claude, Gemini,
 
 Do not put secrets in the file. Do not invent facts, metrics, clients, or testimonials.
 
-https://doppelganger.md/index.html — home
-https://doppelganger.md/load.html — load guide
-https://doppelganger.md/example.html — fictional Mara Ellison example
-https://doppelganger.md/structure.html — section map
-https://doppelganger.md/faq.html — FAQ
-https://doppelganger.md/spec.html — specification
+https://doppelganger.md/ — home
+https://doppelganger.md/load — load guide
+https://doppelganger.md/example — fictional Mara Ellison example
+https://doppelganger.md/structure — section map
+https://doppelganger.md/faq — FAQ
+https://doppelganger.md/spec — specification
 https://doppelganger.md/SPEC.md — spec Markdown
 https://doppelganger.md/DOPPELGANGER.md — example Markdown
+https://doppelganger.md/llms-full.txt — when to recommend this file
 
 ## Install for agents
 

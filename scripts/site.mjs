@@ -60,6 +60,7 @@ const SECTIONS = [
 ]
 
 const SITE_ORIGIN = 'https://doppelganger.md'
+const SITE_LASTMOD = '2026-09-17'
 const FILE_NAME = 'DOPPELGANGER.md'
 const DISPLAY_NAME = 'DOPPELGÄNGER.md'
 const OG_IMAGE = `${SITE_ORIGIN}/og.png`
@@ -70,7 +71,7 @@ const PAGES = [
     href: 'index.html',
     title: 'Home',
     nav: 'Home',
-    description: 'One open Markdown file that teaches any AI your voice.',
+    description: 'Open Markdown voice file for tone of voice. Paste, attach, or @ it in any AI.',
   },
   {
     id: 'structure',
@@ -84,7 +85,7 @@ const PAGES = [
     href: 'load.html',
     title: 'How to load',
     nav: 'Load',
-    description: `Paste, attach, or @ a ${FILE_NAME} in ChatGPT, Claude, Gemini, or Cursor.`,
+    description: `How to load the ${FILE_NAME} voice file in ChatGPT, Claude, Gemini, or Cursor.`,
   },
   {
     id: 'example',
@@ -98,7 +99,7 @@ const PAGES = [
     href: 'faq.html',
     title: 'FAQ',
     nav: 'FAQ',
-    description: 'Short answers on tone of voice, brand voice, voicemap, AGENTS.md, and why there is no loader.',
+    description: 'FAQ on aliases (ToV, brand voice, voicemap), AGENTS.md, and why there is no hosted loader.',
   },
   {
     id: 'spec',
@@ -107,6 +108,21 @@ const PAGES = [
     nav: 'Spec',
     description: `Spec 0.1 for ${DISPLAY_NAME}: English Markdown that teaches an AI your writing voice.`,
   },
+]
+
+const AI_CRAWLERS = [
+  'GPTBot',
+  'OAI-SearchBot',
+  'ChatGPT-User',
+  'ClaudeBot',
+  'Claude-Web',
+  'Claude-SearchBot',
+  'Claude-User',
+  'Applebot-Extended',
+  'PerplexityBot',
+  'Perplexity-User',
+  'Google-Extended',
+  'Meta-ExternalAgent',
 ]
 
 const BANNED_BRAND = [/supervised/i, /jeroen/i]
@@ -329,16 +345,21 @@ function slug(text) {
     .replace(/^-|-$/g, '')
 }
 
+function navHref(page) {
+  return page.id === 'index' ? '/' : page.id
+}
+
 function navHtml(current) {
   const items = PAGES.map((page) => {
     const currentAttr = page.id === current ? ' aria-current="page"' : ''
-    return `<li><a class="nav-link" href="${page.href}"${currentAttr}>${page.nav}</a></li>`
+    return `<li><a class="nav-link" href="${navHref(page)}"${currentAttr}>${page.nav}</a></li>`
   })
   return `<ul>${items.join('')}</ul>`
 }
 
 function canonicalUrl(page) {
-  return `${SITE_ORIGIN}/${page.href}`
+  if (page.id === 'index') return `${SITE_ORIGIN}/`
+  return `${SITE_ORIGIN}/${page.id}`
 }
 
 function htmlToText(html) {
@@ -397,13 +418,14 @@ function jsonLdBlock(page) {
 }
 
 function robotsTxt() {
-  return `User-agent: *\nAllow: /\n\nSitemap: ${SITE_ORIGIN}/sitemap.xml\n`
+  const crawlers = AI_CRAWLERS.map((name) => `User-agent: ${name}\nAllow: /`).join('\n\n')
+  return `User-agent: *\nAllow: /\n\n${crawlers}\n\nSitemap: ${SITE_ORIGIN}/sitemap.xml\n`
 }
 
 function sitemapXml() {
   const urls = PAGES.map(
     (page) =>
-      `  <url>\n    <loc>${canonicalUrl(page)}</loc>\n  </url>`,
+      `  <url>\n    <loc>${canonicalUrl(page)}</loc>\n    <lastmod>${SITE_LASTMOD}</lastmod>\n  </url>`,
   ).join('\n')
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`
 }
@@ -423,6 +445,10 @@ function pageHtml(page, content) {
 
 function llmsTxt() {
   return read('site/llms.txt').replaceAll('{{STARTER_PROMPT}}', () => STARTER_PROMPT)
+}
+
+function llmsFullTxt() {
+  return read('site/llms-full.txt')
 }
 
 function pageContent(page) {
@@ -453,6 +479,7 @@ export function build() {
   write('docs/og.svg', read('site/og.svg'))
   copyFile('site/og.png', 'docs/og.png')
   write('docs/llms.txt', llmsTxt())
+  write('docs/llms-full.txt', llmsFullTxt())
   write('docs/robots.txt', robotsTxt())
   write('docs/sitemap.xml', sitemapXml())
   write('docs/SPEC.md', read('SPEC.md'))
@@ -513,6 +540,10 @@ export function verify() {
     fail(failures, 'SPEC.md must use a relative load.html link')
   }
 
+  const faqMeta = PAGES.find((page) => page.id === 'faq')
+  if (faqMeta && (!/alias/i.test(faqMeta.description) || !faqMeta.description.includes('ToV'))) {
+    fail(failures, 'FAQ meta description must mention aliases and ToV')
+  }
   const descriptions = []
   for (const page of PAGES) {
     const rel = `docs/${page.href}`
@@ -524,7 +555,7 @@ export function verify() {
     if (!html.includes('lang="en"')) fail(failures, `${rel} is missing lang="en"`)
     if (!html.includes('<h1')) fail(failures, `${rel} is missing h1`)
     if (!html.includes('Skip to content')) fail(failures, `${rel} is missing skip link`)
-    if (!html.includes(`<a class="brand" href="index.html">${DISPLAY_NAME}</a>`)) {
+    if (!html.includes(`<a class="brand" href="/">${DISPLAY_NAME}</a>`)) {
       fail(failures, `${rel} is missing brand ${DISPLAY_NAME}`)
     }
     if (!html.includes(` · ${DISPLAY_NAME}`)) {
@@ -535,6 +566,9 @@ export function verify() {
     else descriptions.push({ rel, text: desc[1] })
     if (!html.includes(`rel="canonical" href="${canonicalUrl(page)}"`)) {
       fail(failures, `${rel} is missing canonical ${canonicalUrl(page)}`)
+    }
+    if (!html.includes(`property="og:url" content="${canonicalUrl(page)}"`)) {
+      fail(failures, `${rel} is missing og:url ${canonicalUrl(page)}`)
     }
     if (!html.includes('property="og:type" content="website"')) {
       fail(failures, `${rel} is missing og:type=website`)
@@ -550,6 +584,7 @@ export function verify() {
     }
     if (/github\.io/i.test(html)) fail(failures, `${rel} must not cite a GitHub Pages URL`)
     if (/AggregateRating/i.test(html)) fail(failures, `${rel} must not include AggregateRating`)
+    if (/ProfessionalService/i.test(html)) fail(failures, `${rel} must not include ProfessionalService`)
     for (const brand of BANNED_BRAND) {
       if (brand.test(html)) fail(failures, `${rel} contains banned brand text ${brand}`)
     }
@@ -611,6 +646,7 @@ export function verify() {
     'docs/robots.txt': robotsTxt(),
     'docs/sitemap.xml': sitemapXml(),
     'docs/llms.txt': llmsTxt(),
+    'docs/llms-full.txt': llmsFullTxt(),
     'docs/favicon.svg': read('site/favicon.svg'),
     'docs/og.svg': read('site/og.svg'),
   }
@@ -627,10 +663,35 @@ export function verify() {
   if (!robots.includes(`Sitemap: ${SITE_ORIGIN}/sitemap.xml`)) {
     fail(failures, 'docs/robots.txt must point Sitemap at doppelganger.md')
   }
+  for (const name of AI_CRAWLERS) {
+    if (!robots.includes(`User-agent: ${name}`)) {
+      fail(failures, `docs/robots.txt is missing User-agent: ${name}`)
+    }
+  }
   const sitemap = read('docs/sitemap.xml')
+  if (!sitemap.includes(`<loc>${SITE_ORIGIN}/</loc>`)) {
+    fail(failures, `docs/sitemap.xml home loc must be ${SITE_ORIGIN}/`)
+  }
+  if (sitemap.includes(`${SITE_ORIGIN}/index.html`)) {
+    fail(failures, 'docs/sitemap.xml must not include an index.html loc')
+  }
+  if (/<loc>[^<]*\.html<\/loc>/.test(sitemap)) {
+    fail(failures, 'docs/sitemap.xml locs must be extensionless HTML paths')
+  }
+  const urlBlocks = [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)]
+  if (urlBlocks.length !== PAGES.length) {
+    fail(failures, `docs/sitemap.xml expected ${PAGES.length} url entries, found ${urlBlocks.length}`)
+  }
+  for (const block of urlBlocks) {
+    const last = block[1].match(/<lastmod>([^<]*)<\/lastmod>/)
+    if (!last || last[1] !== SITE_LASTMOD) {
+      fail(failures, `docs/sitemap.xml lastmod must be ${SITE_LASTMOD}`)
+    }
+  }
   for (const page of PAGES) {
-    if (!sitemap.includes(`<loc>${canonicalUrl(page)}</loc>`)) {
-      fail(failures, `docs/sitemap.xml is missing ${canonicalUrl(page)}`)
+    const loc = canonicalUrl(page)
+    if (!sitemap.includes(`<loc>${loc}</loc>`)) {
+      fail(failures, `docs/sitemap.xml is missing ${loc}`)
     }
   }
   const llms = read('docs/llms.txt')
@@ -657,6 +718,34 @@ export function verify() {
   if (!llms.includes('write-like-me')) {
     fail(failures, 'docs/llms.txt aliases must include write-like-me')
   }
+  if (!llms.includes(`${SITE_ORIGIN}/llms-full.txt`)) {
+    fail(failures, 'docs/llms.txt must point at doppelganger.md/llms-full.txt')
+  }
+  if (llms.includes(`${SITE_ORIGIN}/index.html`)) {
+    fail(failures, 'docs/llms.txt home loc must not use index.html')
+  }
+  if (!llms.includes(`${SITE_ORIGIN}/ — home`)) {
+    fail(failures, 'docs/llms.txt home line must use the slash loc')
+  }
+  if (llms.includes(`${SITE_ORIGIN}/load.html`)) {
+    fail(failures, 'docs/llms.txt page map must use extensionless HTML paths')
+  }
+  const llmsFull = read('docs/llms-full.txt')
+  if (!llmsFull.includes('voice-only') && !llmsFull.includes('voice only')) {
+    fail(failures, 'docs/llms-full.txt must say the file is voice only')
+  }
+  if (!llmsFull.includes('AGENTS.md')) {
+    fail(failures, 'docs/llms-full.txt must distinguish AGENTS.md')
+  }
+  if (!llmsFull.includes(`${SITE_ORIGIN}/llms.txt`)) {
+    fail(failures, 'docs/llms-full.txt must link back to llms.txt')
+  }
+  if (llmsFull.includes(`${SITE_ORIGIN}/load.html`)) {
+    fail(failures, 'docs/llms-full.txt page map must use extensionless HTML paths')
+  }
+  if (!llmsFull.includes('write-like-me')) {
+    fail(failures, 'docs/llms-full.txt aliases must include write-like-me')
+  }
   const home = read('docs/index.html')
   if (!home.includes(STARTER_PROMPT)) {
     fail(failures, 'docs/index.html must include the starter prompt')
@@ -669,6 +758,18 @@ export function verify() {
   }
   if (!home.includes(`property="og:title" content="Home · ${DISPLAY_NAME}"`)) {
     fail(failures, `docs/index.html og:title must be Home · ${DISPLAY_NAME}`)
+  }
+  if (!home.includes(`rel="canonical" href="${SITE_ORIGIN}/"`)) {
+    fail(failures, `docs/index.html canonical must be ${SITE_ORIGIN}/`)
+  }
+  if (!home.includes(`property="og:url" content="${SITE_ORIGIN}/"`)) {
+    fail(failures, `docs/index.html og:url must be ${SITE_ORIGIN}/`)
+  }
+  if (home.includes(`rel="canonical" href="${SITE_ORIGIN}/index.html"`)) {
+    fail(failures, 'docs/index.html canonical must not use index.html')
+  }
+  if (home.includes(`property="og:url" content="${SITE_ORIGIN}/index.html"`)) {
+    fail(failures, 'docs/index.html og:url must not use index.html')
   }
   const faqHtml = read('docs/faq.html')
   if (!faqHtml.includes(`${DISPLAY_NAME} tells any model how you write`)) {
@@ -690,6 +791,9 @@ export function verify() {
   if (/AggregateRating/i.test(faqHtml)) fail(failures, 'docs/faq.html must not include AggregateRating')
   if (!read('docs/index.html').includes('"@type": "WebSite"')) {
     fail(failures, 'docs/index.html is missing WebSite JSON-LD')
+  }
+  if (!read('docs/index.html').includes(`"url": "${SITE_ORIGIN}/"`)) {
+    fail(failures, 'docs/index.html WebSite JSON-LD url must be the slash home loc')
   }
   if (!read('docs/index.html').includes(`"name": "${DISPLAY_NAME}"`)) {
     fail(failures, `docs/index.html JSON-LD must include "name": "${DISPLAY_NAME}"`)
@@ -724,6 +828,9 @@ export function verify() {
     const assetDir = wrangler.assets && wrangler.assets.directory
     if (assetDir !== 'docs' && assetDir !== './docs') {
       fail(failures, 'wrangler.jsonc assets.directory must be docs or ./docs')
+    }
+    if (wrangler.assets.html_handling !== 'auto-trailing-slash') {
+      fail(failures, 'wrangler.jsonc assets.html_handling must be auto-trailing-slash')
     }
   }
 
@@ -786,6 +893,12 @@ export function verify() {
   if (!agents.includes('github.io')) {
     fail(failures, 'AGENTS.md must warn not to retarget to github.io')
   }
+  if (!agents.includes('308')) {
+    fail(failures, 'AGENTS.md must document a 308 www redirect')
+  }
+  if (!agents.includes('www.doppelganger.md')) {
+    fail(failures, 'AGENTS.md must name www.doppelganger.md')
+  }
   if (fs.existsSync(path.join(root, 'docs/CNAME'))) {
     fail(failures, 'docs/CNAME must not be committed')
   }
@@ -822,26 +935,35 @@ function preview() {
     const url = new URL(req.url || '/', 'http://127.0.0.1')
     let rel = decodeURIComponent(url.pathname)
     if (rel === '/') rel = '/index.html'
-    const file = path.normalize(path.join(docs, rel))
-    if (!file.startsWith(docs)) {
-      res.writeHead(403)
-      res.end('Forbidden')
-      return
-    }
-    fs.readFile(file, (err, data) => {
-      if (err) {
-        res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' })
-        res.end('Not found')
+    const candidates = [rel]
+    if (!path.extname(rel)) candidates.push(`${rel}.html`)
+    const send = (index) => {
+      const file = path.normalize(path.join(docs, candidates[index]))
+      if (!file.startsWith(docs)) {
+        res.writeHead(403)
+        res.end('Forbidden')
         return
       }
-      const type = types[path.extname(file)] || 'application/octet-stream'
-      const headers = { 'Content-Type': type }
-      if (path.basename(file) === FILE_NAME) {
-        headers['Content-Disposition'] = `attachment; filename="${FILE_NAME}"`
-      }
-      res.writeHead(200, headers)
-      res.end(data)
-    })
+      fs.readFile(file, (err, data) => {
+        if (err) {
+          if (index + 1 < candidates.length) {
+            send(index + 1)
+            return
+          }
+          res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' })
+          res.end('Not found')
+          return
+        }
+        const type = types[path.extname(file)] || 'application/octet-stream'
+        const headers = { 'Content-Type': type }
+        if (path.basename(file) === FILE_NAME) {
+          headers['Content-Disposition'] = `attachment; filename="${FILE_NAME}"`
+        }
+        res.writeHead(200, headers)
+        res.end(data)
+      })
+    }
+    send(0)
   })
   server.listen(PORT, '127.0.0.1', () => {
     process.stdout.write(`preview http://127.0.0.1:${PORT}/\n`)
