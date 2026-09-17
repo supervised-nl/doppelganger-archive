@@ -162,14 +162,6 @@ function read(rel) {
   return fs.readFileSync(path.join(root, rel), 'utf8')
 }
 
-function parseWranglerJsonc() {
-  const rel = 'wrangler.jsonc'
-  if (!fs.existsSync(path.join(root, rel))) return null
-  const raw = read(rel)
-  const stripped = raw.replace(/^\s*\/\/.*$/gm, '')
-  return { raw, config: JSON.parse(stripped) }
-}
-
 function write(rel, text) {
   const abs = path.join(root, rel)
   fs.mkdirSync(path.dirname(abs), { recursive: true })
@@ -666,20 +658,21 @@ export function verify() {
     fail(failures, 'docs/spec.html tables must use scope="col"')
   }
 
-  const wrangler = parseWranglerJsonc()
-  if (!wrangler) {
+  if (!fs.existsSync(path.join(root, 'wrangler.jsonc'))) {
     fail(failures, 'wrangler.jsonc is missing')
   } else {
-    if (wrangler.raw.includes('custom_domain')) {
+    const wranglerRaw = read('wrangler.jsonc')
+    if (wranglerRaw.includes('custom_domain')) {
       fail(failures, 'wrangler.jsonc must not attach custom_domain routes')
     }
-    if (wrangler.config.name !== 'doppelganger-md') {
+    const wrangler = JSON.parse(wranglerRaw)
+    if (wrangler.name !== 'doppelganger-md') {
       fail(failures, 'wrangler.jsonc name must be doppelganger-md')
     }
-    if (wrangler.config.compatibility_date !== '2026-09-17') {
+    if (wrangler.compatibility_date !== '2026-09-17') {
       fail(failures, 'wrangler.jsonc compatibility_date must be 2026-09-17')
     }
-    const assetDir = wrangler.config.assets && wrangler.config.assets.directory
+    const assetDir = wrangler.assets && wrangler.assets.directory
     if (assetDir !== 'docs' && assetDir !== './docs') {
       fail(failures, 'wrangler.jsonc assets.directory must be docs or ./docs')
     }
