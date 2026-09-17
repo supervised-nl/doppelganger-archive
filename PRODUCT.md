@@ -51,6 +51,7 @@ Writers keep `DOPPELGANGER.md` on disk or in a repo. They load it in the tools t
 - Home lead: one open Markdown file that teaches any AI your voice. Never `AGENTS.md` on the home lead.
 - Theme: dark by default from the preset's `.dark` block. A header switch to light persists as `theme` in `localStorage`.
 - Instant start: Download example (the Mara file) and Copy starter prompt. No npx.
+- Mark: a custom mirror-split D (solid | outline twin). Wordmark is plain DM Sans `doppelganger.md`.
 - Inspiration for rhythm, not assets: agents.md, impeccable.style, terafab.ai. Sparse, huge type, almost no prose.
 - No company branding on the site.
 

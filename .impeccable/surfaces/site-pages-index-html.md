@@ -23,7 +23,7 @@ OWN-WORLD: Dark bImeCHq ground by default, light paper one switch away. Emerald 
 
 STORY: Visitor reads the filename, one sentence, a short why, and two primary actions. They download the example or copy the starter prompt. Load-guide detail stays below.
 
-FIRST VIEWPORT at 390: skip link, wordmark, sun theme toggle (44px), Menu (44px). Then H1 DOPPELGANGER.md at clamp huge. One lede sentence. One short why. Two emerald buttons: Download example, Copy starter prompt. Below the fold: How to load steps and a short For agents block. At 1280 the same axis, more air, horizontal subtle nav, theme toggle still visible.
+FIRST VIEWPORT at 390: skip link, D mark + wordmark, sun theme toggle (44px), Menu (44px). Then H1 DOPPELGANGER.md at clamp huge. One lede sentence. One short why. Two emerald buttons: Download example, Copy starter prompt. Below the fold: How to load steps and a short For agents block. At 1280 the same axis, more air, horizontal subtle nav, theme toggle still visible.
 
 FORM: library catalog call slip, assignment index 6 of seed a3aaf8a3, translated onto brief-pinned bImeCHq materials. Raise from consumer-app challenger: touch targets and action-only emerald. Raise from Massin: scale is volume, so the H1 is huge. Raise from Versailles: one reading axis. Raise from drum-machine: numbered steps on load.
 
