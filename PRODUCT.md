@@ -30,7 +30,7 @@ Inferred from the 2026-09-16 redesign brief. Home copy must never compare the fi
 
 ## Operating Context
 
-Writers keep `DOPPELGANGER.md` on disk or in a repo. They load it in the tools they already use. The spec (`doppelganger-spec: 0.1`) is the source of truth. The site is a landing plus load guide plus one fictional example. Canonical host is `https://doppelganger.md`. DNS may come later. Until then, `docs/` is the GitHub Pages payload.
+Writers keep `DOPPELGANGER.md` on disk or in a repo. They load it in the tools they already use. The spec (`doppelganger-spec: 0.1`) is the source of truth. The site is a landing plus load guide plus one fictional example. Canonical host is `https://doppelganger.md`. DNS may come later. Until then, `docs/` is the Cloudflare Workers static-assets payload.
 
 ## Capabilities and Constraints
 

@@ -32,13 +32,21 @@ node scripts/site.mjs verify
 
 The command builds `docs/` and checks the ship set: CC0, spec marker, example sections, required pages, English `lang`, the home lede, no `AGENTS.md` on the home or load page, and no Supervised or personal-name branding on the site.
 
-## Deploy (when DNS is ready)
+## Deploy
 
-Site payload is `docs/` (built by `node scripts/site.mjs`).
+The site payload is `docs/` after `node scripts/site.mjs`. `node scripts/site.mjs verify` builds `docs/` too.
 
-1. In the GitHub repo: Settings → Pages → Deploy from a branch → folder `/docs` (or the equivalent Pages “docs folder” source).
-2. When `doppelganger.md` DNS is live, add `docs/CNAME` with a single line: `doppelganger.md`
-3. Point DNS (A/AAAA or CNAME per GitHub Pages docs) at GitHub Pages.
-4. Leave canonicals, `robots.txt`, `sitemap.xml`, and `llms.txt` on `https://doppelganger.md` (already generated that way). Do not rewrite them to a `github.io` host.
+Host it with Cloudflare Workers static assets. The Worker name is `doppelganger-md` in `wrangler.jsonc`. GitHub Pages is not used.
 
-Until DNS is ready: `node scripts/site.mjs preview` → http://127.0.0.1:4173/. Pages may stay off. Do not enable Pages or commit `docs/CNAME` until a human says GO for DNS.
+1. Run `node scripts/site.mjs` to build `docs/`.
+2. Run `npx wrangler deploy` (Node.js 22 or newer).
+
+To attach `doppelganger.md` later, use the Cloudflare dashboard. Open Workers & Pages, then this Worker, then Settings, Domains & Routes, Add, Custom Domain. Do not add `custom_domain` routes to `wrangler.jsonc` until ops is ready to attach. An apex custom domain needs the zone on Cloudflare nameservers at the registrar. Copy those nameservers from the Cloudflare zone. Do not invent them here.
+
+If you also serve `www`, attach `www.doppelganger.md` or add a www-to-apex redirect. Custom Domains match one hostname.
+
+Leave canonicals, `robots.txt`, `sitemap.xml`, and `llms.txt` on `https://doppelganger.md`. Do not rewrite them to a `github.io` host.
+
+Until DNS is live, preview locally with `node scripts/site.mjs preview` and open http://127.0.0.1:4173/.
+
+Do not enable GitHub Pages. Do not commit `docs/CNAME`.

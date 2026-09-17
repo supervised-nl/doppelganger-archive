@@ -162,6 +162,14 @@ function read(rel) {
   return fs.readFileSync(path.join(root, rel), 'utf8')
 }
 
+function parseWranglerJsonc() {
+  const rel = 'wrangler.jsonc'
+  if (!fs.existsSync(path.join(root, rel))) return null
+  const raw = read(rel)
+  const stripped = raw.replace(/^\s*\/\/.*$/gm, '')
+  return { raw, config: JSON.parse(stripped) }
+}
+
 function write(rel, text) {
   const abs = path.join(root, rel)
   fs.mkdirSync(path.dirname(abs), { recursive: true })
@@ -658,11 +666,44 @@ export function verify() {
     fail(failures, 'docs/spec.html tables must use scope="col"')
   }
 
-  const readme = read('README.md')
-  if (!readme.includes('## Deploy (when DNS is ready)')) {
-    fail(failures, 'README.md is missing ## Deploy (when DNS is ready)')
+  const wrangler = parseWranglerJsonc()
+  if (!wrangler) {
+    fail(failures, 'wrangler.jsonc is missing')
+  } else {
+    if (wrangler.raw.includes('custom_domain')) {
+      fail(failures, 'wrangler.jsonc must not attach custom_domain routes')
+    }
+    if (wrangler.config.name !== 'doppelganger-md') {
+      fail(failures, 'wrangler.jsonc name must be doppelganger-md')
+    }
+    if (wrangler.config.compatibility_date !== '2026-09-17') {
+      fail(failures, 'wrangler.jsonc compatibility_date must be 2026-09-17')
+    }
+    const assetDir = wrangler.config.assets && wrangler.config.assets.directory
+    if (assetDir !== 'docs' && assetDir !== './docs') {
+      fail(failures, 'wrangler.jsonc assets.directory must be docs or ./docs')
+    }
   }
-  if (!readme.includes('docs/CNAME')) fail(failures, 'README.md must document docs/CNAME')
+
+  const readme = read('README.md')
+  if (!readme.includes('## Deploy')) {
+    fail(failures, 'README.md is missing ## Deploy')
+  }
+  if (!readme.includes('Cloudflare Workers')) {
+    fail(failures, 'README.md must name Cloudflare Workers')
+  }
+  if (!readme.includes('wrangler.jsonc')) {
+    fail(failures, 'README.md must name wrangler.jsonc')
+  }
+  if (!readme.includes('npx wrangler deploy') && !readme.includes('wrangler deploy')) {
+    fail(failures, 'README.md must document wrangler deploy')
+  }
+  if (!readme.includes('node scripts/site.mjs')) {
+    fail(failures, 'README.md must build with node scripts/site.mjs')
+  }
+  if (!readme.includes('doppelganger.md')) {
+    fail(failures, 'README.md must name custom domain doppelganger.md')
+  }
   if (!readme.includes('https://doppelganger.md')) {
     fail(failures, 'README.md must keep canonicals on https://doppelganger.md')
   }
@@ -670,10 +711,24 @@ export function verify() {
     fail(failures, 'README.md must warn not to rewrite hosts to github.io')
   }
   const agents = read('AGENTS.md')
-  if (!agents.includes('## Deploy (Pages + CNAME)')) {
-    fail(failures, 'AGENTS.md is missing ## Deploy (Pages + CNAME)')
+  if (!agents.includes('## Deploy')) {
+    fail(failures, 'AGENTS.md is missing ## Deploy')
   }
-  if (!agents.includes('docs/CNAME')) fail(failures, 'AGENTS.md must document docs/CNAME')
+  if (!agents.includes('Cloudflare Workers')) {
+    fail(failures, 'AGENTS.md must name Cloudflare Workers')
+  }
+  if (!agents.includes('wrangler.jsonc')) {
+    fail(failures, 'AGENTS.md must name wrangler.jsonc')
+  }
+  if (!agents.includes('npx wrangler deploy') && !agents.includes('wrangler deploy')) {
+    fail(failures, 'AGENTS.md must document wrangler deploy')
+  }
+  if (!agents.includes('node scripts/site.mjs')) {
+    fail(failures, 'AGENTS.md must build with node scripts/site.mjs')
+  }
+  if (!agents.includes('doppelganger.md')) {
+    fail(failures, 'AGENTS.md must name custom domain doppelganger.md')
+  }
   if (!agents.includes('github.io')) {
     fail(failures, 'AGENTS.md must warn not to retarget to github.io')
   }
@@ -684,7 +739,7 @@ export function verify() {
     fail(failures, 'README.md must name Copy starter prompt')
   }
   if (fs.existsSync(path.join(root, 'docs/CNAME'))) {
-    fail(failures, 'docs/CNAME must not be committed until DNS GO')
+    fail(failures, 'docs/CNAME must not be committed')
   }
   const ogSrc = path.join(root, 'site/og.png')
   const ogOut = path.join(root, 'docs/og.png')

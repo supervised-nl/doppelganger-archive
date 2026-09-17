@@ -3,3 +3,5 @@ node_modules/
 .cache/
 *.log
 .impeccable/review/*.png
+.wrangler
+.dev.vars*

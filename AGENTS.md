@@ -12,13 +12,15 @@ That command must exit 0 before you finish. It builds `docs/` and checks license
 
 Preview the site with `node scripts/site.mjs preview` and open http://127.0.0.1:4173/. Check home, load, and example in a browser, not only the script.
 
-## Deploy (Pages + CNAME)
+## Deploy
 
 - Payload: `docs/` after `node scripts/site.mjs` or `node scripts/site.mjs verify`.
-- Pages source: Settings → Pages → deploy from a branch → `/docs` folder, when a human enables Pages.
-- When DNS for doppelganger.md is ready: create `docs/CNAME` with a single line `doppelganger.md`. Point DNS per GitHub Pages docs.
+- Host: Cloudflare Workers static assets. Worker name `doppelganger-md` in `wrangler.jsonc`. GitHub Pages is not used.
+- Build, then deploy: `node scripts/site.mjs` then `npx wrangler deploy` (Node.js 22 or newer).
+- Custom domain `doppelganger.md`: attach later in the Cloudflare dashboard (Workers & Pages → this Worker → Settings → Domains & Routes → Add → Custom Domain). Do not add `custom_domain` routes to `wrangler.jsonc` until ops is ready to attach. Apex needs the zone on Cloudflare nameservers at the registrar. Copy nameservers from the Cloudflare zone. Do not invent them here. Optional `www` is a second hostname or a www-to-apex redirect.
 - Keep canonicals, sitemap, robots, and llms on `https://doppelganger.md`. Never retarget them to github.io.
-- Do not enable Pages or add CNAME unless a human says GO for DNS. Until then, preview on :4173.
+- Until DNS is live, preview on :4173 with `node scripts/site.mjs preview`.
+- Do not enable GitHub Pages. Do not commit `docs/CNAME`.
 
 ## House rules
 
