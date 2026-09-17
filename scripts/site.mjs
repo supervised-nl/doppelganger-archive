@@ -135,9 +135,13 @@ const REQUIRED_TEXT = {
     lacks: ['AGENTS.md'],
   },
   'docs/example.html': { has: ['Mara Ellison'] },
-  'docs/structure.html': { has: ['Voice fingerprint'] },
-  'docs/faq.html': { has: ['AGENTS.md', 'BRAND.md', 'hosted loader'] },
-  'docs/spec.html': { has: ['&lt;!-- doppelganger-spec: 0.1 --&gt;'] },
+  'docs/structure.html': { has: ['Voice fingerprint', 'How do I make the file accurate?'] },
+  'docs/faq.html': {
+    has: ['AGENTS.md', 'BRAND.md', 'hosted loader', 'How do I make the file accurate?', 'does not expire'],
+  },
+  'docs/spec.html': {
+    has: ['&lt;!-- doppelganger-spec: 0.1 --&gt;', 'The file does not expire.', 'calendar quota'],
+  },
   'docs/styles.css': {
     has: [
       'html {\n  color-scheme: light;',
@@ -325,13 +329,17 @@ function htmlToText(html) {
 
 function faqPairs() {
   const src = read('site/pages/faq.html')
-  const pairs = []
-  const re = /<h2>([\s\S]*?)<\/h2>\s*<p>([\s\S]*?)<\/p>/g
-  let match
-  while ((match = re.exec(src))) {
-    pairs.push({ q: htmlToText(match[1]), a: htmlToText(match[2]) })
-  }
-  return pairs
+  return src
+    .split(/<h2>/)
+    .slice(1)
+    .map((chunk) => {
+      const qEnd = chunk.indexOf('</h2>')
+      return {
+        q: htmlToText(chunk.slice(0, qEnd)),
+        a: htmlToText(chunk.slice(qEnd + 5)),
+      }
+    })
+    .filter((pair) => pair.q && pair.a)
 }
 
 function jsonLdBlock(page) {
@@ -591,6 +599,10 @@ export function verify() {
   }
   const faqHtml = read('docs/faq.html')
   if (!faqHtml.includes('"@type": "FAQPage"')) fail(failures, 'docs/faq.html is missing FAQPage JSON-LD')
+  if (!faqHtml.includes('"name": "How do I make the file accurate?"')) {
+    fail(failures, 'docs/faq.html FAQPage JSON-LD is missing the accuracy question')
+  }
+  if (/AggregateRating/i.test(faqHtml)) fail(failures, 'docs/faq.html must not include AggregateRating')
   if (!read('docs/index.html').includes('"@type": "WebSite"')) {
     fail(failures, 'docs/index.html is missing WebSite JSON-LD')
   }

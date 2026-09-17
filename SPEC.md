@@ -106,6 +106,8 @@ Each sample SHOULD name its register in a single label, such as `email`, `social
 
 Each sample SHOULD be real writing, lightly edited to remove secrets and third-party private data. Do not write samples that sound like generic AI copy. The point of this section is evidence of the actual voice that a model can imitate.
 
+Prefer recent sent or published writing — email, posts, site, blogs — over AI drafts. When the voice drifts, replace samples and bump Meta `version` and `updated`. The file does not expire. Do not require a calendar quota.
+
 #### Tone rules
 
 Tone rules MUST state how the voice works as instructions a model can follow. Prefer concrete rules over adjectives.
