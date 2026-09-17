@@ -1,4 +1,4 @@
-# DOPPELGANGER.md
+# DOPPELGÄNGER.md
 
 One open Markdown file that teaches any AI your voice.
 

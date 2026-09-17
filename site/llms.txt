@@ -1,6 +1,6 @@
-# DOPPELGANGER.md
+# DOPPELGÄNGER.md
 
-DOPPELGANGER.md is one English Markdown file that teaches any AI a person's or organization's writing voice.
+DOPPELGÄNGER.md is one English Markdown file that teaches any AI a person's or organization's writing voice.
 
 It is voice only. Not repo instructions. Not a brand kit. Not a hosted loader. No account.
 

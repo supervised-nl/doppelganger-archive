@@ -1,5 +1,5 @@
 ---
-name: DOPPELGANGER.md
+name: DOPPELGÄNGER.md
 description: One open Markdown file that teaches any AI your voice.
 colors:
   background: "oklch(1 0 0)"
@@ -88,7 +88,7 @@ components:
     textColor: "{colors.foreground}"
 ---
 
-# Design System: DOPPELGANGER.md
+# Design System: DOPPELGÄNGER.md
 
 ## Overview
 
@@ -141,7 +141,7 @@ Restrained neutrals plus one green accent. Source of truth is `site/preset-b2YPl
 
 ### Hierarchy
 
-- **Display** (550, `clamp(2.25rem, 9vw, 5rem)`, line-height 1): page H1, especially `DOPPELGANGER.md`. From 1280 it tightens to `clamp(2.25rem, 6vw, 4.25rem)` so the filename measure stays short.
+- **Display** (550, `clamp(2.25rem, 9vw, 5rem)`, line-height 1): page H1, especially `DOPPELGÄNGER.md`. From 1280 it tightens to `clamp(2.25rem, 6vw, 4.25rem)` so the filename measure stays short.
 - **Headline** (550, 1.5rem): section H2.
 - **Title** (550, 1.125rem): H3 and the open mobile menu links.
 - **Lede** (400, clamp 1.25–1.5rem): the one sentence under the H1.
@@ -190,7 +190,7 @@ None on the marketing pages. If one appears, use `--input` and `--ring` from the
 
 ### Navigation
 
-The wordmark is `DOPPELGANGER.md`. Subtle translucent bar. Idle links use quiet ink. Current page uses ink and, from 1280, an underline. Two DOM navs exist so CSS can hide one per breakpoint without JavaScript. `display: none` removes the hidden one from the accessibility tree.
+The wordmark is `DOPPELGÄNGER.md`. Subtle translucent bar. Idle links use quiet ink. Current page uses ink and, from 1280, an underline. Two DOM navs exist so CSS can hide one per breakpoint without JavaScript. `display: none` removes the hidden one from the accessibility tree.
 
 ### Theme toggle
 
