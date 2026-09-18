@@ -41,7 +41,7 @@ Writers keep `DOPPELGANGER.md` on disk or in a repo. They load it in the tools t
 - Site and docs must not mention Supervised or Jeroen.
 - Keep the fictional Mara Ellison example.
 - Site pages: home, structure, load, example, FAQ, spec.
-- Visual system is shadcn preset `b2YPlg` (nova, green on neutral, DM Sans, lucide, default radius, subtle translucent menu). Not zinc.
+- Visual system is an own oklch token set (true-black dark, paper light, radius 0, Archivo plus JetBrains Mono). No shadcn preset. The home structure figure is generated from the `SECTIONS` registry.
 - Mobile-first: 390px, then 1280px.
 
 ## Brand Commitments
@@ -49,9 +49,9 @@ Writers keep `DOPPELGANGER.md` on disk or in a repo. They load it in the tools t
 - File name: DOPPELGANGER.md. Host: doppelganger.md.
 - Voice: short, plain English. Cut copy to the bone. No essays. Home carries one short why paragraph under the lede, not a Why section.
 - Home lead: one open Markdown file that teaches any AI your voice. Never `AGENTS.md` on the home lead.
-- Theme: dark by default from the preset's `.dark` block. A header switch to light persists as `theme` in `localStorage`.
+- Theme: dark by default on true black (`oklch(0 0 0)`). A header switch to light persists as `theme` in `localStorage`.
 - Instant start: Download example (the Mara file) and Copy starter prompt. No npx.
-- Inspiration for rhythm, not assets: agents.md, impeccable.style, terafab.ai. Sparse, huge type, almost no prose.
+- Inspiration for rhythm, not assets: a payload user guide and a measured drawing. Sparse type, hairlines, one figure generated from the spec.
 - No company branding on the site.
 
 ## Evidence on Hand
