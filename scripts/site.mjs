@@ -203,6 +203,7 @@ const REQUIRED_TEXT = {
       '--radius: 0',
       '--font-sans: "Archivo",',
       '--font-mono: "JetBrains Mono",',
+      '.figure-structure .figure-wide {\n  display: none',
       'prefers-reduced-motion: reduce',
     ],
     lacks: [
