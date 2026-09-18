@@ -156,6 +156,8 @@ const REQUIRED_TEXT = {
       'class="figure-structure"',
       'MUST \u00d7 6',
       'figure-fallback',
+      'class="figure-compact"',
+      'class="figure-wide"',
     ],
     lacks: ['AGENTS.md', 'npx'],
   },
@@ -208,6 +210,7 @@ const REQUIRED_TEXT = {
       'hsl(var(',
       'DM Sans',
       'fonts.googleapis.com',
+      '.figure-structure svg {\n  display: none',
       ...RETIRED_PRESETS.flatMap((p) => [p.name, ...p.primaries]),
     ],
   },
@@ -360,18 +363,16 @@ function sectionsTable() {
 }
 
 const BAR_WIDTHS = [
-  [180, 120], [210, 150], [230, 190],
-  [160, 220], [140, 200], [205, 110],
+  [226, 206], [150, 143], [241, 120],
+  [139, 193], [112, 147], [192, 232],
 ]
 
-function structureFigure() {
-  const must = SECTIONS.filter((s) => s.level === 'MUST')
+function structureDrawing(must) {
   const top = 20
   const band = 56
   const x0 = 150
   const w = 300
   const bottom = top + band * must.length
-
   const rules = []
   const leaders = []
   const bars = []
@@ -393,9 +394,7 @@ function structureFigure() {
 
   const label = must.map((s) => s.title).join(', ')
   const mid = (top + bottom) / 2
-
-  return `<figure class="figure-structure">
-<svg viewBox="0 0 1200 380" role="img" aria-label="A ${FILE_NAME} file in ${must.length} required sections, in order: ${escapeHtml(label)}.">
+  const inner = `
   <g class="fig-rect" fill="none" stroke="var(--line-3)" stroke-width="1">
     <rect x="${x0}" y="${top}" width="${w}" height="${band * must.length}"/>
     ${rules.join('\n    ')}
@@ -418,10 +417,20 @@ function structureFigure() {
     <line x1="92" y1="${bottom}" x2="108" y2="${bottom}"/>
   </g>
   <text class="fig-dim" x="74" y="${mid}" fill="var(--ink-3)" text-anchor="middle"
-        transform="rotate(-90 74 ${mid})">MUST \u00d7 ${must.length}</text>
+        transform="rotate(-90 74 ${mid})">MUST \u00d7 ${must.length}</text>`
+  return { inner, label }
+}
+
+function structureFigure() {
+  const must = SECTIONS.filter((s) => s.level === 'MUST')
+  const { inner, label } = structureDrawing(must)
+  const aria = `A ${FILE_NAME} file in ${must.length} required sections, in order: ${escapeHtml(label)}.`
+  return `<figure class="figure-structure">
+<svg class="figure-compact" viewBox="0 0 700 380" role="img" aria-label="${aria}">${inner}
 </svg>
-<p class="figure-count">MUST \u00d7 ${must.length}</p>
-<ol class="figure-fallback">
+<svg class="figure-wide" viewBox="0 0 1200 380" role="img" aria-label="${aria}">${inner}
+</svg>
+<ol class="figure-fallback visually-hidden" aria-hidden="true">
   ${must.map((s) => `<li><b>${escapeHtml(s.title)}</b> ${escapeHtml(s.role)}</li>`).join('\n  ')}
 </ol>
 </figure>`
