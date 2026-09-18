@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import http from 'node:http'
 import path from 'node:path'
@@ -130,10 +131,10 @@ const SPEC_MARKER = 'doppelganger-spec: 0.1'
 const STARTER_PROMPT =
   `Attach or paste ${FILE_NAME}, then write as that voice. Follow Hard bans and Safety. Do not invent facts.`
 
-const RETIRED_PRESET = {
-  name: 'bImeCHq',
-  primaries: ['0.508 0.118 165.612', '0.432 0.095 166.913'],
-}
+const RETIRED_PRESETS = [
+  { name: 'bImeCHq', primaries: ['0.508 0.118 165.612', '0.432 0.095 166.913'] },
+  { name: 'b2YPlg', primaries: ['0.527 0.154 150.069', '0.448 0.119 151.328'] },
+]
 
 const REQUIRED_TEXT = {
   'docs/index.html': {
@@ -152,6 +153,11 @@ const REQUIRED_TEXT = {
       'localStorage',
       'theme-toggle',
       'aria-pressed',
+      'class="figure-structure"',
+      'MUST \u00d7 6',
+      'figure-fallback',
+      'viewBox="0 0 480 380"',
+      'viewBox="0 0 1200 380"',
     ],
     lacks: ['AGENTS.md', 'npx'],
   },
@@ -192,11 +198,21 @@ const REQUIRED_TEXT = {
     has: [
       'html {\n  color-scheme: light;',
       'html.dark {\n  color-scheme: dark;\n}',
-      '--primary: oklch(0.527 0.154 150.069)',
-      '--primary: oklch(0.448 0.119 151.328)',
-      '--font-sans: "DM Sans",',
+      '--ground: oklch(0 0 0)',
+      '--line-3:',
+      '--radius: 0',
+      '--font-sans: "Archivo",',
+      '--font-mono: "JetBrains Mono",',
+      'prefers-reduced-motion: reduce',
     ],
-    lacks: ['240 10%', 'hsl(var(', ...RETIRED_PRESET.primaries, RETIRED_PRESET.name],
+    lacks: [
+      '240 10%',
+      'hsl(var(',
+      'DM Sans',
+      'fonts.googleapis.com',
+      '.figure-structure svg {\n  display: none',
+      ...RETIRED_PRESETS.flatMap((p) => [p.name, ...p.primaries]),
+    ],
   },
 }
 
@@ -346,6 +362,92 @@ function sectionsTable() {
 </table>`
 }
 
+const BAR_WIDTHS = [
+  [180, 120],
+  [210, 150],
+  [230, 190],
+  [160, 220],
+  [140, 200],
+  [205, 110],
+]
+
+function structureSvg(must, variant, aria) {
+  const top = 20
+  const band = 56
+  const x0 = 150
+  const w = 300
+  const bottom = top + band * must.length
+  const midAll = (top + bottom) / 2
+  const compact = variant === 'compact'
+  const viewBox = compact ? '0 0 480 380' : '0 0 1200 380'
+  const cls = compact ? 'figure-compact' : 'figure-wide'
+  const rules = []
+  const leaders = []
+  const bars = []
+  const names = []
+  const roles = []
+
+  must.forEach((section, i) => {
+    const y = top + i * band
+    const mid = y + band / 2
+    if (i) rules.push(`<line x1="${x0}" y1="${y}" x2="${x0 + w}" y2="${y}"/>`)
+    if (compact) {
+      names.push(`<text x="${x0 + 16}" y="${mid + 4}">${escapeHtml(section.title)}</text>`)
+    } else {
+      leaders.push(`<line x1="${x0 + w}" y1="${mid}" x2="${x0 + w + 70}" y2="${mid}"/>`)
+      names.push(`<text x="${x0 + w + 82}" y="${mid + 4}">${escapeHtml(section.title)}</text>`)
+      roles.push(`<text x="770" y="${mid + 4}">${escapeHtml(section.role)}</text>`)
+      const widths = BAR_WIDTHS[i % BAR_WIDTHS.length]
+      widths.forEach((bw, j) => {
+        bars.push(`<rect x="${x0 + 20}" y="${y + 16 + j * 12}" width="${bw}" height="3"/>`)
+      })
+    }
+  })
+
+  const extra = compact
+    ? ''
+    : `  <g class="fig-leader" stroke="var(--line-2)" stroke-width="1">
+    ${leaders.join('\n    ')}
+  </g>
+  <g fill="var(--line-2)">
+    ${bars.join('\n    ')}
+  </g>
+  <g class="fig-role" fill="var(--ink-4)">
+    ${roles.join('\n    ')}
+  </g>
+`
+
+  return `<svg class="${cls}" viewBox="${viewBox}" role="img" aria-label="${aria}">
+  <g class="fig-rect" fill="none" stroke="var(--line-3)" stroke-width="1">
+    <rect x="${x0}" y="${top}" width="${w}" height="${band * must.length}"/>
+    ${rules.join('\n    ')}
+  </g>
+${extra}  <g class="fig-name" fill="${compact ? 'var(--ink)' : 'var(--ink-2)'}">
+    ${names.join('\n    ')}
+  </g>
+  <g stroke="var(--line-3)" stroke-width="1">
+    <line x1="100" y1="${top}" x2="100" y2="${bottom}"/>
+    <line x1="92" y1="${top}" x2="108" y2="${top}"/>
+    <line x1="92" y1="${bottom}" x2="108" y2="${bottom}"/>
+  </g>
+  <text class="fig-dim" x="74" y="${midAll}" fill="var(--ink-3)" text-anchor="middle"
+        transform="rotate(-90 74 ${midAll})">MUST \u00d7 ${must.length}</text>
+</svg>`
+}
+
+function structureFigure() {
+  const must = SECTIONS.filter((s) => s.level === 'MUST')
+  const label = must.map((s) => s.title).join(', ')
+  const aria = `A ${FILE_NAME} file in ${must.length} required sections, in order: ${escapeHtml(label)}.`
+  return `<figure class="figure-structure">
+${structureSvg(must, 'compact', aria)}
+${structureSvg(must, 'wide', aria)}
+<ol class="figure-fallback visually-hidden">
+  ${must.map((s) => `<li><b>${escapeHtml(s.title)}</b> ${escapeHtml(s.role)}</li>`).join('\n  ')}
+</ol>
+</figure>`
+}
+
 function slug(text) {
   return text
     .normalize('NFD')
@@ -467,6 +569,7 @@ function pageContent(page) {
   let body = read(`site/pages/${page.id}.html`)
   if (page.id === 'index') {
     body = body.replaceAll('{{STARTER_PROMPT}}', () => escapeHtml(STARTER_PROMPT))
+    body = body.replace('{{STRUCTURE_FIGURE}}', structureFigure())
   }
   if (page.id === 'structure') body = body.replace('{{SECTIONS_TABLE}}', sectionsTable())
   if (page.id === 'example') {
@@ -489,6 +592,10 @@ export function build() {
   write('docs/favicon.svg', read('site/favicon.svg'))
   write('docs/og.svg', read('site/og.svg'))
   copyFile('site/og.png', 'docs/og.png')
+  copyFile('site/apple-touch-icon.png', 'docs/apple-touch-icon.png')
+  for (const name of fs.readdirSync(path.join(root, 'site/fonts'))) {
+    copyFile(`site/fonts/${name}`, `docs/fonts/${name}`)
+  }
   write('docs/llms.txt', llmsTxt())
   write('docs/llms-full.txt', llmsFullTxt())
   write('docs/robots.txt', robotsTxt())
@@ -595,6 +702,9 @@ export function verify() {
       fail(failures, `${rel} is missing twitter:card=summary_large_image`)
     }
     if (/github\.io/i.test(html)) fail(failures, `${rel} must not cite a GitHub Pages URL`)
+    if (html.includes('fonts.googleapis.com') || html.includes('fonts.gstatic.com')) {
+      fail(failures, `${rel} must not load Google Fonts`)
+    }
     if (/AggregateRating/i.test(html)) fail(failures, `${rel} must not include AggregateRating`)
     if (/ProfessionalService/i.test(html)) fail(failures, `${rel} must not include ProfessionalService`)
     for (const brand of BANNED_BRAND) {
@@ -947,6 +1057,40 @@ export function verify() {
     fail(failures, 'docs/og.png must be a PNG')
   }
 
+  const appleSrc = path.join(root, 'site/apple-touch-icon.png')
+  const appleOut = path.join(root, 'docs/apple-touch-icon.png')
+  if (!fs.existsSync(appleSrc)) fail(failures, 'site/apple-touch-icon.png is missing')
+  if (!fs.existsSync(appleOut)) fail(failures, 'docs/apple-touch-icon.png is missing')
+  else if (!fs.readFileSync(appleSrc).equals(fs.readFileSync(appleOut))) {
+    fail(failures, 'docs/apple-touch-icon.png is not a byte copy of site/apple-touch-icon.png')
+  }
+
+  const fontsSrc = path.join(root, 'site/fonts')
+  if (!fs.existsSync(fontsSrc)) {
+    fail(failures, 'site/fonts is missing')
+  } else {
+    const names = fs.readdirSync(fontsSrc)
+    if (!names.length) fail(failures, 'site/fonts is empty')
+    for (const name of names) {
+      const dest = path.join(root, 'docs/fonts', name)
+      if (!fs.existsSync(dest)) fail(failures, `docs/fonts/${name} is missing`)
+      else if (!fs.readFileSync(path.join(fontsSrc, name)).equals(fs.readFileSync(dest))) {
+        fail(failures, `docs/fonts/${name} is stale`)
+      }
+    }
+  }
+
+  const mark = spawnSync(process.execPath, [path.join(root, 'scripts/mark.mjs'), '--check'], {
+    cwd: root,
+    encoding: 'utf8',
+  })
+  if (mark.status !== 0) {
+    fail(
+      failures,
+      `scripts/mark.mjs --check failed: ${(mark.stderr || mark.stdout || '').trim()}`,
+    )
+  }
+
   if (failures.length) {
     const text = failures.map((item) => `FAIL ${item}`).join('\n')
     throw new Error(text)
@@ -964,6 +1108,7 @@ function preview() {
     '.png': 'image/png',
     '.txt': 'text/plain; charset=utf-8',
     '.xml': 'application/xml; charset=utf-8',
+    '.woff2': 'font/woff2',
   }
   const server = http.createServer((req, res) => {
     const url = new URL(req.url || '/', 'http://127.0.0.1')
