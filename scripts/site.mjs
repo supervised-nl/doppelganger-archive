@@ -156,7 +156,18 @@ const REQUIRED_TEXT = {
     lacks: ['AGENTS.md', 'npx'],
   },
   'docs/load.html': {
-    has: ['ChatGPT', 'Sources', 'Add files', 'Claude', 'Gemini', 'Cursor', 'Paste', '1,500', '5,000'],
+    has: [
+      'ChatGPT',
+      'Sources',
+      'Add files',
+      'Claude',
+      'Gemini',
+      'Cursor',
+      'Paste',
+      '1,500',
+      '5,000',
+      'If a chat tool will not fetch the',
+    ],
     lacks: ['AGENTS.md'],
   },
   'docs/example.html': { has: ['Mara Ellison'] },
@@ -485,6 +496,7 @@ export function build() {
   write('docs/SPEC.md', read('SPEC.md'))
   write('docs/LICENSE', read('LICENSE'))
   write(`docs/${FILE_NAME}`, read(`examples/${FILE_NAME}`))
+  write('docs/_headers', read('site/_headers'))
   write('docs/.nojekyll', '')
 }
 
@@ -640,6 +652,28 @@ export function verify() {
   }
   if (read(`docs/${FILE_NAME}`) !== example) {
     fail(failures, `docs/${FILE_NAME} is not a byte copy of examples/${FILE_NAME}`)
+  }
+
+  const headersRel = 'docs/_headers'
+  if (!fs.existsSync(path.join(root, headersRel))) {
+    fail(failures, `${headersRel} is missing`)
+  } else {
+    const builtHeaders = read(headersRel)
+    if (builtHeaders !== read('site/_headers')) {
+      fail(failures, `${headersRel} is stale vs site/_headers`)
+    }
+    if (!builtHeaders.includes('/*.md')) {
+      fail(failures, `${headersRel} is missing /*.md`)
+    }
+    if (!builtHeaders.includes('Content-Type: text/plain; charset=utf-8')) {
+      fail(failures, `${headersRel} is missing Content-Type: text/plain; charset=utf-8`)
+    }
+    if ((builtHeaders.match(/Content-Type:/gi) || []).length !== 1) {
+      fail(failures, `${headersRel} must set Content-Type once`)
+    }
+    if (/^\/(DOPPELGANGER|SPEC)\.md\s*$/m.test(builtHeaders)) {
+      fail(failures, `${headersRel} must not add per-path Markdown rules`)
+    }
   }
 
   const discovery = {
@@ -925,7 +959,7 @@ function preview() {
   const types = {
     '.html': 'text/html; charset=utf-8',
     '.css': 'text/css; charset=utf-8',
-    '.md': 'text/markdown; charset=utf-8',
+    '.md': 'text/plain; charset=utf-8',
     '.svg': 'image/svg+xml',
     '.png': 'image/png',
     '.txt': 'text/plain; charset=utf-8',
