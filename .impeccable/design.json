@@ -9,7 +9,7 @@
       "primary": { "role": "primary", "displayName": "Ink invert", "canonical": "oklch(0.145 0 0)", "tonalRamp": ["oklch(0 0 0)", "oklch(0.145 0 0)", "oklch(1 0 0)"] }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "The filename H1. Archivo wdth 112, weight 700." },
+      "display": { "displayName": "Display", "purpose": "The filename H1. Archivo wdth 112, weight 700. 1.95rem floor at 390 so the name fits." },
       "body": { "displayName": "Body", "purpose": "Short sentences. Measure 65ch. Archivo wdth 100." },
       "code": { "displayName": "Mono", "purpose": "Filenames, versions, figure labels, table headers, RFC 2119 level, code." }
     },

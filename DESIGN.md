@@ -17,7 +17,7 @@ colors:
 typography:
   display:
     fontFamily: "Archivo, Helvetica Neue, Helvetica, Arial, sans-serif"
-    fontSize: "clamp(2.25rem, 9vw, 4.5rem)"
+    fontSize: "clamp(1.95rem, 8vw, 4.5rem)"
     fontWeight: 700
     lineHeight: 1
     letterSpacing: "-0.035em"
@@ -149,7 +149,7 @@ Caret, accent, and selection use `--ink`, not a leftover primary.
 
 ### Hierarchy
 
-- **Display** (700, stretch 112, `clamp(2.25rem, 9vw, 4.5rem)`, line-height 1, tracking -0.035em): page H1, especially `DOPPELGÄNGER.md`. From 1280 it tightens to `clamp(2.25rem, 6vw, 4rem)`.
+- **Display** (700, stretch 112, `clamp(1.95rem, 8vw, 4.5rem)` at 390 so `DOPPELGÄNGER.md` fits without sideways scroll, line-height 1, tracking -0.035em): page H1. From 1280 it uses `clamp(2.25rem, 6vw, 4rem)`.
 - **Headline** (700, stretch 106, 1.5rem, line-height 1.12, tracking -0.025em): section H2.
 - **Title** (600, stretch 104, 1.125rem, line-height 1.2, tracking -0.02em): H3.
 - **Lede** (400, clamp 1.25–1.5rem, line-height 1.35): the one sentence under the H1.
