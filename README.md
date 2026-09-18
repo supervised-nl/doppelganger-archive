@@ -28,6 +28,8 @@ Voice only. Not coding instructions, not a visual brand kit, not secrets.
 node scripts/site.mjs verify
 ```
 
+Requires Node.js 22.18 or newer.
+
 ## License
 
 [CC0 1.0](LICENSE)

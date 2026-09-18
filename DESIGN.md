@@ -141,12 +141,12 @@ Archivo width is the technical tone: display at `wdth` 112, headlines at 106, ti
 
 ### Hierarchy
 
-- **Display** (700, `clamp(2.25rem, 9vw, 4.5rem)`, line-height 1, tracking -0.035em): page H1. From 1280, `clamp(2.25rem, 6vw, 4rem)`.
+- **Display** (700, `clamp(2.25rem, 9vw, 4.5rem)`, line-height 1, tracking -0.035em, `wdth` 112): page H1. From 1280, `clamp(2.25rem, 5vw, 3.7rem)` so `DOPPELGÄNGER.md` stays inside the 42rem column at stretch 112%.
 - **Headline** (700, 1.5rem, line-height 1.12): section H2.
 - **Title** (600, 1.125rem, line-height 1.2): H3 and FAQ questions.
 - **Lede** (400, clamp 1.25–1.5rem, line-height 1.35): the one sentence under the H1.
 - **Body** (400, 1.0625rem, 1.6): everything else. Measure 65ch inside a 42rem column.
-- **Label** (JetBrains Mono, 0.75rem, tracking 0.06em): footer, table headers, RFC 2119 levels, figure roles.
+- **Label** (JetBrains Mono, 0.75rem, tracking 0.06em): footer, table headers, RFC 2119 levels, figure roles. Impeccable `wide-tracking` on these labels is expected. Keep 0.06em. Do not tighten tracking to silence the detector.
 - **Code** (JetBrains Mono, 0.875rem): filenames, versions, inline code, `pre.file`. Ligatures off.
 
 **The Filename-Is-The-Display Rule.** The H1 is the product name. Do not add a kicker above it.

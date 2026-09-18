@@ -8,7 +8,7 @@
       "ink": { "role": "neutral", "displayName": "Ink", "canonical": "oklch(0.145 0 0)", "tonalRamp": ["oklch(0 0 0)", "oklch(0.145 0 0)", "oklch(0.371 0 0)", "oklch(0.45 0 0)", "oklch(0.556 0 0)", "oklch(0.64 0 0)", "oklch(0.82 0 0)", "oklch(1 0 0)"] }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "The filename H1. Archivo wdth 112, wght 700." },
+      "display": { "displayName": "Display", "purpose": "The filename H1. Archivo wdth 112, wght 700. Desktop cap 3.7rem so the filename fits the 42rem column." },
       "body": { "displayName": "Body", "purpose": "Short sentences. Archivo wdth 100. Measure 65ch." },
       "code": { "displayName": "Mono", "purpose": "Filenames, versions, figure labels, table headers, RFC 2119 levels, and the inlined example file." }
     },
