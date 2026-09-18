@@ -158,6 +158,8 @@ const REQUIRED_TEXT = {
       'figure-fallback',
       'class="figure-compact"',
       'class="figure-wide"',
+      'viewBox="0 0 480 380"',
+      'viewBox="0 0 1200 380"',
     ],
     lacks: ['AGENTS.md', 'npx'],
   },
@@ -367,7 +369,7 @@ const BAR_WIDTHS = [
   [139, 193], [112, 147], [192, 232],
 ]
 
-function structureDrawing(must) {
+function structureDrawing(must, { compact = false } = {}) {
   const top = 20
   const band = 56
   const x0 = 150
@@ -383,13 +385,17 @@ function structureDrawing(must) {
     const y = top + i * band
     const mid = y + band / 2
     if (i) rules.push(`<line x1="${x0}" y1="${y}" x2="${x0 + w}" y2="${y}"/>`)
-    leaders.push(`<line x1="${x0 + w}" y1="${mid}" x2="${x0 + w + 70}" y2="${mid}"/>`)
-    names.push(`<text x="${x0 + w + 82}" y="${mid + 4}">${escapeHtml(section.title)}</text>`)
-    roles.push(`<text x="770" y="${mid + 4}">${escapeHtml(section.role)}</text>`)
     const widths = BAR_WIDTHS[i % BAR_WIDTHS.length]
     widths.forEach((bw, j) => {
       bars.push(`<rect x="${x0 + 20}" y="${y + 16 + j * 12}" width="${bw}" height="3"/>`)
     })
+    if (compact) {
+      names.push(`<text x="${x0 + 24}" y="${y + 50}">${escapeHtml(section.title)}</text>`)
+    } else {
+      leaders.push(`<line x1="${x0 + w}" y1="${mid}" x2="${x0 + w + 70}" y2="${mid}"/>`)
+      names.push(`<text x="${x0 + w + 82}" y="${mid + 4}">${escapeHtml(section.title)}</text>`)
+      roles.push(`<text x="770" y="${mid + 4}">${escapeHtml(section.role)}</text>`)
+    }
   })
 
   const label = must.map((s) => s.title).join(', ')
@@ -399,18 +405,26 @@ function structureDrawing(must) {
     <rect x="${x0}" y="${top}" width="${w}" height="${band * must.length}"/>
     ${rules.join('\n    ')}
   </g>
-  <g class="fig-leader" stroke="var(--line-2)" stroke-width="1">
+  ${
+    compact
+      ? ''
+      : `<g class="fig-leader" stroke="var(--line-2)" stroke-width="1">
     ${leaders.join('\n    ')}
-  </g>
+  </g>`
+  }
   <g fill="var(--line-2)">
     ${bars.join('\n    ')}
   </g>
   <g class="fig-name" fill="var(--ink-2)">
     ${names.join('\n    ')}
   </g>
-  <g class="fig-role" fill="var(--ink-4)">
+  ${
+    compact
+      ? ''
+      : `<g class="fig-role" fill="var(--ink-4)">
     ${roles.join('\n    ')}
-  </g>
+  </g>`
+  }
   <g stroke="var(--line-3)" stroke-width="1">
     <line x1="100" y1="${top}" x2="100" y2="${bottom}"/>
     <line x1="92" y1="${top}" x2="108" y2="${top}"/>
@@ -423,12 +437,13 @@ function structureDrawing(must) {
 
 function structureFigure() {
   const must = SECTIONS.filter((s) => s.level === 'MUST')
-  const { inner, label } = structureDrawing(must)
-  const aria = `A ${FILE_NAME} file in ${must.length} required sections, in order: ${escapeHtml(label)}.`
+  const wide = structureDrawing(must)
+  const compact = structureDrawing(must, { compact: true })
+  const aria = `A ${FILE_NAME} file in ${must.length} required sections, in order: ${escapeHtml(wide.label)}.`
   return `<figure class="figure-structure">
-<svg class="figure-compact" viewBox="0 0 700 380" role="img" aria-label="${aria}">${inner}
+<svg class="figure-compact" viewBox="0 0 480 380" role="img" aria-label="${aria}">${compact.inner}
 </svg>
-<svg class="figure-wide" viewBox="0 0 1200 380" role="img" aria-label="${aria}">${inner}
+<svg class="figure-wide" viewBox="0 0 1200 380" role="img" aria-label="${aria}">${wide.inner}
 </svg>
 <ol class="figure-fallback visually-hidden" aria-hidden="true">
   ${must.map((s) => `<li><b>${escapeHtml(s.title)}</b> ${escapeHtml(s.role)}</li>`).join('\n  ')}

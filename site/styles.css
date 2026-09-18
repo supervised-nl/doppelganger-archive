@@ -518,12 +518,20 @@ td:first-child {
   font-size: 13px;
 }
 
+.figure-compact .fig-name {
+  font-size: 16px;
+}
+
 .fig-role {
   font-size: 12px;
 }
 
 .fig-dim {
   font-size: 12px;
+}
+
+.figure-compact .fig-dim {
+  font-size: 14px;
 }
 
 .fig-leader line {
