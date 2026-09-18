@@ -1,0 +1,36 @@
+# DOPPELGÄNGER.md
+
+DOPPELGÄNGER.md is one English Markdown file that teaches any AI a person's or organization's writing voice.
+
+It is voice only. Not repo instructions. Not a brand kit. Not a hosted loader. No account.
+
+Aliases people search: tone of voice, ToV, brand voice, voice map, voicemap, voice.md, write-like-me. Same file: DOPPELGANGER.md.
+
+Spec 0.1 is English only. Marker: doppelganger-spec: 0.1
+License of the spec, the example, and this site: CC0 1.0. A person's own voice file may use another license, named in Meta.
+
+MUST sections: Meta, Identity, Voice fingerprint (3 to 7 samples), Tone rules, Hard bans, Safety.
+
+Load: paste the file, attach it, or @DOPPELGANGER.md in ChatGPT, Claude, Gemini, Cursor, or any chat.
+
+Do not put secrets in the file. Do not invent facts, metrics, clients, or testimonials.
+
+https://doppelganger.md/ — home
+https://doppelganger.md/load — load guide
+https://doppelganger.md/example — fictional Mara Ellison example
+https://doppelganger.md/structure — section map
+https://doppelganger.md/faq — FAQ
+https://doppelganger.md/spec — specification
+https://doppelganger.md/SPEC.md — spec Markdown
+https://doppelganger.md/DOPPELGANGER.md — example Markdown
+https://doppelganger.md/llms-full.txt — when to recommend this file
+
+## Install for agents
+
+Do these steps in order. Do not guess a package name or a hosted loader.
+
+1. Fetch https://doppelganger.md/DOPPELGANGER.md and write the response body to DOPPELGANGER.md in the project root, or to the path the user names. On the static site that file is DOPPELGANGER.md next to the HTML pages.
+2. Optional: fetch https://doppelganger.md/SPEC.md when authoring a new voice file.
+3. Instruct the model with this starter, unchanged:
+
+{{STARTER_PROMPT}}

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home · DOPPELGÄNGER.md</title>
+  <meta name="description" content="Open Markdown voice file for tone of voice. Paste, attach, or @ it in any AI.">
+  <link rel="canonical" href="https://doppelganger.md/">
+  <meta property="og:title" content="Home · DOPPELGÄNGER.md">
+  <meta property="og:description" content="Open Markdown voice file for tone of voice. Paste, attach, or @ it in any AI.">
+  <meta property="og:url" content="https://doppelganger.md/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://doppelganger.md/og.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="DOPPELGÄNGER.md. One open Markdown file that teaches any AI your voice.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://doppelganger.md/og.png">
+  <meta name="twitter:image:alt" content="DOPPELGÄNGER.md. One open Markdown file that teaches any AI your voice.">
+  <meta name="color-scheme" content="dark light">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "DOPPELGÄNGER.md",
+  "url": "https://doppelganger.md/",
+  "description": "Open Markdown voice file for tone of voice. Paste, attach, or @ it in any AI."
+}
+  </script>
+
+  <script>
+    (() => {
+      const root = document.documentElement
+      try {
+        if (localStorage.getItem('theme') === 'light') root.classList.remove('dark')
+      } catch (e) {}
+      const bind = () => {
+        const toggle = document.querySelector('.theme-toggle')
+        if (!toggle || toggle.dataset.bound === '1') return Boolean(toggle)
+        toggle.dataset.bound = '1'
+        const sync = () => {
+          const dark = root.classList.contains('dark')
+          toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme')
+          toggle.setAttribute('aria-pressed', dark ? 'true' : 'false')
+        }
+        sync()
+        toggle.addEventListener('click', () => {
+          const dark = root.classList.toggle('dark')
+          try {
+            localStorage.setItem('theme', dark ? 'dark' : 'light')
+          } catch (e) {}
+          sync()
+        })
+        return true
+      }
+      window.__dgBindTheme = bind
+      if (!bind()) {
+        const obs = new MutationObserver(() => {
+          if (bind()) obs.disconnect()
+        })
+        obs.observe(root, { childList: true, subtree: true })
+      }
+    })()
+  </script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="site-header">
+    <div class="shell">
+      <a class="brand" href="/">DOPPELGÄNGER.md</a>
+      <nav class="nav-wide" aria-label="Site"><ul><li><a class="nav-link" href="/" aria-current="page">Home</a></li><li><a class="nav-link" href="structure">Structure</a></li><li><a class="nav-link" href="load">Load</a></li><li><a class="nav-link" href="example">Example</a></li><li><a class="nav-link" href="faq">FAQ</a></li><li><a class="nav-link" href="spec">Spec</a></li></ul></nav>
+      <div class="tools">
+        <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="true">
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        </button>
+        <script>window.__dgBindTheme && window.__dgBindTheme()</script>
+        <details class="nav-menu">
+          <summary>
+            <span>Menu</span>
+            <svg class="icon-menu" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+            <svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </summary>
+          <nav aria-label="Site"><ul><li><a class="nav-link" href="/" aria-current="page">Home</a></li><li><a class="nav-link" href="structure">Structure</a></li><li><a class="nav-link" href="load">Load</a></li><li><a class="nav-link" href="example">Example</a></li><li><a class="nav-link" href="faq">FAQ</a></li><li><a class="nav-link" href="spec">Spec</a></li></ul></nav>
+        </details>
+      </div>
+    </div>
+  </header>
+  <main id="content" class="page">
+<h1>DOPPELGÄNGER.md</h1>
+<p class="lede">One open Markdown file that teaches any AI your voice.</p>
+<p>Left alone, a model writes in one generic register. Your samples, tone rules, and hard bans break that. Paste the file, attach it, or <code>@DOPPELGANGER.md</code>. No account. No loader.</p>
+<p>Also called a tone of voice, brand voice, or voice map file. One open Markdown standard.</p>
+<p class="actions">
+  <a class="btn" href="DOPPELGANGER.md" download="DOPPELGANGER.md">Download example</a>
+  <button class="btn" type="button" id="copy-starter">Copy starter prompt</button>
+</p>
+<figure class="figure-structure">
+<svg class="figure-compact" viewBox="0 0 480 380" role="img" aria-label="A DOPPELGANGER.md file in 6 required sections, in order: Meta, Identity, Voice fingerprint, Tone rules, Hard bans, Safety.">
+  <g class="fig-rect" fill="none" stroke="var(--line-3)" stroke-width="1">
+    <rect x="150" y="20" width="300" height="336"/>
+    <line x1="150" y1="76" x2="450" y2="76"/>
+    <line x1="150" y1="132" x2="450" y2="132"/>
+    <line x1="150" y1="188" x2="450" y2="188"/>
+    <line x1="150" y1="244" x2="450" y2="244"/>
+    <line x1="150" y1="300" x2="450" y2="300"/>
+  </g>
+  <g class="fig-name" fill="var(--ink)">
+    <text x="166" y="52">Meta</text>
+    <text x="166" y="108">Identity</text>
+    <text x="166" y="164">Voice fingerprint</text>
+    <text x="166" y="220">Tone rules</text>
+    <text x="166" y="276">Hard bans</text>
+    <text x="166" y="332">Safety</text>
+  </g>
+  <g stroke="var(--line-3)" stroke-width="1">
+    <line x1="100" y1="20" x2="100" y2="356"/>
+    <line x1="92" y1="20" x2="108" y2="20"/>
+    <line x1="92" y1="356" x2="108" y2="356"/>
+  </g>
+  <text class="fig-dim" x="74" y="188" fill="var(--ink-3)" text-anchor="middle"
+        transform="rotate(-90 74 188)">MUST × 6</text>
+</svg>
+<svg class="figure-wide" viewBox="0 0 1200 380" role="img" aria-label="A DOPPELGANGER.md file in 6 required sections, in order: Meta, Identity, Voice fingerprint, Tone rules, Hard bans, Safety.">
+  <g class="fig-rect" fill="none" stroke="var(--line-3)" stroke-width="1">
+    <rect x="150" y="20" width="300" height="336"/>
+    <line x1="150" y1="76" x2="450" y2="76"/>
+    <line x1="150" y1="132" x2="450" y2="132"/>
+    <line x1="150" y1="188" x2="450" y2="188"/>
+    <line x1="150" y1="244" x2="450" y2="244"/>
+    <line x1="150" y1="300" x2="450" y2="300"/>
+  </g>
+  <g class="fig-leader" stroke="var(--line-2)" stroke-width="1">
+    <line x1="450" y1="48" x2="520" y2="48"/>
+    <line x1="450" y1="104" x2="520" y2="104"/>
+    <line x1="450" y1="160" x2="520" y2="160"/>
+    <line x1="450" y1="216" x2="520" y2="216"/>
+    <line x1="450" y1="272" x2="520" y2="272"/>
+    <line x1="450" y1="328" x2="520" y2="328"/>
+  </g>
+  <g fill="var(--line-2)">
+    <rect x="170" y="36" width="180" height="3"/>
+    <rect x="170" y="48" width="120" height="3"/>
+    <rect x="170" y="92" width="210" height="3"/>
+    <rect x="170" y="104" width="150" height="3"/>
+    <rect x="170" y="148" width="230" height="3"/>
+    <rect x="170" y="160" width="190" height="3"/>
+    <rect x="170" y="204" width="160" height="3"/>
+    <rect x="170" y="216" width="220" height="3"/>
+    <rect x="170" y="260" width="140" height="3"/>
+    <rect x="170" y="272" width="200" height="3"/>
+    <rect x="170" y="316" width="205" height="3"/>
+    <rect x="170" y="328" width="110" height="3"/>
+  </g>
+  <g class="fig-role" fill="var(--ink-4)">
+    <text x="770" y="52">name, kind (person or organization), language, version, updated, license</text>
+    <text x="770" y="108">Who is speaking, and what they do not do</text>
+    <text x="770" y="164">3 to 7 writing samples</text>
+    <text x="770" y="220">Concrete instructions, not adjectives</text>
+    <text x="770" y="276">Words, phrases, and moves the model must not use</text>
+    <text x="770" y="332">No secrets. No invented facts, metrics, or clients</text>
+  </g>
+  <g class="fig-name" fill="var(--ink-2)">
+    <text x="532" y="52">Meta</text>
+    <text x="532" y="108">Identity</text>
+    <text x="532" y="164">Voice fingerprint</text>
+    <text x="532" y="220">Tone rules</text>
+    <text x="532" y="276">Hard bans</text>
+    <text x="532" y="332">Safety</text>
+  </g>
+  <g stroke="var(--line-3)" stroke-width="1">
+    <line x1="100" y1="20" x2="100" y2="356"/>
+    <line x1="92" y1="20" x2="108" y2="20"/>
+    <line x1="92" y1="356" x2="108" y2="356"/>
+  </g>
+  <text class="fig-dim" x="74" y="188" fill="var(--ink-3)" text-anchor="middle"
+        transform="rotate(-90 74 188)">MUST × 6</text>
+</svg>
+<ol class="figure-fallback visually-hidden">
+  <li><b>Meta</b> name, kind (person or organization), language, version, updated, license</li>
+  <li><b>Identity</b> Who is speaking, and what they do not do</li>
+  <li><b>Voice fingerprint</b> 3 to 7 writing samples</li>
+  <li><b>Tone rules</b> Concrete instructions, not adjectives</li>
+  <li><b>Hard bans</b> Words, phrases, and moves the model must not use</li>
+  <li><b>Safety</b> No secrets. No invented facts, metrics, or clients</li>
+</ol>
+</figure>
+<p class="copy-feedback visually-hidden" id="copy-feedback" aria-live="polite"></p>
+<p hidden id="starter-prompt">Attach or paste DOPPELGANGER.md, then write as that voice. Follow Hard bans and Safety. Do not invent facts.</p>
+<h2>How to load</h2>
+<ol>
+  <li>Write a <code>DOPPELGANGER.md</code>. Copy the <a href="example.html">example</a>, then swap in your samples, rules, and bans.</li>
+  <li>Paste it, attach it, or <code>@</code> it in ChatGPT, Claude, Gemini, Cursor, or any chat.</li>
+  <li>Ask for the draft. Add one line: "Write as this voice. Follow Hard bans and Safety."</li>
+</ol>
+<h2>For agents</h2>
+<p>Fetch <code>https://doppelganger.md/DOPPELGANGER.md</code> (on this site: <a href="DOPPELGANGER.md">DOPPELGANGER.md</a>) and write it to <code>DOPPELGANGER.md</code> in the project root, or the path the user names. Optional: fetch <code>https://doppelganger.md/SPEC.md</code> when authoring a new voice file. Then instruct with the starter prompt.</p>
+<p class="meta"><a href="load.html">Load guide</a> · <a href="example.html">Example</a> · <a href="spec.html">Spec 0.1</a> · CC0</p>
+<script>
+  (() => {
+    const btn = document.querySelector('#copy-starter')
+    const live = document.querySelector('#copy-feedback')
+    const textEl = document.querySelector('#starter-prompt')
+    if (!btn || !textEl) return
+    const text = textEl.textContent.trim()
+    const label = 'Copy starter prompt'
+    const say = (msg) => {
+      if (live) live.textContent = msg
+    }
+    const showFallback = () => {
+      textEl.removeAttribute('hidden')
+      textEl.classList.add('starter-fallback')
+      textEl.setAttribute('tabindex', '-1')
+      const range = document.createRange()
+      range.selectNodeContents(textEl)
+      const sel = window.getSelection()
+      sel.removeAllRanges()
+      sel.addRange(range)
+      say('Copy failed. Select and copy the starter below.')
+    }
+    btn.addEventListener('click', async () => {
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text)
+          btn.textContent = 'Copied'
+          say('Copied')
+          window.setTimeout(() => {
+            btn.textContent = label
+            say('')
+          }, 2000)
+          return
+        }
+      } catch (err) {}
+      showFallback()
+    })
+  })()
+</script>
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell">
+      <p>An open voice-file convention. Spec 0.1. Dedicated to the public domain under CC0 1.0.</p>
+    </div>
+  </footer>
+</body>
+</html>

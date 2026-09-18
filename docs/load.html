@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to load · DOPPELGÄNGER.md</title>
+  <meta name="description" content="How to load the DOPPELGANGER.md voice file in ChatGPT, Claude, Gemini, or Cursor.">
+  <link rel="canonical" href="https://doppelganger.md/load">
+  <meta property="og:title" content="How to load · DOPPELGÄNGER.md">
+  <meta property="og:description" content="How to load the DOPPELGANGER.md voice file in ChatGPT, Claude, Gemini, or Cursor.">
+  <meta property="og:url" content="https://doppelganger.md/load">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://doppelganger.md/og.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="DOPPELGÄNGER.md. One open Markdown file that teaches any AI your voice.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://doppelganger.md/og.png">
+  <meta name="twitter:image:alt" content="DOPPELGÄNGER.md. One open Markdown file that teaches any AI your voice.">
+  <meta name="color-scheme" content="dark light">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <script>
+    (() => {
+      const root = document.documentElement
+      try {
+        if (localStorage.getItem('theme') === 'light') root.classList.remove('dark')
+      } catch (e) {}
+      const bind = () => {
+        const toggle = document.querySelector('.theme-toggle')
+        if (!toggle || toggle.dataset.bound === '1') return Boolean(toggle)
+        toggle.dataset.bound = '1'
+        const sync = () => {
+          const dark = root.classList.contains('dark')
+          toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme')
+          toggle.setAttribute('aria-pressed', dark ? 'true' : 'false')
+        }
+        sync()
+        toggle.addEventListener('click', () => {
+          const dark = root.classList.toggle('dark')
+          try {
+            localStorage.setItem('theme', dark ? 'dark' : 'light')
+          } catch (e) {}
+          sync()
+        })
+        return true
+      }
+      window.__dgBindTheme = bind
+      if (!bind()) {
+        const obs = new MutationObserver(() => {
+          if (bind()) obs.disconnect()
+        })
+        obs.observe(root, { childList: true, subtree: true })
+      }
+    })()
+  </script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="site-header">
+    <div class="shell">
+      <a class="brand" href="/">DOPPELGÄNGER.md</a>
+      <nav class="nav-wide" aria-label="Site"><ul><li><a class="nav-link" href="/">Home</a></li><li><a class="nav-link" href="structure">Structure</a></li><li><a class="nav-link" href="load" aria-current="page">Load</a></li><li><a class="nav-link" href="example">Example</a></li><li><a class="nav-link" href="faq">FAQ</a></li><li><a class="nav-link" href="spec">Spec</a></li></ul></nav>
+      <div class="tools">
+        <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="true">
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        </button>
+        <script>window.__dgBindTheme && window.__dgBindTheme()</script>
+        <details class="nav-menu">
+          <summary>
+            <span>Menu</span>
+            <svg class="icon-menu" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+            <svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </summary>
+          <nav aria-label="Site"><ul><li><a class="nav-link" href="/">Home</a></li><li><a class="nav-link" href="structure">Structure</a></li><li><a class="nav-link" href="load" aria-current="page">Load</a></li><li><a class="nav-link" href="example">Example</a></li><li><a class="nav-link" href="faq">FAQ</a></li><li><a class="nav-link" href="spec">Spec</a></li></ul></nav>
+        </details>
+      </div>
+    </div>
+  </header>
+  <main id="content" class="page">
+<h1>How to load</h1>
+<p>Paste the file, attach it, or <code>@</code> it. If a box has a character cap, paste Meta, Tone rules, Hard bans, and Safety, and attach the full file where the tool allows it.</p>
+<p>If a chat tool will not fetch the <code>.md</code> URL, download or upload the file, or paste it.</p>
+
+<h2>ChatGPT</h2>
+<ol>
+  <li>Create a Project.</li>
+  <li>In the project's Sources area, add <code>DOPPELGANGER.md</code> (Add files).</li>
+  <li>In the project instructions, write: "Write user-facing copy in the voice of the attached DOPPELGANGER.md. Follow Hard bans and Safety. Do not invent facts."</li>
+</ol>
+<p>Custom instructions cap at 1,500 characters on Free and Go, and at 5,000 on Plus, Pro, Business, Enterprise, and Education. Paste the short excerpt there, not the whole file.</p>
+
+<h2>Claude</h2>
+<ol>
+  <li>Open a Project and upload <code>DOPPELGANGER.md</code> to project knowledge.</li>
+  <li>In the project instructions, tell Claude to write from that file and to obey Hard bans and Safety.</li>
+</ol>
+<p>In Claude Code, attach the file with <code>@DOPPELGANGER.md</code>.</p>
+
+<h2>Gemini</h2>
+<ol>
+  <li>Create a Gem, or open a chat.</li>
+  <li>Attach <code>DOPPELGANGER.md</code> as a knowledge file, or paste it at the top of the first message.</li>
+  <li>Tell Gemini to follow the file, including Hard bans and Safety.</li>
+</ol>
+<p>In Gemini CLI, attach the file with <code>@DOPPELGANGER.md</code>.</p>
+
+<h2>Cursor</h2>
+<ol>
+  <li>Keep <code>DOPPELGANGER.md</code> in the repo or the workspace.</li>
+  <li>In chat, attach it with <code>@DOPPELGANGER.md</code>.</li>
+</ol>
+
+<h2>Paste anywhere</h2>
+<ol>
+  <li>Copy the full file.</li>
+  <li>Paste it at the top of a new chat.</li>
+  <li>Add one line: "Write as this voice. Follow Hard bans and Safety."</li>
+</ol>
+<p>If the composer turns a long paste into an attachment, leave it attached. That is still a load.</p>
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell">
+      <p>An open voice-file convention. Spec 0.1. Dedicated to the public domain under CC0 1.0.</p>
+    </div>
+  </footer>
+</body>
+</html>

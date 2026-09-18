@@ -1,0 +1,59 @@
+<h1>DOPPELGÄNGER.md</h1>
+<p class="lede">One open Markdown file that teaches any AI your voice.</p>
+<p>Left alone, a model writes in one generic register. Your samples, tone rules, and hard bans break that. Paste the file, attach it, or <code>@DOPPELGANGER.md</code>. No account. No loader.</p>
+<p>Also called a tone of voice, brand voice, or voice map file. One open Markdown standard.</p>
+<p class="actions">
+  <a class="btn" href="DOPPELGANGER.md" download="DOPPELGANGER.md">Download example</a>
+  <button class="btn" type="button" id="copy-starter">Copy starter prompt</button>
+</p>
+{{STRUCTURE_FIGURE}}
+<p class="copy-feedback visually-hidden" id="copy-feedback" aria-live="polite"></p>
+<p hidden id="starter-prompt">{{STARTER_PROMPT}}</p>
+<h2>How to load</h2>
+<ol>
+  <li>Write a <code>DOPPELGANGER.md</code>. Copy the <a href="example.html">example</a>, then swap in your samples, rules, and bans.</li>
+  <li>Paste it, attach it, or <code>@</code> it in ChatGPT, Claude, Gemini, Cursor, or any chat.</li>
+  <li>Ask for the draft. Add one line: "Write as this voice. Follow Hard bans and Safety."</li>
+</ol>
+<h2>For agents</h2>
+<p>Fetch <code>https://doppelganger.md/DOPPELGANGER.md</code> (on this site: <a href="DOPPELGANGER.md">DOPPELGANGER.md</a>) and write it to <code>DOPPELGANGER.md</code> in the project root, or the path the user names. Optional: fetch <code>https://doppelganger.md/SPEC.md</code> when authoring a new voice file. Then instruct with the starter prompt.</p>
+<p class="meta"><a href="load.html">Load guide</a> · <a href="example.html">Example</a> · <a href="spec.html">Spec 0.1</a> · CC0</p>
+<script>
+  (() => {
+    const btn = document.querySelector('#copy-starter')
+    const live = document.querySelector('#copy-feedback')
+    const textEl = document.querySelector('#starter-prompt')
+    if (!btn || !textEl) return
+    const text = textEl.textContent.trim()
+    const label = 'Copy starter prompt'
+    const say = (msg) => {
+      if (live) live.textContent = msg
+    }
+    const showFallback = () => {
+      textEl.removeAttribute('hidden')
+      textEl.classList.add('starter-fallback')
+      textEl.setAttribute('tabindex', '-1')
+      const range = document.createRange()
+      range.selectNodeContents(textEl)
+      const sel = window.getSelection()
+      sel.removeAllRanges()
+      sel.addRange(range)
+      say('Copy failed. Select and copy the starter below.')
+    }
+    btn.addEventListener('click', async () => {
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text)
+          btn.textContent = 'Copied'
+          say('Copied')
+          window.setTimeout(() => {
+            btn.textContent = label
+            say('')
+          }, 2000)
+          return
+        }
+      } catch (err) {}
+      showFallback()
+    })
+  })()
+</script>
