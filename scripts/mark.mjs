@@ -1,9 +1,4 @@
 #!/usr/bin/env node
-// Generates the voice-fingerprint mark from examples/DOPPELGANGER.md.
-// Build time only. No dependencies, no browser, no upload path.
-// Usage: node scripts/mark.mjs        writes site/favicon.svg and site/og.svg
-//        node scripts/mark.mjs --check  exits 1 when the committed files are stale
-
 import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
@@ -18,19 +13,14 @@ const LEDE = ['One open Markdown file', 'that teaches any AI', 'your voice.']
 const STAMP = 'Spec 0.1 \u00b7 CC0 1.0 \u00b7 no account, no loader'
 
 const MARK = { a: '#ffffff', b: '#c7cbe8', c: '#6e7bff' }
+const FINE = { n: 216, rIn: 86, cx: 200, cy: 200 }
+const COARSE = { n: 28, rIn: 5.2, cx: 16, cy: 16 }
 
-// ---------------------------------------------------------------- seed
-
-// The mark is derived from the Voice fingerprint section, so it changes
-// only when the samples change. Falls back to the whole file.
 function seedText(src) {
   const m = src.match(/^## Voice fingerprint\n([\s\S]*?)(?=^## )/m)
   return m ? m[1] : src
 }
 
-// ---------------------------------------------------------------- prng
-
-// Deterministic. The call order of rnd() is part of the result.
 function prng(seed) {
   let a = seed >>> 0
   return function () {
@@ -42,40 +32,67 @@ function prng(seed) {
   }
 }
 
-function fingerprint(text, { n = 216, rIn = 86, cx = 200, cy = 200 } = {}) {
+function hashParams(text) {
   const h = crypto.createHash('sha256').update(text, 'utf8').digest()
+  return {
+    h,
+    seed: (h[0] << 24) | (h[1] << 16) | (h[2] << 8) | h[3],
+    k1: 2 + (h[4] % 4),
+    k2: 5 + (h[5] % 5),
+    p1: (h[6] / 255) * Math.PI * 2,
+    p2: (h[7] / 255) * Math.PI * 2,
+  }
+}
 
-  const seed = (h[0] << 24) | (h[1] << 16) | (h[2] << 8) | h[3]
-  const k1 = 2 + (h[4] % 4)
-  const k2 = 5 + (h[5] % 5)
-  const p1 = (h[6] / 255) * Math.PI * 2
-  const p2 = (h[7] / 255) * Math.PI * 2
-  const rnd = prng(seed)
+function sampleFine(rnd, a, { k1, k2, p1, p2 }) {
+  let v =
+    0.3 +
+    0.3 * Math.abs(Math.sin(a * k1 + p1)) +
+    0.2 * Math.abs(Math.sin(a * k2 + p2)) +
+    0.42 * rnd()
+  if (rnd() > 0.96) v += 0.5
+  return Math.max(0, Math.min(v, 1.35))
+}
 
+function sampleCoarse(rnd, a, { k1, p1 }) {
+  return 0.34 + 0.34 * Math.abs(Math.sin(a * k1 + p1)) + 0.32 * rnd()
+}
+
+function drawRing(text, { n, rIn, cx, cy }, sample, toTick) {
+  const params = hashParams(text)
+  const rnd = prng(params.seed)
   const ticks = []
   for (let i = 0; i < n; i++) {
     const a = (i / n) * Math.PI * 2 - Math.PI / 2
-    let v =
-      0.3 +
-      0.3 * Math.abs(Math.sin(a * k1 + p1)) +
-      0.2 * Math.abs(Math.sin(a * k2 + p2)) +
-      0.42 * rnd()
-    if (rnd() > 0.96) v += 0.5
-    v = Math.max(0, Math.min(v, 1.35))
+    ticks.push(toTick(sample(rnd, a, params), a, { rIn, cx, cy }))
+  }
+  return { ticks, id: params.h.subarray(0, 8).toString('hex'), params }
+}
 
+function fingerprint(text, geom = FINE) {
+  return drawRing(text, geom, sampleFine, (v, a, { rIn, cx, cy }) => {
     const len = 10 + v * 46
-    ticks.push({
+    return {
       x1: cx + Math.cos(a) * rIn,
       y1: cy + Math.sin(a) * rIn,
       x2: cx + Math.cos(a) * (rIn + len),
       y2: cy + Math.sin(a) * (rIn + len),
       opacity: +(0.3 + 0.62 * Math.min(v / 1.2, 1)).toFixed(3),
       width: v > 0.95 ? 1.6 : 1.15,
-    })
-  }
+    }
+  })
+}
 
-  const id = h.subarray(0, 8).toString('hex')
-  return { ticks, id }
+function coarseFingerprint(text, geom = COARSE) {
+  return drawRing(text, geom, sampleCoarse, (v, a, { rIn, cx, cy }) => {
+    const len = 2.6 + Math.min(v, 1) * 6.2
+    return {
+      x1: cx + Math.cos(a) * rIn,
+      y1: cy + Math.sin(a) * rIn,
+      x2: cx + Math.cos(a) * (rIn + len),
+      y2: cy + Math.sin(a) * (rIn + len),
+    }
+  })
 }
 
 const round = (v) => Number(v.toFixed(1))
@@ -98,26 +115,13 @@ const gradient =
   `<stop offset="1" stop-color="${MARK.c}"/>` +
   `</linearGradient>`
 
-// ---------------------------------------------------------------- favicon
-
-// 28 ticks, no gradient, no hairline circles. Anything finer turns to mush
-// at 16px. Same seed, same shape family, coarser sampling.
 function faviconSvg(text) {
-  const h = crypto.createHash('sha256').update(text, 'utf8').digest()
-  const rnd = prng((h[0] << 24) | (h[1] << 16) | (h[2] << 8) | h[3])
-  const k1 = 2 + (h[4] % 4)
-  const p1 = (h[6] / 255) * Math.PI * 2
-  const rIn = 5.2
-  const lines = []
-  for (let i = 0; i < 28; i++) {
-    const a = (i / 28) * Math.PI * 2 - Math.PI / 2
-    const v = 0.34 + 0.34 * Math.abs(Math.sin(a * k1 + p1)) + 0.32 * rnd()
-    const len = 2.6 + Math.min(v, 1) * 6.2
-    lines.push(
-      `<line x1="${round(16 + Math.cos(a) * rIn)}" y1="${round(16 + Math.sin(a) * rIn)}"` +
-        ` x2="${round(16 + Math.cos(a) * (rIn + len))}" y2="${round(16 + Math.sin(a) * (rIn + len))}"/>`,
-    )
-  }
+  const { ticks } = coarseFingerprint(text)
+  const lines = ticks.map(
+    (t) =>
+      `<line x1="${round(t.x1)}" y1="${round(t.y1)}"` +
+      ` x2="${round(t.x2)}" y2="${round(t.y2)}"/>`,
+  )
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
 <rect width="32" height="32" fill="#000000"/>
 <g stroke="#ffffff" stroke-width="1.5" stroke-linecap="butt">
@@ -126,8 +130,6 @@ ${lines.join('\n')}
 </svg>
 `
 }
-
-// ---------------------------------------------------------------- og
 
 function ogSvg(ticks) {
   const scale = 0.7
@@ -151,13 +153,12 @@ ${LEDE.map(
 `
 }
 
-// ---------------------------------------------------------------- main
-
 const source = read(`examples/${FILE_NAME}`)
-const { ticks, id } = fingerprint(seedText(source))
+const seed = seedText(source)
+const { ticks, id } = fingerprint(seed)
 
 const outputs = {
-  'site/favicon.svg': faviconSvg(seedText(source)),
+  'site/favicon.svg': faviconSvg(seed),
   'site/og.svg': ogSvg(ticks),
 }
 
