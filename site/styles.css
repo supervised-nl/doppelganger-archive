@@ -296,7 +296,6 @@ h4 {
 h1 {
   margin: 0 0 1.5rem;
   max-width: 100%;
-  overflow-wrap: anywhere;
   font-size: clamp(1.95rem, 8vw, 4.5rem);
   font-stretch: 112%;
   font-weight: 700;
@@ -606,6 +605,10 @@ td:first-child {
 }
 
 @media (max-width: 63.99rem) {
+  h1 {
+    overflow-wrap: anywhere;
+  }
+
   .table-wrap table,
   .table-wrap tbody,
   .table-wrap tr,
